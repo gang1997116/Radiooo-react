@@ -22,7 +22,7 @@ const Nav = ({ user }) => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <NavLink className="nav-item nav-link" to="/shop">
-            Movies
+            Radios
           </NavLink>
 
           <NavLink className="nav-item nav-link" to="/about">

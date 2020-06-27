@@ -106,10 +106,10 @@ class Movies extends Component {
         <div className="col">
           {user && (
             <Link to="/shop/new">
-              <button className="btn btn-primary">New Movie</button>
+              <button className="btn btn-primary">New Radio</button>
             </Link>
           )}
-          <p>Showing {totalCount} movies in the database.</p>
+          <p>Finding {totalCount} radios in the database.</p>
           <input
             className="form-control"
             type="text"

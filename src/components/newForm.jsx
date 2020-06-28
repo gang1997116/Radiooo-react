@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
-import { getMovie, saveMovie } from "../services/movieService";
+import { getRadio, saveRadio } from "../services/radioService";
 import { getGenres } from "../services/genreService";
 
 class NewForm extends Form {
@@ -27,12 +27,12 @@ class NewForm extends Form {
     const { data: genres } = await getGenres();
     this.setState({ genres });
   }
-  async populateMovies() {
+  async populateRadios() {
     try {
-      const movieId = this.props.match.params.id;
-      if (movieId === "new") return;
-      const { data: movie } = await getMovie(movieId);
-      this.setState({ data: this.mapToViewModel(movie) });
+      const radioId = this.props.match.params.id;
+      if (radioId === "new") return;
+      const { data: radio } = await getRadio(radioId);
+      this.setState({ data: this.mapToViewModel(radio) });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
         this.props.history.replace("/not-found");
@@ -40,19 +40,19 @@ class NewForm extends Form {
   }
   async componentDidMount() {
     this.populateGenres();
-    this.populateMovies();
+    this.populateRadios();
   }
-  mapToViewModel(movie) {
+  mapToViewModel(radio) {
     return {
-      _id: movie._id,
-      title: movie.title,
-      genreId: movie.genre._id,
-      numberInStock: movie.numberInStock,
-      dailyRentalRate: movie.dailyRentalRate,
+      _id: radio._id,
+      title: radio.title,
+      genreId: radio.genre._id,
+      numberInStock: radio.numberInStock,
+      dailyRentalRate: radio.dailyRentalRate,
     };
   }
   doSubmit = async() => {
-    await saveMovie(this.state.data);
+    await saveRadio(this.state.data);
     this.props.history.push("/shop");
   };
 
@@ -61,7 +61,7 @@ class NewForm extends Form {
 
     return (
       <div>
-        <h1>Movie Form</h1>
+        <h1>Radio Form</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           <div className="form-group">

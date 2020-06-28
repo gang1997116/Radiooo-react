@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Nav from "./nav";
 import About from "./about";
-import Movies from "./components/movies";
+import Radios from "./components/radios";
 import NotFound from "./components/notFound";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
@@ -34,13 +34,13 @@ class App extends Component {
         <Nav user={user} />
         <main className="container">
           <Switch>
-            <Route path="/" exact component={Movies} />
+            <Route path="/" exact component={Radios} />
             <Route path="/about" component={About} />
             <Route
               path="/shop"
               exact
-              //render={(props) => <Movies {...props} user={user} />}
-              render={()=><Movies user={user} />}
+              //render={(props) => <Radios {...props} user={user} />}
+              render={()=><Radios user={user} />}
             />
             <ProtectedRoute
               path="/shop/:id"

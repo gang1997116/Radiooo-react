@@ -3,17 +3,27 @@ import auth from '../services/authService';
 import Table from "./table";
 import Like from "./like";
 import { Link } from 'react-router-dom';
+import ReactAudioPlayer from 'react-audio-player';
 
 class MoviesTable extends Component {
   columns = [
-    { path: "title", label: "Title", content: movie=><Link to={`shop/${movie._id}`}>{movie.title}</Link> },
+    { path: "title", label: "Title", content: radio=><Link to={`shop/${radio._id}`}>{radio.title}</Link> },
     { path: "genre.name", label: "Genre" },
-    { path: "numberInStock", label: "Stock" },
+    // { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
     {
       key: "like",
-      content: (movie) => (
-        <Like likes={movie.liked} onClick={() => this.props.onLike(movie)} />
+      content: (radio) => (
+        <Like likes={radio.liked} onClick={() => this.props.onLike(radio)} />
+      ),
+    },
+    {
+      key: "play",
+      content: (radio) => (
+        <div>
+        <i class="fa fa-play" aria-hidden="true"></i>
+        <ReactAudioPlayer src={radio.path} type="audio/mpeg" />
+        </div>
       ),
     },
   ];
@@ -21,9 +31,9 @@ class MoviesTable extends Component {
   deleteColunmn={
     
       key: "delete",
-      content: (movie) => (
+      content: (radio) => (
         <button
-          onClick={() => this.props.onDelete(movie)}
+          onClick={() => this.props.onDelete(radio)}
           className="btn btn-danger btn-sm"
         >
           Delete
@@ -40,11 +50,11 @@ class MoviesTable extends Component {
     }
   }
   render() {
-    const { movies, onSort, sortColumn} = this.props;
+    const { radios, onSort, sortColumn} = this.props;
     return (
       <Table
         columns={this.columns}
-        data={movies}
+        data={radios}
         sortColumn={sortColumn}
         onSort={onSort}
       />

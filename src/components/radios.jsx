@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import { getMovies, deleteMovie } from "../services/movieService";
+import { getRadios, deleteRadio } from "../services/radioService";
 import { getGenres } from "../services/genreService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./listGroup";
-import MoviesTable from "./moviesTable";
+import RadiosTable from "./radiosTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-class Movies extends Component {
+class radios extends Component {
   state = {
-    movies: [],
+    radios: [],
     genres: [],
     pageSize: 4,
     searchQuery: "",
@@ -23,30 +23,30 @@ class Movies extends Component {
   async componentDidMount() {
     const { data } = await getGenres();
     const genres = [{ _id: "", name: "All Genres" }, ...data];
-    const { data: movies } = await getMovies();
-    this.setState({ movies, genres });
+    const { data: radios } = await getRadios();
+    this.setState({ radios, genres });
   }
 
-  handleDelete = async (movie) => {
-    const originalMovies = this.state.movies;
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
-    this.setState({ movies });
+  handleDelete = async (radio) => {
+    const originalradios = this.state.radios;
+    const radios = this.state.radios.filter((m) => m._id !== radio._id);
+    this.setState({ radios });
     try {
-      await deleteMovie(movie._id);
+      await deleteRadio(radio._id);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
-        toast.error("This movie has already been deleted.");
-        this.setState({ movies: originalMovies });
+        toast.error("This radio has already been deleted.");
+        this.setState({ radios: originalradios });
       }
     }
   };
-  handleLike = (movie) => {
-    const movies = [...this.state.movies];
-    const index = movies.indexOf(movie);
-    movies[index] = { ...movies[index] };
-    movies[index].liked = !movies[index].liked;
-    this.setState({ movies });
-    //console.log('like clicked',movie);
+  handleLike = (radio) => {
+    const radios = [...this.state.radios];
+    const index = radios.indexOf(radio);
+    radios[index] = { ...radios[index] };
+    radios[index].liked = !radios[index].liked;
+    this.setState({ radios });
+    //console.log('like clicked',radio);
   };
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
@@ -62,7 +62,7 @@ class Movies extends Component {
   };
   getPagedData = () => {
     const {
-      movies: allmovies,
+      radios: allradios,
       selectedGenre,
       pageSize,
       currentPage,
@@ -70,29 +70,29 @@ class Movies extends Component {
       searchQuery,
     } = this.state;
 
-    let filtered = allmovies;
+    let filtered = allradios;
     if (searchQuery)
-      filtered = allmovies.filter(
+      filtered = allradios.filter(
         (m) => m.title.toLowerCase().indexOf(searchQuery.toLowerCase()) === 0
       );
     else if (selectedGenre && selectedGenre._id)
-      filtered = allmovies.filter((m) => m.genre._id === selectedGenre._id);
+      filtered = allradios.filter((m) => m.genre._id === selectedGenre._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
-    const movies = paginate(sorted, currentPage, pageSize);
+    const radios = paginate(sorted, currentPage, pageSize);
 
-    return { totalCount: filtered.length, movies: movies };
+    return { totalCount: filtered.length, radios: radios };
   };
 
   render() {
-    //const { length: count } = this.state.movies;
+    //const { length: count } = this.state.radios;
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { user } = this.props;
 
-    //if (count === 0) return <p>There are no movies in the database</p>;
+    //if (count === 0) return <p>There are no radios in the database</p>;
 
-    const { totalCount, movies } = this.getPagedData();
+    const { totalCount, radios } = this.getPagedData();
 
     return (
       <div className="row">
@@ -117,8 +117,8 @@ class Movies extends Component {
             value={searchQuery}
             onChange={(e) => this.handleSearch(e.currentTarget.value)}
           />
-          <MoviesTable
-            movies={movies}
+          <RadiosTable
+            radios={radios}
             sortColumn={sortColumn}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
@@ -136,4 +136,4 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+export default radios;

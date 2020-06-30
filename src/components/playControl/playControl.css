@@ -15,17 +15,22 @@
   background-color: white;
   overflow: hidden;
 }
+
 .radio-logo img {
   position: absolute;
   width: 100%;
-  top:0;
+  top: 0;
   bottom: 0;
   margin: auto 0;
 }
-i{
-  color:white;
+.radio-title{
+  position: absolute;
+  top:3vh;
+  left: 11vh;
+  font-size: 2.6vh;
+  color: white;
 }
-.controls{
+.controls {
   position: absolute;
   width: 40vw;
   height: 10vh;
@@ -33,4 +38,53 @@ i{
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+.controls * {
+  position: absolute;
+  color: #f9eed7;
+  height: fit-content;
+  width: fit-content;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto auto;
+}
+
+.play-button-circle {
+  position: absolute;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 3vh;
+  border: #f9eed7 2px solid;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto auto;
+  font-size: 2.8vh;
+}
+.next {
+  height: 2.6vh;
+  left: 18vh;
+}
+.last {
+  height: 2.6vh;
+  right: 18vh;
+}
+.like{
+  right: 40vh;
+  font-size: 1.4rem;
+}
+.sound{
+  height: 3vh;
+  right: -37vh;
+}
+.list{
+  height: 2.8vh;
+  position: absolute;
+  right: 4vh;
+  top:0;
+  bottom: 0;
+  margin: auto 0;
 }

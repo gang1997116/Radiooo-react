@@ -28,8 +28,9 @@ class PlayButton extends Component {
       this.setState({ iconType: "fa fa-play" });
     }
   };
-  
+
   render() {
+    const { id } = this.props;
     return (
       <React.Fragment>
         <i
@@ -38,9 +39,10 @@ class PlayButton extends Component {
           style={{ cursor: "pointer" }}
         ></i>
         <audio
+         id={`audio${id}`}
           src={this.props.src}
           type="audio/mpeg"
-          ref={el => this.audio = el}
+          ref={(el) => (this.audio = el)}
           style={{ visibility: "hidden" }}
         ></audio>
       </React.Fragment>

@@ -1,13 +1,13 @@
 import React from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import Logo from "./img/Radiooo-logo.svg";
-import { Avatar } from '@material-ui/core';
+import { Avatar } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    '& > *': {
+    display: "flex",
+    "& > *": {
       margin: theme.spacing(1),
     },
   },
@@ -21,20 +21,9 @@ const Nav = ({ user }) => {
 
   return (
     <nav className="navbar navbar-expand-lg">
-      
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+
       <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
+        <ul className="navbar-nav navbar-nav-right">
           <NavLink className="nav-item nav-link" to="/shop">
             Radios
           </NavLink>
@@ -42,33 +31,38 @@ const Nav = ({ user }) => {
           <NavLink className="nav-item nav-link" to="/about">
             About
           </NavLink>
-
-          {!user && (
-            <React.Fragment>
-              <NavLink className="nav-item nav-link " to="/login">
-                Login
-              </NavLink>
-              <NavLink className="nav-item nav-link " to="/register">
-                Register
-              </NavLink>
-              <Avatar>{user}</Avatar>
+         
+        {!user && (
+          <React.Fragment>
+         
+            <NavLink className="nav-item nav-link " to="/login">
+              Login
+            </NavLink>
+            <NavLink className="nav-item nav-link " to="/register">
+              Register
+            </NavLink>
+            <Avatar>{user}</Avatar>
+           
             </React.Fragment>
-          )}
-          {user && (
-            <React.Fragment>
-              <NavLink className="nav-item nav-link " to="/profile">
-                {user.name}
-              </NavLink>
-              <NavLink className="nav-item nav-link " to="/logout">
-                Logout
-              </NavLink>
-              <Avatar className={classes.orange}>{user.name.slice(0,1).toUpperCase()}</Avatar>
-            </React.Fragment>
-          )}
-          <NavLink to="/">
-            <img className="logo" src={Logo} alt="" />
-          </NavLink>
-          
+        )}
+        {user && (
+          <React.Fragment>
+           
+            <NavLink className="nav-item nav-link " to="/profile">
+              {user.name}
+            </NavLink>
+            <NavLink className="nav-item nav-link " to="/logout">
+              Logout
+            </NavLink>
+            <Avatar className={classes.orange}>
+              {user.name.slice(0, 1).toUpperCase()}
+            </Avatar>
+            
+          </React.Fragment>
+        )}
+        <NavLink to="/">
+          <img className="logo" src={Logo} alt="" />
+        </NavLink>
         </ul>
       </div>
     </nav>

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 //import auth from '../services/authService';
 import Table from "./table";
-import Like from "./like";
-import PlayButton from './playControl/playButton';
+import Like from "../like";
+import PlayButton from '../playControl/playButton';
 import { Link } from 'react-router-dom';
 
 

@@ -4,7 +4,7 @@ import { getGenres } from "../services/genreService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./listGroup";
-import RadiosTable from "./radiosTable";
+import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
 //import { Link } from "react-router-dom";
 //import { toast } from "react-toastify";
@@ -140,6 +140,7 @@ class radios extends Component {
             onPageChange={this.handlePagechange}
           />
         </div>
+        
       </div>
     );
   }

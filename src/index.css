@@ -4,8 +4,14 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; 
 }
+
+html,#root,main{
+  height: 100%;
+  width: 100%;
+  background-color: #F9EED7;
+} 
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -13,4 +19,45 @@ code {
 }
 .clickable{
   cursor: pointer;
+}
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 10vh;
+  color: black;
+  margin-bottom: 10px;
+}
+.nav-item{
+  color:#473108;
+  font-size: 1.2rem;
+}
+.nav-link:hover{
+  color: rgb(247, 156, 96);
+}
+.nav-link{
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  color: black;
+}
+.home-img{
+  position: absolute;
+  width: 100vh;
+  height: 60vh;
+  top:20vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.logo{
+  position: absolute;
+  width: 20vw;
+  height: 5vh;
+  top:3vh;
+  left: 0;
+  right: 1vh;
+  margin: 0 auto;
 }

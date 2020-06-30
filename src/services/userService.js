@@ -1,6 +1,6 @@
 import http from './httpService';
 
-const apiEndpoint = '/users';
+const apiEndpoint = 'https://mighty-scrubland-68421.herokuapp.com/api/users';
 
 export function register(user){
     return http.post(apiEndpoint,{

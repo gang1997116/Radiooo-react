@@ -1,38 +1,36 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
-import { getRadio, saveRadio } from "../services/radioService";
+import { getRadio} from "../services/radioService";
 import { getGenres } from "../services/genreService";
 
 class NewForm extends Form {
   state = {
     data: {
-      title: "",
-      genreId: "",
-      numberInStock: "",
-      dailyRentalRate: "",
+      n: "",
+      d: "",
+      c: "",
     },
     genres: [],
     errors: {},
   };
 
   schema = {
-    _id: Joi.string(),
-    title: Joi.string().required().label("Title"),
-    genreId: Joi.string().required().label("Genre"),
-    numberInStock: Joi.number().min(0).max(100).required().label("Stock"),
-    dailyRentalRate: Joi.number().max(10).required().label("Rate"),
+    i: Joi.string(),
+    n: Joi.string().required().label("Title"),
+    d: Joi.string().required().label("Genre"),
+    c: Joi.string().required().label("Country"),
   };
   async populateGenres() {
     const { data: genres } = await getGenres();
-    this.setState({ genres });
+    this.setState({ genres:genres.results });
   }
   async populateRadios() {
     try {
       const radioId = this.props.match.params.id;
       if (radioId === "new") return;
       const { data: radio } = await getRadio(radioId);
-      this.setState({ data: this.mapToViewModel(radio) });
+      this.setState({ data: this.mapToViewModel(radio.results) });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
         this.props.history.replace("/not-found");
@@ -44,15 +42,14 @@ class NewForm extends Form {
   }
   mapToViewModel(radio) {
     return {
-      _id: radio._id,
-      title: radio.title,
-      genreId: radio.genre._id,
-      numberInStock: radio.numberInStock,
-      dailyRentalRate: radio.dailyRentalRate,
+      i: radio.i,
+      n: radio.n,
+      d: radio.d,
+      c: radio.c,
     };
   }
   doSubmit = async() => {
-    await saveRadio(this.state.data);
+    //await saveRadio(this.state.data);
     this.props.history.push("/shop");
   };
 
@@ -63,30 +60,29 @@ class NewForm extends Form {
       <div>
         <h1>Radio Form</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
+          {this.renderInput("n", "Title")}
           <div className="form-group">
             <label htmlFor="genreId">Genre</label>
             <select
               name="genreId"
               onChange={this.handleChange}
-              value={this.state.data.genreId}
+              value={this.state.data.d}
               className="form-control"
               id="genreId"
-              error={this.state.errors.genreId}
+              error={this.state.errors.d}
             >
               <option value="" />
               {this.state.genres.map((option) => (
-                <option key={option._id} value={option._id}>
-                  {option.name}
+                <option key={option.i} value={option.i}>
+                  {option.c}
                 </option>
               ))}
             </select>
-            {error.genreId && (
-              <div className="alert alert-danger">{error.genreId}</div>
+            {error.d && (
+              <div className="alert alert-danger">{error.d}</div>
             )}
           </div>
-          {this.renderInput("numberInStock", "Stock")}
-          {this.renderInput("dailyRentalRate", "Rate")}
+          {this.renderInput("c", "Country")}
           {this.renderButton("Save")}
         </form>
       </div>

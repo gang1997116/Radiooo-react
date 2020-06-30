@@ -1,13 +1,27 @@
 import React from "react";
-import "./App.css";
-import { Link, NavLink } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { NavLink } from "react-router-dom";
+import Logo from "./img/Radiooo-logo.svg";
+import { Avatar } from '@material-ui/core';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  orange: {
+    color: "white",
+    backgroundColor: "#FACF87",
+  },
+}));
 const Nav = ({ user }) => {
+  const classes = useStyles();
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand" to="/">
-        Radiooo
-      </Link>
+    <nav className="navbar navbar-expand-lg">
+      
       <button
         className="navbar-toggler"
         type="button"
@@ -37,6 +51,7 @@ const Nav = ({ user }) => {
               <NavLink className="nav-item nav-link " to="/register">
                 Register
               </NavLink>
+              <Avatar>{user}</Avatar>
             </React.Fragment>
           )}
           {user && (
@@ -47,8 +62,13 @@ const Nav = ({ user }) => {
               <NavLink className="nav-item nav-link " to="/logout">
                 Logout
               </NavLink>
+              <Avatar className={classes.orange}>{user.name.slice(0,1).toUpperCase()}</Avatar>
             </React.Fragment>
           )}
+          <NavLink to="/">
+            <img className="logo" src={Logo} alt="" />
+          </NavLink>
+          
         </ul>
       </div>
     </nav>

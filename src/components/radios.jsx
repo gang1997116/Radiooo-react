@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { getRadios, deleteRadio } from "../services/radioService";
+import { getRadios } from "../services/radioService";
 import { getGenres } from "../services/genreService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./listGroup";
 import RadiosTable from "./radiosTable";
 import _ from "lodash";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+//import { Link } from "react-router-dom";
+//import { toast } from "react-toastify";
 
 class radios extends Component {
   state = {
     radios: [],
     genres: [],
-    pageSize: 4,
+    pageSize: 5,
     searchQuery: "",
     selectedGenre: null,
     currentPage: 1,
@@ -22,24 +22,24 @@ class radios extends Component {
 
   async componentDidMount() {
     const { data } = await getGenres();
-    const genres = [{ _id: "", name: "All Genres" }, ...data];
-    const { data: radios } = await getRadios();
-    this.setState({ radios, genres });
+    const genres = [{ i: "", c: "All Genres" }, ...data.results];
+    const { data: radios } = await getRadios("ALL", "0", "ALL");
+    this.setState({ radios: radios.results, genres });
   }
 
-  handleDelete = async (radio) => {
-    const originalradios = this.state.radios;
-    const radios = this.state.radios.filter((m) => m._id !== radio._id);
-    this.setState({ radios });
-    try {
-      await deleteRadio(radio._id);
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404) {
-        toast.error("This radio has already been deleted.");
-        this.setState({ radios: originalradios });
-      }
-    }
-  };
+  // handleDelete = async (radio) => {
+  //   const originalradios = this.state.radios;
+  //   const radios = this.state.radios.filter((m) => m.i !== radio.i);
+  //   this.setState({ radios });
+  //   try {
+  //     await deleteRadio(radio.i);
+  //   } catch (ex) {
+  //     if (ex.response && ex.response.status === 404) {
+  //       toast.error("This radio has already been deleted.");
+  //       this.setState({ radios: originalradios });
+  //     }
+  //   }
+  // };
   handleLike = (radio) => {
     const radios = [...this.state.radios];
     const index = radios.indexOf(radio);
@@ -48,6 +48,7 @@ class radios extends Component {
     this.setState({ radios });
     //console.log('like clicked',radio);
   };
+
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -73,10 +74,10 @@ class radios extends Component {
     let filtered = allradios;
     if (searchQuery)
       filtered = allradios.filter(
-        (m) => m.title.toLowerCase().indexOf(searchQuery.toLowerCase()) === 0
+        (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) >-1
       );
-    else if (selectedGenre && selectedGenre._id)
-      filtered = allradios.filter((m) => m.genre._id === selectedGenre._id);
+    else if (selectedGenre && selectedGenre.i)
+      filtered = allradios.filter((m) => m.d === selectedGenre.i);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -88,27 +89,35 @@ class radios extends Component {
   render() {
     //const { length: count } = this.state.radios;
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
-    const { user } = this.props;
+    //const { user } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
 
     const { totalCount, radios } = this.getPagedData();
 
     return (
-      <div className="row">
-        <div className="col-3">
+      <div
+        className="row"
+        style={{
+          backgroundColor: "#FFFDF6",
+          height: "90vh",
+          minHeight: "100%",
+          paddingTop: "10vh",
+        }}
+      >
+        <div className="col-2">
           <ListGroup
             items={this.state.genres}
             selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
-        <div className="col">
-          {user && (
+        <div className="col-10">
+          {/* {user && (
             <Link to="/shop/new">
               <button className="btn btn-primary">New Radio</button>
             </Link>
-          )}
+          )} */}
           <p>Finding {totalCount} radios in the database.</p>
           <input
             className="form-control"

@@ -7,21 +7,23 @@ import {
 } from "react-router-dom";
 import Nav from "./nav";
 import About from "./about";
+import Home from "./components/home";
 import Radios from "./components/radios";
 import NotFound from "./components/notFound";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import NewForm from "./components/newForm";
 import Logout from "./components/logout";
-import ProtectedRoute from './components/protectedRoute';
+//import ProtectedRoute from './components/protectedRoute';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import auth from "./services/authService";
 
-
 class App extends Component {
-  state = {};
+  state = {
+    currentPlay: "",
+  };
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
@@ -32,20 +34,18 @@ class App extends Component {
       <Router>
         <ToastContainer />
         <Nav user={user} />
-        <main className="container">
+
+        <main>
           <Switch>
-            <Route path="/" exact component={Radios} />
+            <Route path="/" exact component={Home} />
             <Route path="/about" component={About} />
             <Route
               path="/shop"
               exact
               //render={(props) => <Radios {...props} user={user} />}
-              render={()=><Radios user={user} />}
+              render={() => <Radios user={user} />}
             />
-            <ProtectedRoute
-              path="/shop/:id"
-              component={NewForm}
-            />
+            <Route path="/shop/:id" component={Home} />
             <Route path="/shop/new" component={NewForm} />
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />

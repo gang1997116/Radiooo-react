@@ -7,7 +7,7 @@ import ProcessBar from "./components/process";
 function Item({ match }) {
   useEffect(() => {
     fetchItems();
-  }, []);
+  });
 
   const [items, setItems] = useState([]);
 

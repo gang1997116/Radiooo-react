@@ -2,7 +2,7 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
 import * as userService from "../services/userService";
-import { addUser } from '../services/firebase';
+//import { addUser } from '../services/firebase';
 import auth from '../services/authService';
 
 class RegisterForm extends Form {

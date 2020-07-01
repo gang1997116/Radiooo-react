@@ -9,6 +9,7 @@ import list from "../../img/list.svg";
 import soundMute from "../../img/sound-mute.svg";
 import Like from '../like';
 import SoundControl from './soundcontrol';
+import { Link } from "react-router-dom";
 
 function PlayControl({ id }) {
   const [data,setData] = useState([]);
@@ -52,9 +53,11 @@ function PlayControl({ id }) {
   };
     return (
       <div className="bar">
+        <Link to="/shop">
         <div className="radio-logo">
+          
           <img src={imgUrl + data.l} alt="" />
-        </div>
+        </div></Link>
       <div className="radio-title">{data.n}</div>
         <div className="controls">
           <div className="like" ><Like onClick={handleLike} likes={like}/></div>

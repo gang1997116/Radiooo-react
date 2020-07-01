@@ -1,62 +1,80 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html,#root,main{
+html,
+#root,
+main {
   height: 100%;
   width: 100%;
-  background-color: #F9EED7;
-} 
+  background-color: #f9eed7;
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.clickable{
+.clickable {
   cursor: pointer;
 }
-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.nav {
+  /* display: flex; */
+  /* justify-content: space-around;
+  align-items: center; */
   min-height: 10vh;
-  color: black;
+  color: rgb(138, 96, 19);
   margin-bottom: 10px;
 }
-.nav-item{
-  color:#473108;
+.justify-content-end {
+  position: absolute;
+  right: 3vh;
+  top: 2.5vh;
+}
+.nav-item {
+  color: #64450b;
   font-size: 1.2rem;
 }
-.nav-link:hover{
+.nav-link:hover {
   color: rgb(247, 156, 96);
 }
-.nav-link{
-  width: 40%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.nav-link {
+  /* width: 100%; */
+  /* display: flex; */
+  /* justify-content: space-around;
+  align-items: center; */
   list-style: none;
-  color: black;
+  color: rgb(83, 55, 28);
 }
-.home-img{
+.form{
+  position: absolute;
+  width: 40vw;
+  top: 20vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: #FFFDF6;
+  border-radius: 2vw;
+  padding: 3vw;
+}
+.home-img {
   position: absolute;
   width: 100vh;
   height: 60vh;
-  top:20vh;
+  top: 20vh;
   left: 0;
   right: 0;
   margin: 0 auto;
 }
-.logo{
+.logo {
   position: absolute;
   width: 20vw;
   height: 5vh;
-  top:3vh;
+  top: 3vh;
   left: 0;
   right: 1vh;
   margin: 0 auto;

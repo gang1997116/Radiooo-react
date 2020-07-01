@@ -20,52 +20,43 @@ const Nav = ({ user }) => {
   const classes = useStyles();
 
   return (
-    <nav className="navbar navbar-expand-lg">
+    <React.Fragment>
+      {/* <ul className="nav">
+        <NavLink className="nav-item nav-link" to="/shop">
+          Radios
+        </NavLink>
 
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav navbar-nav-right">
-          <NavLink className="nav-item nav-link" to="/shop">
-            Radios
-          </NavLink>
-
-          <NavLink className="nav-item nav-link" to="/about">
-            About
-          </NavLink>
-         
+        <NavLink className="nav-item nav-link" to="/about">
+          About
+        </NavLink>
+      </ul> */}
+      <ul className="nav justify-content-end">
         {!user && (
           <React.Fragment>
-         
-            <NavLink className="nav-item nav-link " to="/login">
-              Login
-            </NavLink>
             <NavLink className="nav-item nav-link " to="/register">
               Register
             </NavLink>
-            <Avatar>{user}</Avatar>
-           
-            </React.Fragment>
+            <NavLink className="nav-item nav-link " to="/login">
+              <Avatar>{user}</Avatar>
+            </NavLink>
+          </React.Fragment>
         )}
         {user && (
           <React.Fragment>
-           
-            <NavLink className="nav-item nav-link " to="/profile">
-              {user.name}
-            </NavLink>
-            <NavLink className="nav-item nav-link " to="/logout">
+            <NavLink className="nav-item nav-link" to="/logout">
               Logout
             </NavLink>
             <Avatar className={classes.orange}>
               {user.name.slice(0, 1).toUpperCase()}
             </Avatar>
-            
           </React.Fragment>
         )}
+        </ul>
         <NavLink to="/">
           <img className="logo" src={Logo} alt="" />
         </NavLink>
-        </ul>
-      </div>
-    </nav>
+      
+    </React.Fragment>
   );
 };
 

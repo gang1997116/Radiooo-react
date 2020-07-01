@@ -8,6 +8,7 @@ import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
 //import { Link } from "react-router-dom";
 //import { toast } from "react-toastify";
+import PlayControl from './playControl/playControl';
 
 class radios extends Component {
   state = {
@@ -102,17 +103,19 @@ class radios extends Component {
           backgroundColor: "#FFFDF6",
           height: "90vh",
           minHeight: "100%",
-          paddingTop: "10vh",
+          paddingTop: "18vh",
+          marginLeft:0,
+          marginRight:0,
         }}
       >
-        <div className="col-2">
+        <div className="col-2" style={{marginLeft:"5vh"}}>
           <ListGroup
-            items={this.state.genres}
+            items={this.state.genres.slice(0,8)}
             selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
-        <div className="col-10">
+        <div className="col-9">
           {/* {user && (
             <Link to="/shop/new">
               <button className="btn btn-primary">New Radio</button>
@@ -140,7 +143,7 @@ class radios extends Component {
             onPageChange={this.handlePagechange}
           />
         </div>
-        
+        <PlayControl id="12222"/>
       </div>
     );
   }

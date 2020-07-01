@@ -34,9 +34,9 @@ class RegisterForm extends Form {
 
   render() {
     return (
-      <div>
-        <h1>Register</h1>
-        <button onClick={addUser}>send to firebase</button>
+      <div className="form">
+        <h1 style={{textAlign:"center",marginBottom:"3vh"}}>Register</h1>
+        {/* <button onClick={addUser}>send to firebase</button> */}
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}

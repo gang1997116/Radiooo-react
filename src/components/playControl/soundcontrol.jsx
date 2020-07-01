@@ -41,7 +41,8 @@ export default function SoundControl({ mute,value,onChange }) {
       )}
       {mute && (
         <PrettoSlider
-            value={0}
+          value={0}
+          onChange={onChange}
           aria-labelledby="disabled-slider"
         />
       )}

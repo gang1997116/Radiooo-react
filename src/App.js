@@ -6,8 +6,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import Nav from "./nav";
-import About from "./about";
-import Home from "./components/home";
 import Radios from "./components/radios";
 import NotFound from "./components/notFound";
 import LoginForm from "./components/loginForm";
@@ -19,7 +17,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import auth from "./services/authService";
-
+import RadioImg from './img/radio.svg';
 
 class App extends Component {
   state = {
@@ -35,19 +33,18 @@ class App extends Component {
       <Router>
         <ToastContainer />
         <Nav user={user} />
-        
+        <img className="home-img" src={RadioImg} alt=""/>
         <main>
         
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/about" component={About} />
+            <Route path="/" exact component={Radios} />
             <Route
               path="/shop"
               exact
               //render={(props) => <Radios {...props} user={user} />}
               render={() => <Radios user={user} />}
             />
-            <Route path="/shop/:id" component={Home} />
+            <Route path="/shop/:id" component={Radios} />
             <Route path="/shop/new" component={NewForm} />
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />

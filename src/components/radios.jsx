@@ -25,7 +25,10 @@ class radios extends Component {
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
   };
-
+constructor(props){
+  super(props);
+  this.audio = React.createRef();
+}
   async componentDidMount() {
     const { data } = await getGenres();
     const genres = [{ i: "", c: "All Genres" }, ...data.results];
@@ -63,8 +66,9 @@ class radios extends Component {
       }
     }
     radio.isPlaying=true;
-    const audio = document.getElementById("audioplayer");
-      var playPromise = audio.play();
+    this.setState({ radios, currentPlay: radio });
+    const audio = this.audio.current;
+    var playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise
           .then((_) => {
@@ -74,13 +78,14 @@ class radios extends Component {
             audio.play();
           });
       }
-    this.setState({ radios, currentPlay: radio });
+    
   };
   handleSimplePlay = () => {
     let currentPlay = { ...this.state.currentPlay };
     currentPlay.isPlaying = !currentPlay.isPlaying;
     this.setState({ currentPlay });
-    const audio = document.getElementById("audioplayer");
+   
+    const audio = this.audio.current;
     if (currentPlay.isPlaying === true) {
       var playPromise = audio.play();
       if (playPromise !== undefined) {
@@ -144,7 +149,7 @@ class radios extends Component {
     //const { user } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
-
+    
     const { totalCount, radios } = this.getPagedData();
 
     return (
@@ -200,7 +205,7 @@ class radios extends Component {
             />
           </div>
           <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
-          <Audio src={currentPlay.u} isPlaying={currentPlay.isPlaying} />
+          <Audio src={currentPlay.u} isPlaying={currentPlay.isPlaying} ref={this.audio}/>
         </div>
       </React.Fragment>
     );

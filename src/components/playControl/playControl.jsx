@@ -43,7 +43,6 @@ function PlayControl({ data,onPlay }) {
       setSound(sound);
     }
   };
-  
   return (
     <div className="bar">
       <Link to="/shop">

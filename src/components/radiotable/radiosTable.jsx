@@ -2,14 +2,14 @@ import React, { Component } from "react";
 //import auth from '../services/authService';
 import Table from "./table";
 import Like from "../like";
-import PlayButton from '../playControl/playButton';
+import AddPlayButton from './addPlayButton';
 import { Link } from 'react-router-dom';
 
 
 
 class MoviesTable extends Component {
   columns = [
-    { path: "n", label: "Title", content: radio=><Link to={`shop/${radio.i}`}>{radio.n}</Link> },
+    { path: "n", label: "Title", content: radio=><span>{radio.n}</span> },
     { path: "g", label: "Genre" },
     { path: "c", label: "Country" },
     {
@@ -21,7 +21,7 @@ class MoviesTable extends Component {
     {
       key: "play",
       content: (radio) => (
-        <PlayButton src={radio.u} playing={radio.playing} onClick={() => this.props.onPlay(radio)}/>
+        <AddPlayButton isPlaying={radio.isPlaying} isPlay={this.props.isPlaying}/>
       ),
     },
   ];
@@ -48,13 +48,14 @@ class MoviesTable extends Component {
   //   }
   // }
   render() {
-    const { radios, onSort, sortColumn} = this.props;
+    const { radios, onSort, sortColumn,onPlay} = this.props;
     return (
       <Table
         columns={this.columns}
         data={radios}
         sortColumn={sortColumn}
         onSort={onSort}
+        onPlay={onPlay}
       />
     );
   }

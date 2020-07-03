@@ -15,9 +15,13 @@ class TableBody extends Component {
     return (
       <tbody>
         {data.map((item) => (
-          <tr key={item.i}>
-            {columns.map(column => (
-              <td key={this.createKey(item, column)}>
+          <tr
+            key={item.i}
+            onDoubleClick={() => this.props.onPlay(item)}
+            
+          >
+            {columns.map((column) => (
+              <td key={this.createKey(item, column)} >
                 {this.renderCell(item, column)}
               </td>
             ))}

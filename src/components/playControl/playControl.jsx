@@ -11,25 +11,19 @@ import Like from "../like";
 import SoundControl from "./soundcontrol";
 import { Link } from "react-router-dom";
 
-function PlayControl({ id }) {
-  const [data, setData] = useState([]);
+function PlayControl({ data,onPlay }) {
+  
   const [like, setLike] = useState(false);
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);
   const [soundStyle, setSound] = useState(sound);
-  useEffect(() => {
-    async function getdata() {
-      const { data } = await getRadio(id);
-      setData(data.results[0]);
-    }
-    getdata();
-  }, [id]);
+
   const imgUrl = "https://www.radioair.info/images_radios/";
   const handleLike = () => {
     setLike(!like);
   };
   const handleMute = () => {
-    const audio = document.getElementById(`audio${id}`);
+    const audio = document.getElementById(`audio${data.i}`);
     if (soundStyle === sound) {
       setSound(soundMute);
       audio.volume = 0;
@@ -41,7 +35,7 @@ function PlayControl({ id }) {
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    const audio = document.getElementById(`audio${id}`);
+    const audio = document.getElementById("audioplayer");
     audio.volume = newValue / 100;
     if (newValue === 0) {
       setSound(soundMute);
@@ -49,6 +43,7 @@ function PlayControl({ id }) {
       setSound(sound);
     }
   };
+  
   return (
     <div className="bar">
       <Link to="/shop">
@@ -63,7 +58,7 @@ function PlayControl({ id }) {
         </div>
         <img src={last} className="last" alt="" />
         <div className="play-button-circle">
-          <PlayButton id={id} src={data.u} />
+          <PlayButton  src={data.u} isPlaying={data.isPlaying} onClick={onPlay}/>
         </div>
         <img src={next} className="next" alt="" />
         <img src={soundStyle} className="sound" onClick={handleMute} alt="" />

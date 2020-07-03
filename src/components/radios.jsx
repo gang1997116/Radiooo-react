@@ -3,17 +3,22 @@ import { getRadios } from "../services/radioService";
 import { getGenres } from "../services/genreService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
-import ListGroup from "./listGroup";
+//import ListGroup from "./listGroup";
 import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
 //import { Link } from "react-router-dom";
 //import { toast } from "react-toastify";
-import PlayControl from './playControl/playControl';
+import { getCountry } from "../services/countryService";
+import PlayControl from "./playControl/playControl";
+import Audio from "./playControl/audio";
 
 class radios extends Component {
   state = {
     radios: [],
     genres: [],
+    country: [],
+    currentPlay: { i: "12222",n:"welcome to Radiooo",l:"1-world-radio.jpg" },
+    isPlaying: false,
     pageSize: 5,
     searchQuery: "",
     selectedGenre: null,
@@ -25,22 +30,21 @@ class radios extends Component {
     const { data } = await getGenres();
     const genres = [{ i: "", c: "All Genres" }, ...data.results];
     const { data: radios } = await getRadios("ALL", "0", "ALL");
-    this.setState({ radios: radios.results, genres });
+    const { data: country } = await getCountry();
+    this.setState({ radios: radios.results, genres, country: country.results });
+    this.replaceCountry();
   }
-
-  // handleDelete = async (radio) => {
-  //   const originalradios = this.state.radios;
-  //   const radios = this.state.radios.filter((m) => m.i !== radio.i);
-  //   this.setState({ radios });
-  //   try {
-  //     await deleteRadio(radio.i);
-  //   } catch (ex) {
-  //     if (ex.response && ex.response.status === 404) {
-  //       toast.error("This radio has already been deleted.");
-  //       this.setState({ radios: originalradios });
-  //     }
-  //   }
-  // };
+  replaceCountry = () => {
+    const radios = [...this.state.radios];
+    radios.map((radio) => {
+      for (let item of this.state.country) {
+        if (item.code === radio.c) {
+          radio.c = item.name;
+        }
+      }
+    });
+    this.setState({ radios });
+  };
   handleLike = (radio) => {
     const radios = [...this.state.radios];
     const index = radios.indexOf(radio);
@@ -49,7 +53,49 @@ class radios extends Component {
     this.setState({ radios });
     //console.log('like clicked',radio);
   };
-
+  handlePlay = (radio) => {
+    const radios = [...this.state.radios];
+    for (let item of radios) {
+      if (item.i === radio.i) {
+        item.isPlaying = radio.isPlaying;
+      } else {
+        item.isPlaying = false;
+      }
+    }
+    radio.isPlaying=true;
+    const audio = document.getElementById("audioplayer");
+      var playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then((_) => {
+            audio.play();
+          })
+          .catch((error) => {
+            audio.play();
+          });
+      }
+    this.setState({ radios, currentPlay: radio });
+  };
+  handleSimplePlay = () => {
+    let currentPlay = { ...this.state.currentPlay };
+    currentPlay.isPlaying = !currentPlay.isPlaying;
+    this.setState({ currentPlay });
+    const audio = document.getElementById("audioplayer");
+    if (currentPlay.isPlaying === true) {
+      var playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then((_) => {
+            audio.play();
+          })
+          .catch((error) => {
+            audio.play();
+          });
+      }
+    } else {
+      audio.pause();
+    }
+  };
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -71,11 +117,10 @@ class radios extends Component {
       sortColumn,
       searchQuery,
     } = this.state;
-
     let filtered = allradios;
     if (searchQuery)
       filtered = allradios.filter(
-        (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) >-1
+        (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
       );
     else if (selectedGenre && selectedGenre.i)
       filtered = allradios.filter((m) => m.d === selectedGenre.i);
@@ -89,7 +134,13 @@ class radios extends Component {
 
   render() {
     //const { length: count } = this.state.radios;
-    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      searchQuery,
+      currentPlay,
+    } = this.state;
     //const { user } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
@@ -97,54 +148,61 @@ class radios extends Component {
     const { totalCount, radios } = this.getPagedData();
 
     return (
-      <div
-        className="row"
-        style={{
-          backgroundColor: "#FFFDF6",
-          height: "90vh",
-          minHeight: "100%",
-          paddingTop: "18vh",
-          marginLeft:0,
-          marginRight:0,
-        }}
-      >
-        <div className="col-2" style={{marginLeft:"5vh"}}>
+      <React.Fragment>
+        <div
+          style={{
+            backgroundColor: "#FFFDF6",
+            height: "90vh",
+            width: "40vw",
+            minHeight: "100%",
+            paddingTop: "5vh",
+            marginLeft: 0,
+            marginRight: 0,
+            zIndex: 10,
+            position: "absolute",
+          }}
+        >
+          {/* <div className="col-2" style={{marginLeft:"5vh"}}>
           <ListGroup
             items={this.state.genres.slice(0,8)}
             selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
-        </div>
-        <div className="col-9">
-          {/* {user && (
+        </div> */}
+          <div style={{ paddingLeft: "2vw", paddingRight: "2vw" }}>
+            {/* {user && (
             <Link to="/shop/new">
               <button className="btn btn-primary">New Radio</button>
             </Link>
           )} */}
-          <p>Finding {totalCount} radios in the database.</p>
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => this.handleSearch(e.currentTarget.value)}
-          />
-          <RadiosTable
-            radios={radios}
-            sortColumn={sortColumn}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-          />
-          <Pagination
-            itemsCount={totalCount}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={this.handlePagechange}
-          />
+            <p>Finding {totalCount} radios in the database.</p>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => this.handleSearch(e.currentTarget.value)}
+            />
+            <RadiosTable
+              radios={radios}
+              sortColumn={sortColumn}
+              onLike={this.handleLike}
+              onDelete={this.handleDelete}
+              onSort={this.handleSort}
+              onPlay={this.handlePlay}
+              isPlaying={currentPlay.isPlaying}
+            />
+            <Pagination
+              itemsCount={totalCount}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={this.handlePagechange}
+            />
+          </div>
+          <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
+          <Audio src={currentPlay.u} isPlaying={currentPlay.isPlaying} />
         </div>
-        <PlayControl id="12222"/>
-      </div>
+      </React.Fragment>
     );
   }
 }

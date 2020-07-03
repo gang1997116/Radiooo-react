@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import auth from "./services/authService";
 
+
 class App extends Component {
   state = {
     currentPlay: "",
@@ -34,8 +35,9 @@ class App extends Component {
       <Router>
         <ToastContainer />
         <Nav user={user} />
-
+        
         <main>
+        
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/about" component={About} />
@@ -53,7 +55,9 @@ class App extends Component {
             <Route path="/not-found" component={NotFound} />
             <Redirect to="/not-found" />
           </Switch>
+          
         </main>
+       
       </Router>
     );
   }

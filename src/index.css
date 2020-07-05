@@ -24,7 +24,7 @@ tbody tr:hover{
 .control-button{
   position:absolute;
   top:40vh;
-  left: 40vw;
+  left: 35vw;
   transition: left 300ms ease-in-out;
 }
 .control-button img{
@@ -69,7 +69,7 @@ code {
 .discover {
   background-color: #FFFDF6;
   height: 90vh;
-  width: 40vw;
+  width: 35vw;
   min-height: 100%;
   padding-top: 3vh;
   margin-left: 0;
@@ -77,6 +77,8 @@ code {
   z-index: 10;
   transition: left 300ms ease-in-out;
   position: absolute;
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
 .form {
   position: absolute;
@@ -91,22 +93,33 @@ code {
 }
 .radio-header{
   margin-bottom: 3vh;
+  height: 5vh;
 }
 .form-search{
   position: relative;
+  float:right;
   top:0vh;
-  height: 4vh;
-  border-radius: 2vh;
+  height: 4.5vh;
+  border-radius: 2.5vh;
   background-color: #F1EBE3;
   border: none;
   padding-left: 2%;
   width: 13vw;
 }
+.history-control img{
+  position: relative;
+  float:left;
+  top:0vh;
+  height: 4vh;
+  padding-left: 2%;
+  margin-right: 2vw;
+}
 .home-img {
   position: absolute;
   width: 100vh;
   height: 60vh;
-  top: 20vh;
+  top: 17vh;
+  bottom: 0;
   left: 0;
   right: 0;
   margin: 0 auto;

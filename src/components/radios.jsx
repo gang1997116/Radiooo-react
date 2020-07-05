@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { getRadios,getRadio } from "../services/radioService";
-import { getGenres } from "../services/genreService";
+import { getRadios } from "../services/radioService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 //import ListGroup from "./listGroup";
@@ -14,11 +13,12 @@ import Audio from "./playControl/audio";
 import ControlButton from "./radiotable/control-button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
+import historyback from "../img/left.svg";
+import historyforward from "../img/right.svg";
 
 class radios extends Component {
   state = {
     radios: [],
-    genres: [],
     country: [],
     currentPlay: {
       i: "12222",
@@ -38,25 +38,28 @@ class radios extends Component {
     this.audio = React.createRef();
   }
   async componentDidMount() {
-    const { data } = await getGenres();
-    const genres = [{ i: "", c: "All Genres" }, ...data.results];
-    if(!this.props.match){
-      const { data: radios } = await getRadios("ALL", "0", "ALL");
-      this.setState({ radios: radios.results });
-    }
-    else{
-      if(this.props.match.params.hasOwnProperty('genre')){
-        const { data: radios } = await getRadios("ALL", "0", this.props.match.params.genre);
-      this.setState({ radios: radios.results });
-      }
-      else if(this.props.match.params.hasOwnProperty('country')){
-      const { data: radios } = await getRadios(this.props.match.params.country, "0", "ALL");
-      this.setState({ radios: radios.results });
+    const { data: radios } = await getRadios("ALL", "0", "ALL");
+    this.setState({ radios: radios.results });
+    if (this.props.match) {
+      if (this.props.match.params.hasOwnProperty("genre")) {
+        const { data: radios } = await getRadios(
+          "ALL",
+          "0",
+          this.props.match.params.genre
+        );
+        this.setState({ radios: radios.results });
+      } else if (this.props.match.params.hasOwnProperty("country")) {
+        const { data: radios } = await getRadios(
+          this.props.match.params.country,
+          "0",
+          "ALL"
+        );
+        this.setState({ radios: radios.results });
       }
     }
 
     const { data: country } = await getCountry();
-    this.setState({ genres, country: country.results });
+    this.setState({ country: country.results });
     this.replaceCountry();
   }
   replaceCountry = () => {
@@ -90,6 +93,20 @@ class radios extends Component {
     }
     radio.isPlaying = true;
     this.setState({ radios, currentPlay: radio });
+    this.playAudio();
+  };
+  handleSimplePlay = () => {
+    let currentPlay = { ...this.state.currentPlay };
+    currentPlay.isPlaying = !currentPlay.isPlaying;
+    this.setState({ currentPlay });
+    const audio = this.audio.current;
+    if (currentPlay.isPlaying === true) {
+      this.playAudio();
+    } else {
+      audio.pause();
+    }
+  };
+  playAudio = () => {
     const audio = this.audio.current;
     var playPromise = audio.play();
     if (playPromise !== undefined) {
@@ -100,27 +117,6 @@ class radios extends Component {
         .catch((error) => {
           audio.play();
         });
-    }
-  };
-  handleSimplePlay = () => {
-    let currentPlay = { ...this.state.currentPlay };
-    currentPlay.isPlaying = !currentPlay.isPlaying;
-    this.setState({ currentPlay });
-
-    const audio = this.audio.current;
-    if (currentPlay.isPlaying === true) {
-      var playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then((_) => {
-            audio.play();
-          })
-          .catch((error) => {
-            audio.play();
-          });
-      }
-    } else {
-      audio.pause();
     }
   };
   handlePagechange = (page) => {
@@ -137,7 +133,7 @@ class radios extends Component {
   };
   handleHide = () => {
     if (this.state.position.left === 0) {
-      this.setState({ position: { left: "-40vw" } });
+      this.setState({ position: { left: "-35vw" } });
     } else {
       this.setState({ position: { left: 0 } });
     }
@@ -184,8 +180,12 @@ class radios extends Component {
     return (
       <React.Fragment>
         <div className="discover" style={position}>
-          <div style={{ paddingLeft: "2vw", paddingRight: "2vw" }}>
+          
             <div className="radio-header">
+              <div className="history-control">
+                <img src={historyback} alt="" onClick={()=>{this.props.history.go(-1);}}/>
+                <img src={historyforward} alt="" onClick={()=>{this.props.history.go(1);}} />
+              </div>
               <InputBase
                 className="form-search"
                 type="text"
@@ -216,7 +216,7 @@ class radios extends Component {
               onPageChange={this.handlePagechange}
             />
           </div>
-        </div>
+       
         <ControlButton position={position} onClick={this.handleHide} />
         <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
         <Audio

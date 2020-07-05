@@ -5,11 +5,11 @@ import rightButton from "../../img/control-button-r.svg";
 class ControlButton extends Component {
 
   render() {
-    let buttonPosition = { left: "40vw" };
+    let buttonPosition = { left: "35vw" };
     let buttonsrc=leftButton;
     const { position } = this.props;
     if (position.left === 0) {
-      buttonPosition = { left: "40vw" };
+      buttonPosition = { left: "35vw" };
       buttonsrc=leftButton;
     } else {
       buttonPosition = { left: 0 };

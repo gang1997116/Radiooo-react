@@ -33,6 +33,7 @@ class LoginForm extends Form {
   render() {
     if(auth.getCurrentUser()) return <Redirect to='/shop'/>
     return (
+      <div className="page">
       <div className="form">
         <h1 style={{textAlign:"center",marginBottom:"3vh"}}>Log in</h1>
         <form onSubmit={this.handleSubmit}>
@@ -40,6 +41,7 @@ class LoginForm extends Form {
           {this.renderInput("password", "Password", "password")}
           {this.renderButton("Login")}
         </form>
+      </div>
       </div>
     );
   }

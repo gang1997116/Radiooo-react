@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import "./playControl.css";
-import { getRadio } from "../../services/radioService";
 import PlayButton from "./playButton";
 import next from "../../img/next.svg";
 import last from "../../img/last.svg";

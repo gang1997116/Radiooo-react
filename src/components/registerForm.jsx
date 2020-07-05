@@ -34,6 +34,7 @@ class RegisterForm extends Form {
 
   render() {
     return (
+      <div className="page">
       <div className="form">
         <h1 style={{textAlign:"center",marginBottom:"3vh"}}>Register</h1>
         {/* <button onClick={addUser}>send to firebase</button> */}
@@ -43,6 +44,7 @@ class RegisterForm extends Form {
           {this.renderInput("name", "Name")}
           {this.renderButton("Register")}
         </form>
+      </div>
       </div>
     );
   }

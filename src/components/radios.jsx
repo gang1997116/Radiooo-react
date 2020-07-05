@@ -11,24 +11,32 @@ import _ from "lodash";
 import { getCountry } from "../services/countryService";
 import PlayControl from "./playControl/playControl";
 import Audio from "./playControl/audio";
+import ControlButton from "./radiotable/control-button";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import InputBase from '@material-ui/core/InputBase';
 
 class radios extends Component {
   state = {
     radios: [],
     genres: [],
     country: [],
-    currentPlay: { i: "12222",n:"welcome to Radiooo",l:"1-world-radio.jpg" },
+    currentPlay: {
+      i: "12222",
+      n: "welcome to Radiooo",
+      l: "1-world-radio.jpg",
+    },
     isPlaying: false,
     pageSize: 5,
     searchQuery: "",
     selectedGenre: null,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
+    position: { left: 0 },
   };
-constructor(props){
-  super(props);
-  this.audio = React.createRef();
-}
+  constructor(props) {
+    super(props);
+    this.audio = React.createRef();
+  }
   async componentDidMount() {
     const { data } = await getGenres();
     const genres = [{ i: "", c: "All Genres" }, ...data.results];
@@ -45,6 +53,7 @@ constructor(props){
           radio.c = item.name;
         }
       }
+      return null;
     });
     this.setState({ radios });
   };
@@ -65,26 +74,25 @@ constructor(props){
         item.isPlaying = false;
       }
     }
-    radio.isPlaying=true;
+    radio.isPlaying = true;
     this.setState({ radios, currentPlay: radio });
     const audio = this.audio.current;
     var playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then((_) => {
-            audio.play();
-          })
-          .catch((error) => {
-            audio.play();
-          });
-      }
-    
+    if (playPromise !== undefined) {
+      playPromise
+        .then((_) => {
+          audio.play();
+        })
+        .catch((error) => {
+          audio.play();
+        });
+    }
   };
   handleSimplePlay = () => {
     let currentPlay = { ...this.state.currentPlay };
     currentPlay.isPlaying = !currentPlay.isPlaying;
     this.setState({ currentPlay });
-   
+
     const audio = this.audio.current;
     if (currentPlay.isPlaying === true) {
       var playPromise = audio.play();
@@ -112,6 +120,13 @@ constructor(props){
   };
   handleSearch = (query) => {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
+  };
+  handleHide = () => {
+    if (this.state.position.left === 0) {
+      this.setState({ position: { left: "-40vw" } });
+    } else {
+      this.setState({ position: { left: 0 } });
+    }
   };
   getPagedData = () => {
     const {
@@ -145,49 +160,33 @@ constructor(props){
       sortColumn,
       searchQuery,
       currentPlay,
+      position,
     } = this.state;
     //const { user } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
-    
+
     const { totalCount, radios } = this.getPagedData();
 
     return (
       <React.Fragment>
-        <div
-          style={{
-            backgroundColor: "#FFFDF6",
-            height: "90vh",
-            width: "40vw",
-            minHeight: "100%",
-            paddingTop: "5vh",
-            marginLeft: 0,
-            marginRight: 0,
-            zIndex: 10,
-            position: "absolute",
-          }}
-        >
-          {/* <div className="col-2" style={{marginLeft:"5vh"}}>
-          <ListGroup
-            items={this.state.genres.slice(0,8)}
-            selectedItem={this.state.selectedGenre}
-            onItemSelect={this.handleGenreSelect}
-          />
-        </div> */}
+        <div className="discover" style={position}>
           <div style={{ paddingLeft: "2vw", paddingRight: "2vw" }}>
-            {/* {user && (
-            <Link to="/shop/new">
-              <button className="btn btn-primary">New Radio</button>
-            </Link>
-          )} */}
-            <p>Finding {totalCount} radios in the database.</p>
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => this.handleSearch(e.currentTarget.value)}
-            />
+            <div className="radio-header">
+              <InputBase
+                className="form-search"
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => this.handleSearch(e.currentTarget.value)}
+                startAdornment={
+                  <InputAdornment position="start" style={{color:"grey"}}>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </InputAdornment>
+                }
+              />
+            </div>
+            <p>Finding {totalCount} radios.</p>
             <RadiosTable
               radios={radios}
               sortColumn={sortColumn}
@@ -204,9 +203,14 @@ constructor(props){
               onPageChange={this.handlePagechange}
             />
           </div>
-          <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
-          <Audio src={currentPlay.u} isPlaying={currentPlay.isPlaying} ref={this.audio}/>
         </div>
+        <ControlButton position={position} onClick={this.handleHide} />
+        <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
+        <Audio
+          src={currentPlay.u}
+          isPlaying={currentPlay.isPlaying}
+          ref={this.audio}
+        />
       </React.Fragment>
     );
   }

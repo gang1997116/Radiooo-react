@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getRadios } from "../services/radioService";
+import { getRadios,getRadio } from "../services/radioService";
 import { getGenres } from "../services/genreService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
@@ -13,7 +13,7 @@ import PlayControl from "./playControl/playControl";
 import Audio from "./playControl/audio";
 import ControlButton from "./radiotable/control-button";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import InputBase from '@material-ui/core/InputBase';
+import InputBase from "@material-ui/core/InputBase";
 
 class radios extends Component {
   state = {
@@ -40,9 +40,23 @@ class radios extends Component {
   async componentDidMount() {
     const { data } = await getGenres();
     const genres = [{ i: "", c: "All Genres" }, ...data.results];
-    const { data: radios } = await getRadios("ALL", "0", "ALL");
+    if(!this.props.match){
+      const { data: radios } = await getRadios("ALL", "0", "ALL");
+      this.setState({ radios: radios.results });
+    }
+    else{
+      if(this.props.match.params.hasOwnProperty('genre')){
+        const { data: radios } = await getRadios("ALL", "0", this.props.match.params.genre);
+      this.setState({ radios: radios.results });
+      }
+      else if(this.props.match.params.hasOwnProperty('country')){
+      const { data: radios } = await getRadios(this.props.match.params.country, "0", "ALL");
+      this.setState({ radios: radios.results });
+      }
+    }
+
     const { data: country } = await getCountry();
-    this.setState({ radios: radios.results, genres, country: country.results });
+    this.setState({ genres, country: country.results });
     this.replaceCountry();
   }
   replaceCountry = () => {
@@ -50,7 +64,7 @@ class radios extends Component {
     radios.map((radio) => {
       for (let item of this.state.country) {
         if (item.code === radio.c) {
-          radio.c = item.name;
+          radio.cl = item.name;
         }
       }
       return null;
@@ -167,7 +181,6 @@ class radios extends Component {
     //if (count === 0) return <p>There are no radios in the database</p>;
 
     const { totalCount, radios } = this.getPagedData();
-
     return (
       <React.Fragment>
         <div className="discover" style={position}>
@@ -180,8 +193,8 @@ class radios extends Component {
                 value={searchQuery}
                 onChange={(e) => this.handleSearch(e.currentTarget.value)}
                 startAdornment={
-                  <InputAdornment position="start" style={{color:"grey"}}>
-                    <i class="fa fa-search" aria-hidden="true"></i>
+                  <InputAdornment position="start" style={{ color: "grey" }}>
+                    <i className="fa fa-search" aria-hidden="true"></i>
                   </InputAdornment>
                 }
               />

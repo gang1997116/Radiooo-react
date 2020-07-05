@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Table from "./table";
 import Like from "../like";
 import AddPlayButton from './addPlayButton';
+import { Link } from "react-router-dom";
 
 
 
@@ -10,8 +11,8 @@ import AddPlayButton from './addPlayButton';
 class MoviesTable extends Component {
   columns = [
     { path: "n", label: "Title", content: radio=><span>{radio.n}</span> },
-    { path: "g", label: "Genre" },
-    { path: "c", label: "Country" },
+    { path: "g", label: "Genre",content: radio=><Link to={`/shop/genre/${radio.d}`} >{radio.g}</Link> },
+    { path: "c", label: "Country",content: radio=><Link to={`/shop/country/${radio.c}`}>{radio.cl}</Link> },
     {
       key: "like",
       content: (radio) => (

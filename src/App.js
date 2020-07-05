@@ -51,8 +51,9 @@ class App extends Component {
               //render={(props) => <Radios {...props} user={user} />}
               render={() => <Radios user={user} />}
             />
-            <Route path="/shop/:id" component={Radios} />
-
+            <Route path="/shop/:id" exact component={Radios} />
+            <Route path="/shop/genre/:genre" component={Radios} />
+            <Route path="/shop/country/:country" component={Radios} />
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={RegisterForm} />

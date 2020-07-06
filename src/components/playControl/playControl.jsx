@@ -8,7 +8,6 @@ import list from "../../img/list.svg";
 import soundMute from "../../img/sound-mute.svg";
 import Like from "../like";
 import SoundControl from "./soundcontrol";
-import { Link } from "react-router-dom";
 
 function PlayControl({ data,onPlay,onClick }) {
   

@@ -26,7 +26,7 @@ class radios extends Component {
       l: "1-world-radio.jpg",
     },
     isPlaying: false,
-    pageSize: 5,
+    pageSize: 6,
     searchQuery: "",
     selectedGenre: null,
     currentPage: 1,
@@ -179,8 +179,8 @@ class radios extends Component {
     const { totalCount, radios } = this.getPagedData();
     return (
       <React.Fragment>
+           <div className="scoll-title"><span>{currentPlay.n}</span></div>
         <div className="discover" style={position}>
-          
             <div className="radio-header">
               <div className="history-control">
                 <img src={historyback} alt="" onClick={()=>{this.props.history.go(-1);}}/>
@@ -218,7 +218,7 @@ class radios extends Component {
           </div>
        
         <ControlButton position={position} onClick={this.handleHide} />
-        <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
+        <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} onClick={this.handleHide}/>
         <Audio
           src={currentPlay.u}
           isPlaying={currentPlay.isPlaying}

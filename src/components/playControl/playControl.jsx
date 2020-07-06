@@ -10,7 +10,7 @@ import Like from "../like";
 import SoundControl from "./soundcontrol";
 import { Link } from "react-router-dom";
 
-function PlayControl({ data,onPlay }) {
+function PlayControl({ data,onPlay,onClick }) {
   
   const [like, setLike] = useState(false);
   const [mute, setMute] = useState(false);
@@ -44,11 +44,11 @@ function PlayControl({ data,onPlay }) {
   };
   return (
     <div className="bar">
-      <Link to="/shop">
-        <div className="radio-logo">
+      
+        <div className="radio-logo" onClick={onClick}>
           <img src={imgUrl + data.l} alt="" />
         </div>
-      </Link>
+     
       <div className="radio-title">{data.n}</div>
       <div className="controls">
         <div className="like">

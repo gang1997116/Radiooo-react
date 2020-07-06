@@ -6,6 +6,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+@font-face{
+  font-family:'technology';
+  src: url("../src/fonts/Technology.ttf");
+}
 
 html,
 #root,
@@ -17,21 +21,21 @@ main {
   -khtml-user-select: none;
   user-select: none;
 }
-tbody tr:hover{
+tbody tr:hover {
   background-color: rgb(235, 218, 188);
 }
 
-.control-button{
-  position:absolute;
-  top:40vh;
+.control-button {
+  position: absolute;
+  top: 40vh;
   left: 35vw;
   transition: left 300ms ease-in-out;
 }
-.control-button img{
+.control-button img {
   height: 8vh;
   opacity: 0.5;
 }
-.control-button img:hover{
+.control-button img:hover {
   opacity: 1;
 }
 
@@ -67,7 +71,7 @@ code {
   color: rgb(83, 55, 28);
 }
 .discover {
-  background-color: #FFFDF6;
+  background-color: #fffdf6;
   height: 90vh;
   width: 35vw;
   min-height: 100%;
@@ -91,25 +95,25 @@ code {
   border-radius: 2vw;
   padding: 3vw;
 }
-.radio-header{
+.radio-header {
   margin-bottom: 3vh;
   height: 5vh;
 }
-.form-search{
+.form-search {
   position: relative;
-  float:right;
-  top:0vh;
+  float: right;
+  top: 0vh;
   height: 4.5vh;
   border-radius: 2.5vh;
-  background-color: #F1EBE3;
+  background-color: #f1ebe3;
   border: none;
   padding-left: 2%;
   width: 13vw;
 }
-.history-control img{
+.history-control img {
   position: relative;
-  float:left;
-  top:0vh;
+  float: left;
+  top: 0vh;
   height: 4vh;
   padding-left: 2%;
   margin-right: 2vw;
@@ -123,6 +127,43 @@ code {
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+.scoll-title {
+  position: absolute;
+  overflow: hidden;
+  top: 39vh;
+  bottom: 0;
+  left: 0;
+  right: 0.4vh;
+  width: 16vh;
+  height: 7vh;
+  margin: 0 auto;
+}
+.scoll-title span {
+  position: absolute;
+  top: 0vh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+  margin: 0 auto;
+  font-size: 4vh;
+  font-family:'technology';
+  color: #f1ebe3;
+  white-space: nowrap;
+  animation-name: slide;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes slide {
+  from {
+    left: 100%;
+  }
+  to {
+    left: -100%;
+  }
 }
 .logo {
   position: absolute;

@@ -17,7 +17,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import auth from "./services/authService";
-import RadioImg from "./img/radio.svg";
+
+
 
 class App extends Component {
   state = {
@@ -31,9 +32,7 @@ class App extends Component {
     const { user } = this.state;
     return (
       <Router>
-        <ToastContainer />
-
-        <img className="home-img" src={RadioImg} alt="" />
+      <ToastContainer />
         <main>
           <Route
             render={({ location }) => (

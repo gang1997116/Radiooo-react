@@ -79,7 +79,7 @@ code {
   margin-left: 0;
   margin-right: 0;
   z-index: 10;
-  transition: left 300ms ease-in-out;
+  transition: left 300ms ease-in;
   position: absolute;
   padding-left: 2vw;
   padding-right: 2vw;
@@ -121,12 +121,36 @@ code {
 .home-img {
   position: absolute;
   width: 100vh;
-  height: 60vh;
-  top: 17vh;
+  height: 50vh;
+  top: 25vh;
   bottom: 0;
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+.antenna{
+  position: absolute;
+  width: 55vh;
+  height: 30vh;
+  top: 7vh;
+  bottom: 0;
+  left: 1.5vh;
+  right: 0;
+  margin: 0 auto;
+  transform-origin:bottom left;
+  transform: rotate(0deg);
+  transition: transform linear 1.5s;
+}
+.volume{
+  position: absolute;
+  width: 8.5vh;
+  height: 30vh;
+  top: 45.7vh;
+  bottom: 0;
+  left: 37.5vh;
+  right: 0;
+  margin: 0 auto;
+  transform: rotate(108deg);
 }
 .scoll-title {
   position: absolute;

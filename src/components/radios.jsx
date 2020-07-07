@@ -16,6 +16,7 @@ import InputBase from "@material-ui/core/InputBase";
 import historyback from "../img/left.svg";
 import historyforward from "../img/right.svg";
 
+
 class radios extends Component {
   state = {
     radios: [],
@@ -179,7 +180,8 @@ class radios extends Component {
     const { totalCount, radios } = this.getPagedData();
     return (
       <React.Fragment>
-           <div className="scoll-title"><span>{currentPlay.n}</span></div>
+       
+       
         <div className="discover" style={position}>
             <div className="radio-header">
               <div className="history-control">
@@ -217,13 +219,15 @@ class radios extends Component {
             />
           </div>
        
-        <ControlButton position={position} onClick={this.handleHide} />
+       
         <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} onClick={this.handleHide}/>
+        <ControlButton position={position} onClick={this.handleHide} />
         <Audio
           src={currentPlay.u}
           isPlaying={currentPlay.isPlaying}
           ref={this.audio}
         />
+        <div className="scoll-title"><span>{currentPlay.n}</span></div>
       </React.Fragment>
     );
   }

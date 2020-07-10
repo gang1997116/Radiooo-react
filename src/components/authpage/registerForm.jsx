@@ -1,9 +1,10 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
-import * as userService from "../services/userService";
+import * as userService from "../../services/userService";
 //import { addUser } from '../services/firebase';
-import auth from '../services/authService';
+import auth from '../../services/authService';
+import {Link} from "react-router-dom";
 
 class RegisterForm extends Form {
   state = {
@@ -39,10 +40,11 @@ class RegisterForm extends Form {
         <h1 style={{textAlign:"center",marginBottom:"3vh"}}>Register</h1>
         {/* <button onClick={addUser}>send to firebase</button> */}
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Username")}
+          {this.renderInput("username", "Email")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
           {this.renderButton("Register")}
+          <Link to="/login" className="log-link">Log in</Link>
         </form>
       </div>
       </div>

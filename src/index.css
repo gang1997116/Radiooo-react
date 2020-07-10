@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 @font-face{
   font-family:'technology';
   src: url("../src/fonts/Technology.ttf");
@@ -14,12 +15,13 @@ body {
 html,
 #root,
 main {
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background-color: #f9eed7;
   -moz-user-select: none;
   -khtml-user-select: none;
   user-select: none;
+  overflow: hidden;
 }
 tbody tr:hover {
   background-color: rgb(235, 218, 188);
@@ -84,17 +86,7 @@ code {
   padding-left: 2vw;
   padding-right: 2vw;
 }
-.form {
-  position: absolute;
-  width: 40vw;
-  top: 20vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  background-color: #fffdf6;
-  border-radius: 2vw;
-  padding: 3vw;
-}
+
 .radio-header {
   margin-bottom: 3vh;
   height: 5vh;
@@ -197,4 +189,34 @@ code {
   left: 0;
   right: 1vh;
   margin: 0 auto;
+}
+
+.btn-log{
+  background-color: #FACF87;
+  color: black;
+  font-family: "Balsamiq Sans";
+  font-weight: 700;
+  border-radius: 3vh;
+  height: 6vh;
+  width: 10vw;
+  border: none;
+  margin-top: 5vh;
+}
+.danger{
+  margin-top: 1.5vh;
+  color: #bd0000;
+  margin-left: 1vw;
+  font-family: "Balsamiq Sans";
+}
+.log-link{
+  font-family: "Balsamiq Sans";
+  color:black;
+  margin-left: 1vw;
+}
+a{
+  color: black;
+}
+a:hover{
+  color: rgb(185, 114, 28);
+  text-decoration: none;
 }

@@ -10,19 +10,44 @@
   height: 100%;
   background-color: #f9eed7;
 }
-
+.form {
+  position: absolute;
+  width: 35vw;
+  top: 18vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: #fffdf6;
+  border-radius: 2vw;
+  padding: 6vh 4vw;
+}
 .fade-appear .fade-enter {
-  opacity: 0;
+  opacity: 1;
   z-index: 1;
 }
 .fade-appear-active .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: opacity 150ms linear 150ms;
+  transition: opacity 1s cubic-bezier(1,0,0,1);
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit.fade-exit-active {
   opacity: 0;
-  transition: opacity 150ms linear 150ms;
+  transition: opacity 1s cubic-bezier(1,0,0,1);
+}
+
+.mouse{
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 1px solid burlywood;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -10px 0 0 -10px;
+  pointer-events: none;
+  transition: all 0.1s ease-out;
+  z-index: 100;
 }

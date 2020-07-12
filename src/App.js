@@ -17,91 +17,68 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import auth from "./services/authService";
+import SortByAge from "./components/sortByAge/sortByAge";
+import AgeDetail from "./components/ageDetail";
+
 
 class App extends Component {
   state = {
-    currentPlay: "",
-    xPos: "0px",
-    yPos: "0px",
+    currentPlay: {
+      i: "12222",
+      n: "welcome to Radiooo",
+      l: "1-world-radio.jpg",
+    },
   };
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
   }
 
-  handleMouseOver = (e) => {
-    const xmouse = e.clientX || e.pageX;
-    const ymouse = e.clientY || e.pageY;
-    var x = 0,
-      y = 0;
-    var dx = 0,
-      dy = 0;
-    if (!x || !y) {
-      x = xmouse;
-      y = ymouse;
-    } else {
-      dx = (xmouse - x) * 0.025;
-      dy = (ymouse - y) * 0.025;
-      if (Math.abs(dx) + Math.abs(dy) < 0.1) {
-        x = xmouse;
-        y = ymouse;
-      } else {
-        x += dx;
-        y += dy;
-      }
-    }
-    this.setState({
-      xPos: x + "px",
-      yPos: y + "px",
-    });
-  };
 
   render() {
     const { user } = this.state;
-    const { xPos, yPos} = this.state;
-    const moveStyle = {
-      left: `${xPos}`,
-      top: `${yPos}`,
-    };
+
     return (
-      <div onMouseMove={this.handleMouseOver}>
-        <Router>
-          <ToastContainer />
-          <main>
-            <Route
-              render={({ location }) => (
-                <TransitionGroup>
-                  <CSSTransition
-                    key={location.key}
-                    timeout={450}
-                    classNames="fade"
-                  >
-                    <Switch location={location}>
-                      <Route path="/" exact component={Radios} />
-                      <Route
-                        path="/shop"
-                        exact
-                        //render={(props) => <Radios {...props} user={user} />}
-                        render={() => <Radios user={user} />}
-                      />
-                      <Route path="/shop/:id" exact component={Radios} />
-                      <Route path="/shop/genre/:genre" component={Radios} />
-                      <Route path="/shop/country/:country" component={Radios} />
-                      <Route path="/login" component={LoginForm} />
-                      <Route path="/logout" component={Logout} />
-                      <Route path="/register" component={RegisterForm} />
-                      <Route path="/not-found" component={NotFound} />
-                      <Redirect to="/not-found" />
-                    </Switch>
-                  </CSSTransition>
-                </TransitionGroup>
-              )}
-            />
-          </main>
-          <div className="mouse" style={moveStyle}></div>
-          <Nav user={user} />
-        </Router>
-      </div>
+      
+      <Router>
+        <ToastContainer />
+        <main>
+    
+          <Route
+            render={({ location }) => (
+              <TransitionGroup>
+                <CSSTransition
+                  key={location.key}
+                  timeout={450}
+                  classNames="fade"
+                >
+                  <Switch location={location}>
+                    <Route path="/" exact component={Radios} />
+                    <Route
+                      path="/shop"
+                      exact
+                      //render={(props) => <Radios {...props} user={user} />}
+                      render={() => <Radios user={user} />}
+                    />
+                    <Route path="/shop/:id" exact component={Radios} />
+                    <Route path="/shop/genre/:genre" component={AgeDetail} />
+                    <Route path="/shop/country/:country" component={Radios} />
+                    <Route path="/age" exact component={SortByAge} />
+                    <Route path="/login" component={LoginForm} />
+                    <Route path="/logout" component={Logout} />
+                    <Route path="/register" component={RegisterForm} />
+                    <Route path="/not-found" component={NotFound} />
+                    <Redirect to="/not-found" />
+                  </Switch>
+                </CSSTransition>
+              </TransitionGroup>
+            )}
+          />
+        </main>
+        
+        <Nav user={user} />
+      </Router>
+      
     );
   }
 }

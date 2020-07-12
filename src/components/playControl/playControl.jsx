@@ -21,7 +21,7 @@ function PlayControl({ data, onPlay, onClick }) {
     setLike(!like);
   };
   const handleMute = () => {
-    const audio = document.getElementById(`audio${data.i}`);
+    const audio = document.getElementById("audioplayer");
     if (soundStyle === sound) {
       setSound(soundMute);
       audio.volume = 0;

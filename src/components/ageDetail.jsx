@@ -15,14 +15,14 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import historyback from "../img/left.svg";
 import historyforward from "../img/right.svg";
-import CountryCloud from "./tagCloud";
+import AgeWheel from "./sortByAge/ageWheel";
 
 
-class radios extends Component {
+
+class AgeDetail extends Component {
   state = {
     radios: [],
     country: [],
-    currentCountry:"",
     currentPlay: {
       i: "12222",
       n: "welcome to Radiooo",
@@ -76,7 +76,7 @@ class radios extends Component {
       }
       return null;
     });
-    this.setState({ radios,currentCountry:radios[0].cl});
+    this.setState({ radios });
   };
   handleLike = (radio) => {
     const radios = [...this.state.radios];
@@ -175,8 +175,6 @@ class radios extends Component {
       searchQuery,
       currentPlay,
       position,
-      currentCountry,
-      country,
     } = this.state;
     //const { user } = this.props;
 
@@ -185,6 +183,7 @@ class radios extends Component {
     const { totalCount, radios } = this.getPagedData();
     return (
       <React.Fragment>
+       
         <div className="discover" style={position}>
             <div className="radio-header">
               <div className="history-control">
@@ -204,9 +203,8 @@ class radios extends Component {
                 }
               />
             </div>
-            <CountryCloud country={country}/>
+          <AgeWheel id={this.props.match.params.genre} />
             <div className="radio-body">
-              <h1>{currentCountry}</h1>
             <p>We got {totalCount} radios for you.</p>
             <RadiosTable
               radios={radios}
@@ -239,4 +237,4 @@ class radios extends Component {
   }
 }
 
-export default radios;
+export default AgeDetail;

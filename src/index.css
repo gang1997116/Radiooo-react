@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 @font-face{
@@ -15,7 +16,7 @@ body {
 html,
 #root,
 main {
-  height: 100vh;
+  height: 90vh;
   width: 100%;
   background-color: #f9eed7;
   -moz-user-select: none;
@@ -75,8 +76,8 @@ code {
 .discover {
   background-color: #fffdf6;
   height: 90vh;
-  width: 35vw;
-  min-height: 100%;
+  width: 100vw;
+  min-height: 90vh;
   padding-top: 3vh;
   margin-left: 0;
   margin-right: 0;
@@ -91,6 +92,23 @@ code {
   margin-bottom: 3vh;
   height: 5vh;
 }
+.radio-body{
+  width: 60vw;
+  position: absolute;
+  right: 5vw;
+  top:15vh;
+}
+.age-wheel{
+  width: 30vw;
+  height: 80vh;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.age-wheel::-webkit-scrollbar{
+  display: none;
+}
+
 .form-search {
   position: relative;
   float: right;
@@ -219,4 +237,35 @@ a{
 a:hover{
   color: rgb(185, 114, 28);
   text-decoration: none;
+}
+
+.app-outer {
+  align-items: center;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	left: 2vw;
+  padding: 0px 0;
+  right: 0;
+	position: absolute;
+  top: 10vh;
+  width: 30vw;
+}
+
+.app-inner {
+	display: flex;
+	flex-direction: column;
+	height: 90%;
+	max-width: 1000px;
+  width:100%;
+  /* clip-path: circle(25% at 20% 50%); */
+}
+
+.tag-cloud {
+  flex: 1;
+}
+
+.tag-cloud > div {
+  transition: 3s;
 }

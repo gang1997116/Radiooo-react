@@ -1,0 +1,71 @@
+.content {
+  background-color: #fffdf6;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+.age-header{
+    display: block;
+    height: 10vh;
+    width: 100%;
+    position: absolute;
+    margin-top: 23vh;
+    .pre{
+        transform: translateY(3.5vh) translateX(-14vh);
+    }
+    .next{
+        transform: translateY(-3.5vh) translateX(14vh);
+    }
+    .right{
+        left: 23vw;
+    }
+    .left{
+        right: 23vw;
+    }
+}
+.age-header h1{
+    text-align: center;
+    font-size: 5vh;
+}
+
+.slash{
+    height: 2px;
+    width: 5vw;
+    background-color: black;
+    border-radius: 1px;
+    margin: 0 auto;
+    transform: translateY(3.5vh);
+    
+}
+
+.number{
+    position: absolute;
+    margin: auto auto;
+    width: fit-content;
+    left: 0;
+    right: 0;
+    top:2vh;
+    bottom: 0;
+}
+
+
+.age {
+  position: relative;
+  display: inline-block;
+  color: #83580b;
+  -webkit-text-fill-color: #fffdf6; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: #83580b;
+  font-size: 30vh;
+  height: 30vh;
+  width: fit-content;
+  margin: auto 4vh;
+  
+}
+.age:hover {
+  -webkit-text-fill-color: #83580b;
+  transition: all 0.5s ease-in;
+}
+.active{
+    -webkit-text-fill-color: #83580b;
+  }

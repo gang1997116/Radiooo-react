@@ -33,9 +33,9 @@ const Nav = ({ user }) => {
       <ul className="nav justify-content-end">
         {!user && (
           <React.Fragment>
-            <NavLink className="nav-item nav-link " to="/register">
+            {/* <NavLink className="nav-item nav-link " to="/register">
               Register
-            </NavLink>
+            </NavLink> */}
             <NavLink className="nav-item nav-link " to="/login">
               <Avatar>{user}</Avatar>
             </NavLink>

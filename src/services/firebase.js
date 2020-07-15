@@ -4,7 +4,7 @@ import * as firebase from "firebase/app";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
-import { func } from "prop-types";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAzvWajdrecUWIokjb3rcl7rA07LeV3QQU",
@@ -20,7 +20,7 @@ const firebaseConfig = {
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-var db = firebase.firestore();
+export var db = firebase.firestore();
 
 export function addUser(email){
 db.collection("users").doc(email).set({

@@ -54,13 +54,29 @@ class CountryDetail extends Component {
     this.setState({ country: country.results });
     this.replaceCountry();
   }
+  componentDidUpdate(prevProps){
+    if(prevProps.currentPlay.i!==this.props.currentPlay.i){
+      const radios = [...this.state.radios];
+      const radio=this.props.currentPlay;
+      for (let item of radios) {
+        if (item.i === radio.i) {
+          item.isPlaying = radio.isPlaying;
+        } else {
+          item.isPlaying = false;
+        }
+      }
+      this.setState({radios});
+    }
+  }
   replaceCountry = () => {
     const radios = [...this.state.radios];
-    const currentCountry = this.state.country.filter(item=> item.code===radios[0].c)[0];
+    const currentCountry = this.state.country.filter(
+      (item) => item.code === radios[0].c
+    )[0];
     radios.map((radio) => {
-        if (currentCountry.code === radio.c) {
-          radio.cl = currentCountry.name;
-        }
+      if (currentCountry.code === radio.c) {
+        radio.cl = currentCountry.name;
+      }
       return null;
     });
     this.setState({ radios, currentCountry: currentCountry.name });
@@ -71,46 +87,10 @@ class CountryDetail extends Component {
     radios[index] = { ...radios[index] };
     radios[index].liked = !radios[index].liked;
     this.setState({ radios });
-    const user=auth.getCurrentUser();
-    updateLike(user,radio);
+    const user = auth.getCurrentUser();
+    updateLike(user, radio);
   };
-  handlePlay = (radio) => {
-    const radios = [...this.state.radios];
-    for (let item of radios) {
-      if (item.i === radio.i) {
-        item.isPlaying = radio.isPlaying;
-      } else {
-        item.isPlaying = false;
-      }
-    }
-    radio.isPlaying = true;
-    this.setState({ radios, currentPlay: radio });
-    this.playAudio();
-  };
-  handleSimplePlay = () => {
-    let currentPlay = { ...this.state.currentPlay };
-    currentPlay.isPlaying = !currentPlay.isPlaying;
-    this.setState({ currentPlay });
-    const audio = document.getElementById("audioplayer");
-    if (currentPlay.isPlaying === true) {
-      this.playAudio();
-    } else {
-      audio.pause();
-    }
-  };
-  playAudio = () => {
-    const audio = document.getElementById("audioplayer");
-    var playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then((_) => {
-          audio.play();
-        })
-        .catch((error) => {
-          audio.play();
-        });
-    }
-  };
+  
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -161,11 +141,12 @@ class CountryDetail extends Component {
       currentPage,
       sortColumn,
       searchQuery,
-      currentPlay,
       position,
       currentCountry,
       country,
     } = this.state;
+
+    const { currentPlay } = this.props;
     //const { user } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
@@ -204,7 +185,7 @@ class CountryDetail extends Component {
               onLike={this.handleLike}
               onDelete={this.handleDelete}
               onSort={this.handleSort}
-              onPlay={this.handlePlay}
+              onPlay={this.props.onPlay}
               isPlaying={currentPlay.isPlaying}
             />
             <Pagination

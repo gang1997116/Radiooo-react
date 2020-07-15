@@ -53,8 +53,36 @@ class AgeDetail extends Component {
         match: this.props.match.params.genre,
       });
     }
+    const { data: country } = await getCountry();
+    this.setState({ country: country.results });
+    this.replaceCountry();
   }
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentPlay.i !== this.props.currentPlay.i) {
+      const radios = [...this.state.radios];
+      const radio = this.props.currentPlay;
+      for (let item of radios) {
+        if (item.i === radio.i) {
+          item.isPlaying = radio.isPlaying;
+        } else {
+          item.isPlaying = false;
+        }
+      }
+      this.setState({ radios });
+    }
+  }
+  replaceCountry = () => {
+    const radios = [...this.state.radios];
+    radios.map((radio) => {
+      for (let item of this.state.country) {
+        if (item.code === radio.c) {
+          radio.cl = item.name;
+        }
+      }
+      return null;
+    });
+    this.setState({ radios });
+  };
   handleLike = (radio) => {
     const radios = [...this.state.radios];
     const index = radios.indexOf(radio);
@@ -64,43 +92,7 @@ class AgeDetail extends Component {
     const user = auth.getCurrentUser();
     updateLike(user, radio);
   };
-  handlePlay = (radio) => {
-    const radios = [...this.state.radios];
-    for (let item of radios) {
-      if (item.i === radio.i) {
-        item.isPlaying = radio.isPlaying;
-      } else {
-        item.isPlaying = false;
-      }
-    }
-    radio.isPlaying = true;
-    this.setState({ radios, currentPlay: radio });
-    this.playAudio();
-  };
-  handleSimplePlay = () => {
-    let currentPlay = { ...this.state.currentPlay };
-    currentPlay.isPlaying = !currentPlay.isPlaying;
-    this.setState({ currentPlay });
-    const audio = document.getElementById("audioplayer");
-    if (currentPlay.isPlaying === true) {
-      this.playAudio();
-    } else {
-      audio.pause();
-    }
-  };
-  playAudio = () => {
-    const audio = document.getElementById("audioplayer");
-    var playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then((_) => {
-          audio.play();
-        })
-        .catch((error) => {
-          audio.play();
-        });
-    }
-  };
+
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -151,10 +143,9 @@ class AgeDetail extends Component {
       currentPage,
       sortColumn,
       searchQuery,
-      currentPlay,
       position,
     } = this.state;
-    //const { user } = this.props;
+    const { currentPlay } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
 
@@ -193,7 +184,7 @@ class AgeDetail extends Component {
               onLike={this.handleLike}
               onDelete={this.handleDelete}
               onSort={this.handleSort}
-              onPlay={this.handlePlay}
+              onPlay={this.props.onPlay}
               isPlaying={currentPlay.isPlaying}
             />
             <Pagination

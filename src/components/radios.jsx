@@ -15,37 +15,38 @@ class Radios extends Component {
     super(props);
     this.audio = React.createRef();
   }
-  handleSimplePlay = () => {
-    let currentPlay = { ...this.state.currentPlay };
-    currentPlay.isPlaying = !currentPlay.isPlaying;
-    this.setState({ currentPlay });
-    const audio = this.audio.current;
-    if (currentPlay.isPlaying === true) {
-      this.playAudio();
-    } else {
-      audio.pause();
-    }
-  };
-  playAudio = () => {
-    const audio = this.audio.current;
-    var playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then((_) => {
-          audio.play();
-        })
-        .catch((error) => {
-          audio.play();
-        });
-    }
-  };
+  
+  // handleSimplePlay = () => {
+  //   let currentPlay = { ...this.state.currentPlay };
+  //   currentPlay.isPlaying = !currentPlay.isPlaying;
+  //   this.setState({ currentPlay });
+  //   const audio = this.audio.current;
+  //   if (currentPlay.isPlaying === true) {
+  //     this.playAudio();
+  //   } else {
+  //     audio.pause();
+  //   }
+  // };
+  // playAudio = () => {
+  //   const audio = this.audio.current;
+  //   var playPromise = audio.play();
+  //   if (playPromise !== undefined) {
+  //     playPromise
+  //       .then((_) => {
+  //         audio.play();
+  //       })
+  //       .catch((error) => {
+  //         audio.play();
+  //       });
+  //   }
+  // };
 
   render() {
-    const currentPlay = this.state.currentPlay;
+    const currentPlay = this.props.currentPlay;
 
     return (
       <React.Fragment>
-        <PlayControl data={currentPlay} onPlay={this.handleSimplePlay} />
+        <PlayControl data={currentPlay} onPlay={this.props.onPlay} />
         <Audio
           src={currentPlay.u}
           isPlaying={currentPlay.isPlaying}

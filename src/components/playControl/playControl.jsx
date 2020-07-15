@@ -75,6 +75,7 @@ function PlayControl({ data, onPlay, onClick }) {
         </div>
         <SoundControl mute={mute} value={value} onChange={handleChange} />
         <img src={list} className="list" alt="" />
+        
       </div>
     </React.Fragment>
   );

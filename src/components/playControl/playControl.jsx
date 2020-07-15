@@ -9,16 +9,21 @@ import soundMute from "../../img/sound-mute.svg";
 import Like from "../like";
 import SoundControl from "./soundcontrol";
 import RadioModel from "../radio-model";
+import { useLocation } from "react-router-dom";
+import { addUser } from '../../services/firebase';
+import auth from '../../services/authService';
 
 function PlayControl({ data, onPlay, onClick }) {
   const [like, setLike] = useState(false);
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);
   const [soundStyle, setSound] = useState(sound);
-
+  let location = useLocation();
   const imgUrl = "https://www.radioair.info/images_radios/";
   const handleLike = () => {
     setLike(!like);
+    const user = auth.getCurrentUser();
+    addUser(user.email);
   };
   const handleMute = () => {
     const audio = document.getElementById("audioplayer");
@@ -33,6 +38,7 @@ function PlayControl({ data, onPlay, onClick }) {
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    localStorage.setItem("volume", newValue);
     const audio = document.getElementById("audioplayer");
     audio.volume = newValue / 100;
     if (newValue === 0) {
@@ -43,7 +49,9 @@ function PlayControl({ data, onPlay, onClick }) {
   };
   return (
     <React.Fragment>
-      <RadioModel sound={value} />
+      {(location.pathname === "/" ||
+        location.pathname === "/shop" ||
+        location.pathname === "/shop/") && <RadioModel sound={value} />}
       <div className="bar">
         <div className="radio-logo" onClick={onClick}>
           <img src={imgUrl + data.l} alt="" />

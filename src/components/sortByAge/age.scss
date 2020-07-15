@@ -3,6 +3,8 @@
   height: 100vh;
   width: 100%;
   display: flex;
+  z-index: 0;
+  position: absolute;
 }
 .age-header{
     display: block;

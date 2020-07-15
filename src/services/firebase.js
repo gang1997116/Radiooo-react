@@ -4,6 +4,7 @@ import * as firebase from "firebase/app";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import { func } from "prop-types";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAzvWajdrecUWIokjb3rcl7rA07LeV3QQU",
@@ -21,16 +22,15 @@ firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 
-export function addUser(){
-db.collection("users").add({
-  first: "Ada",
-  last: "Lovelace",
-  born: 1815
+export function addUser(email){
+db.collection("users").doc(email).set({
+  email: email,
+  favorites: [],
 })
-.then(function(docRef) {
-  console.log("Document written with ID: ", docRef.id);
-})
-.catch(function(error) {
-  console.error("Error adding document: ", error);
-});
+}
+
+export function updateLike(user,radio){
+  db.collection("users").doc(user.email).update({
+    favorites:firebase.firestore.FieldValue.arrayUnion(radio)
+  })
 }

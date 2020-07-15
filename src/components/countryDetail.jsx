@@ -10,15 +10,16 @@ import _ from "lodash";
 import { getCountry } from "../services/countryService";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
-import AgeWheel from "./sortByAge/ageWheel";
+import CountryCloud from "./tagCloud";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import { updateLike } from "../services/firebase";
 
-class AgeDetail extends Component {
+class CountryDetail extends Component {
   state = {
     radios: [],
     country: [],
+    currentCountry: "",
     currentPlay: {
       i: "12222",
       n: "welcome to Radiooo",
@@ -39,30 +40,39 @@ class AgeDetail extends Component {
     this.audio = React.createRef();
   }
   async componentDidMount() {
-    const { data: radios } = await getRadios("ALL", "0", "ALL");
-    this.setState({ radios: radios.results });
+    const { data: radios } = await getRadios(
+      this.props.match.params.country,
+      "0",
+      "ALL"
+    );
+    this.setState({
+      radios: radios.results,
+      match: this.props.match.params.country,
+    });
 
-    if (this.props.match.params.hasOwnProperty("genre")) {
-      const { data: radios } = await getRadios(
-        "ALL",
-        "0",
-        this.props.match.params.genre
-      );
-      this.setState({
-        radios: radios.results,
-        match: this.props.match.params.genre,
-      });
-    }
+    const { data: country } = await getCountry();
+    this.setState({ country: country.results });
+    this.replaceCountry();
   }
-
+  replaceCountry = () => {
+    const radios = [...this.state.radios];
+    const currentCountry = this.state.country.filter(item=> item.code===radios[0].c)[0];
+    radios.map((radio) => {
+        if (currentCountry.code === radio.c) {
+          radio.cl = currentCountry.name;
+        }
+      return null;
+    });
+    this.setState({ radios, currentCountry: currentCountry.name });
+  };
   handleLike = (radio) => {
     const radios = [...this.state.radios];
     const index = radios.indexOf(radio);
     radios[index] = { ...radios[index] };
     radios[index].liked = !radios[index].liked;
     this.setState({ radios });
-    const user = auth.getCurrentUser();
-    updateLike(user, radio);
+    const user=auth.getCurrentUser();
+    updateLike(user,radio);
   };
   handlePlay = (radio) => {
     const radios = [...this.state.radios];
@@ -153,18 +163,19 @@ class AgeDetail extends Component {
       searchQuery,
       currentPlay,
       position,
+      currentCountry,
+      country,
     } = this.state;
     //const { user } = this.props;
 
     //if (count === 0) return <p>There are no radios in the database</p>;
 
     const { totalCount, radios } = this.getPagedData();
-    const { genre } = this.props.match.params;
     return (
       <React.Fragment>
         <div className="discover" style={position}>
           <div className="radio-header">
-            <Link to="/shop/genre">
+            <Link to="/shop/country">
               <div className="history-control clickable">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
                 <span> Back</span>
@@ -183,9 +194,9 @@ class AgeDetail extends Component {
               }
             />
           </div>
-          <AgeWheel id={genre} />
+          <CountryCloud country={country} />
           <div className="radio-body">
-            <h1>{genre === "1" ? "00s" : (2 + Number(genre)) * 10 + "s"}</h1>
+            <h1>{currentCountry ? currentCountry : "Country"}</h1>
             <p>We got {totalCount} radios for you.</p>
             <RadiosTable
               radios={radios}
@@ -204,10 +215,10 @@ class AgeDetail extends Component {
             />
           </div>
         </div>
-        {/* <Radios currentPlay={currentPlay} /> */}
+        {/* <Radios currentPlay={currentPlay} onPlay={this.handleSimplePlay}/> */}
       </React.Fragment>
     );
   }
 }
 
-export default AgeDetail;
+export default CountryDetail;

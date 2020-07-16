@@ -25,7 +25,7 @@ main {
   overflow: hidden;
 }
 tbody tr:hover {
-  background-color: rgb(235, 218, 188);
+  background-color: rgba(240, 229, 210, 0.753);
 }
 
 .control-button {
@@ -297,7 +297,7 @@ code {
   left: 0;
   right: 1vh;
   margin: 0 auto;
-  z-index: 20;
+  z-index: 10;
 }
 
 .btn-log{

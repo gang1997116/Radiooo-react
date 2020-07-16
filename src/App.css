@@ -31,7 +31,7 @@
   transition: clip-path 1s ease-in;
 }
 .fade-exit {
-  opacity: 0;
+  opacity: 1;
 }
 .fade-exit-active {
   opacity: 0;

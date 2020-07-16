@@ -9,7 +9,7 @@ import soundMute from "../../img/sound-mute.svg";
 import Like from "../like";
 import SoundControl from "./soundcontrol";
 import RadioModel from "../radio-model";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { addUser } from '../../services/firebase';
 import auth from '../../services/authService';
 
@@ -53,9 +53,9 @@ function PlayControl({ data, onPlay, onClick }) {
         location.pathname === "/shop" ||
         location.pathname === "/shop/") && <RadioModel sound={value} />}
       <div className="bar">
-        <div className="radio-logo" onClick={onClick}>
+        <Link to="/"><div className="radio-logo">
           <img src={imgUrl + data.l} alt="" />
-        </div>
+        </div></Link>
 
         <div className="radio-title">{data.n}</div>
         <div className="controls">

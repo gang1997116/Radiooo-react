@@ -39,9 +39,9 @@ class App extends Component {
       .doc("gang@163.com")
       .onSnapshot((doc) => {
         this.setState({ likeList: doc.data().favorites });
-        console.log(this.state.likeList);
       });
   }
+  
   handlePlay = (radio) => {
     radio.isPlaying = true;
     this.setState({ currentPlay: radio });
@@ -72,7 +72,7 @@ class App extends Component {
     }
   };
   render() {
-    const { user, currentPlay, likeList } = this.state;
+    const { user, currentPlay } = this.state;
 
     return (
       <Router>

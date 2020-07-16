@@ -14,6 +14,8 @@ import AgeWheel from "./sortByAge/ageWheel";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import { updateLike } from "../services/firebase";
+import Loader from 'react-loader-spinner'
+import { Controls, PlayState, Tween } from 'react-gsap';
 
 class AgeDetail extends Component {
   state = {
@@ -32,13 +34,16 @@ class AgeDetail extends Component {
     selectedGenre: null,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
-    position: { left: 0 },
+    isLoaded:false,
+    showLoader:false,
   };
   constructor(props) {
     super(props);
     this.audio = React.createRef();
   }
   async componentDidMount() {
+    setTimeout(() => this.setState({ showLoader: true }), 200);
+    setTimeout(() => this.setState({ isLoaded: true }), 2000);
     const { data: radios } = await getRadios("ALL", "0", "ALL");
     this.setState({ radios: radios.results });
 
@@ -143,7 +148,8 @@ class AgeDetail extends Component {
       currentPage,
       sortColumn,
       searchQuery,
-      position,
+      isLoaded,
+      showLoader
     } = this.state;
     const { currentPlay } = this.props;
 
@@ -153,7 +159,23 @@ class AgeDetail extends Component {
     const { genre } = this.props.match.params;
     return (
       <React.Fragment>
-        <div className="discover" style={position}>
+       <Loader
+            type="Puff"
+            color="#ddc49f"
+            height={100}
+            width={100}
+            timeout={2000} //1 secs
+            style={{
+              position: "absolute",
+              top: "calc(45vh - 50px)",
+              bottom: "0",
+              left: "calc(50vw - 55px)",
+            }}
+            visible={showLoader}
+          />
+        {isLoaded&&
+         <Tween from={{opacity:"0"}} to={{ opacity:"1" }} duration={1} ease="back.out(1.7)">
+        <div className="discover">
           <div className="radio-header">
             <Link to="/shop/genre">
               <div className="history-control clickable">
@@ -195,6 +217,8 @@ class AgeDetail extends Component {
             />
           </div>
         </div>
+        </Tween>
+        }
         {/* <Radios currentPlay={currentPlay} /> */}
       </React.Fragment>
     );

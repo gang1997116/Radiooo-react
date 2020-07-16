@@ -14,6 +14,8 @@ import CountryCloud from "./tagCloud";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import { updateLike } from "../services/firebase";
+import Loader from "react-loader-spinner";
+import { Controls, PlayState, Tween } from "react-gsap";
 
 class CountryDetail extends Component {
   state = {
@@ -33,13 +35,15 @@ class CountryDetail extends Component {
     selectedGenre: null,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
-    position: { left: 0 },
+    isLoaded: false,
   };
   constructor(props) {
     super(props);
     this.audio = React.createRef();
   }
   async componentDidMount() {
+    setTimeout(() => this.setState({ isLoaded: true }), 2000);
+
     const { data: radios } = await getRadios(
       this.props.match.params.country,
       "0",
@@ -54,10 +58,10 @@ class CountryDetail extends Component {
     this.setState({ country: country.results });
     this.replaceCountry();
   }
-  componentDidUpdate(prevProps){
-    if(prevProps.currentPlay.i!==this.props.currentPlay.i){
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentPlay.i !== this.props.currentPlay.i) {
       const radios = [...this.state.radios];
-      const radio=this.props.currentPlay;
+      const radio = this.props.currentPlay;
       for (let item of radios) {
         if (item.i === radio.i) {
           item.isPlaying = radio.isPlaying;
@@ -65,7 +69,7 @@ class CountryDetail extends Component {
           item.isPlaying = false;
         }
       }
-      this.setState({radios});
+      this.setState({ radios });
     }
   }
   replaceCountry = () => {
@@ -90,7 +94,7 @@ class CountryDetail extends Component {
     const user = auth.getCurrentUser();
     updateLike(user, radio);
   };
-  
+
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -141,60 +145,87 @@ class CountryDetail extends Component {
       currentPage,
       sortColumn,
       searchQuery,
-      position,
       currentCountry,
       country,
+      isLoaded,
     } = this.state;
 
     const { currentPlay } = this.props;
-    //const { user } = this.props;
-
-    //if (count === 0) return <p>There are no radios in the database</p>;
 
     const { totalCount, radios } = this.getPagedData();
     return (
       <React.Fragment>
-        <div className="discover" style={position}>
-          <div className="radio-header">
-            <Link to="/shop/country">
-              <div className="history-control clickable">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-                <span> Back</span>
+        <div>
+          <Loader
+            type="Puff"
+            color="#ddc49f"
+            height={100}
+            width={100}
+            timeout={2000} //1 secs
+            style={{
+              position: "absolute",
+              top: "calc(45vh - 50px)",
+              bottom: "0",
+              left: "calc(50vw - 55px)",
+            }}
+          />
+          {isLoaded && (
+            <Tween
+              from={{ opacity: "0" }}
+              to={{ opacity: "1" }}
+              duration={1}
+              ease="back.out(1.7)"
+            >
+              <div className="discover">
+                <div className="radio-header">
+                  <Link to="/shop/country">
+                    <div className="history-control clickable">
+                      <i
+                        className="fa fa-chevron-circle-left"
+                        aria-hidden="true"
+                      ></i>
+                      <span> Back</span>
+                    </div>
+                  </Link>
+                  <InputBase
+                    className="form-search"
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => this.handleSearch(e.currentTarget.value)}
+                    startAdornment={
+                      <InputAdornment
+                        position="start"
+                        style={{ color: "grey" }}
+                      >
+                        <i className="fa fa-search" aria-hidden="true"></i>
+                      </InputAdornment>
+                    }
+                  />
+                </div>
+                <CountryCloud country={country} />
+                <div className="radio-body">
+                  <h1>{currentCountry ? currentCountry : "Country"}</h1>
+                  <p>We got {totalCount} radios for you.</p>
+                  <RadiosTable
+                    radios={radios}
+                    sortColumn={sortColumn}
+                    onLike={this.handleLike}
+                    onDelete={this.handleDelete}
+                    onSort={this.handleSort}
+                    onPlay={this.props.onPlay}
+                    isPlaying={currentPlay.isPlaying}
+                  />
+                  <Pagination
+                    itemsCount={totalCount}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={this.handlePagechange}
+                  />
+                </div>
               </div>
-            </Link>
-            <InputBase
-              className="form-search"
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => this.handleSearch(e.currentTarget.value)}
-              startAdornment={
-                <InputAdornment position="start" style={{ color: "grey" }}>
-                  <i className="fa fa-search" aria-hidden="true"></i>
-                </InputAdornment>
-              }
-            />
-          </div>
-          <CountryCloud country={country} />
-          <div className="radio-body">
-            <h1>{currentCountry ? currentCountry : "Country"}</h1>
-            <p>We got {totalCount} radios for you.</p>
-            <RadiosTable
-              radios={radios}
-              sortColumn={sortColumn}
-              onLike={this.handleLike}
-              onDelete={this.handleDelete}
-              onSort={this.handleSort}
-              onPlay={this.props.onPlay}
-              isPlaying={currentPlay.isPlaying}
-            />
-            <Pagination
-              itemsCount={totalCount}
-              pageSize={pageSize}
-              currentPage={currentPage}
-              onPageChange={this.handlePagechange}
-            />
-          </div>
+            </Tween>
+          )}
         </div>
         {/* <Radios currentPlay={currentPlay} onPlay={this.handleSimplePlay}/> */}
       </React.Fragment>

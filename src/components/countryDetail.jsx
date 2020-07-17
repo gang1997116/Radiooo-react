@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import { updateLike } from "../services/firebase";
 import Loader from "react-loader-spinner";
-import { Controls, PlayState, Tween } from "react-gsap";
+import {Tween } from "react-gsap";
 
 class CountryDetail extends Component {
   state = {

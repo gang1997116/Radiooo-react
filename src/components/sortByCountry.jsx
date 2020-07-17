@@ -61,6 +61,7 @@ class SortByCountry extends Component {
                 if (i === 0) {
                   return <h1 style={{ color: "#83580b",fontSize:"9vh",fontFamily:"Monoton",textAlign:"center",paddingTop:"1vh"}}> {c.name[0]} </h1>;
                 }
+                return null;
               })}
             </div>
             <div className="col-8">

@@ -56,7 +56,6 @@ function PlayControl({ data, onPlay, onClick }) {
         <Link to="/"><div className="radio-logo">
           <img src={imgUrl + data.l} alt="" />
         </div></Link>
-
         <div className="radio-title">{data.n}</div>
         <div className="controls">
           <div className="like">

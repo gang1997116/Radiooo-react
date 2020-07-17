@@ -34,7 +34,8 @@ const Menu = ({ isOpen, onClick }) => {
     } else {
       setState(PlayState.stop);
     }
-  }, [isOpen]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[isOpen]);
   return (
     <React.Fragment>
       <div className="menu-panel" style={isOpen ? style.open : style.close}>

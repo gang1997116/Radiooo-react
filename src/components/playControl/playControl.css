@@ -7,7 +7,7 @@
   z-index: 100;
 }
 .radio-logo {
-  position: relative;
+  position: absolute;
   height: 7vh;
   width: 7vh;
   top: 1.5vh;

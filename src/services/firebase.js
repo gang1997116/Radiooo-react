@@ -21,16 +21,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export var db = firebase.firestore();
-
+var getUser=db.collection("users");
 export function addUser(email){
-db.collection("users").doc(email).set({
+  getUser.doc(email).set({
   email: email,
   favorites: [],
 })
 }
 
 export function updateLike(user,radio){
-  db.collection("users").doc(user.email).update({
+  getUser.doc(user.email).update({
     favorites:firebase.firestore.FieldValue.arrayUnion(radio)
   })
+}
+export function removeLike(user,radios){
+
+  getUser.doc(user.email).update({
+    favorites:radios
+  });
 }

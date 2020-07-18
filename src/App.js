@@ -16,7 +16,7 @@ import Logout from "./components/logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "./services/authService";
-import { db } from "./services/firebase";
+
 import SortByAge from "./components/sortByAge/sortByAge";
 import AgeDetail from "./components/ageDetail";
 import SortByCountry from "./components/sortByCountry";
@@ -35,11 +35,7 @@ class App extends Component {
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
-    db.collection("users")
-      .doc("gang@163.com")
-      .onSnapshot((doc) => {
-        this.setState({ likeList: doc.data().favorites });
-      });
+    
   }
   
   handlePlay = (radio) => {

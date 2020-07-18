@@ -12,18 +12,18 @@ import RadioModel from "../radio-model";
 import { useLocation, Link } from "react-router-dom";
 import { addUser } from '../../services/firebase';
 import auth from '../../services/authService';
+import Playlist from "../playlist";
 
 function PlayControl({ data, onPlay, onClick }) {
   const [like, setLike] = useState(false);
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);
   const [soundStyle, setSound] = useState(sound);
+  const [display,setDisplay]=useState('none');
   let location = useLocation();
   const imgUrl = "https://www.radioair.info/images_radios/";
   const handleLike = () => {
     setLike(!like);
-    const user = auth.getCurrentUser();
-    addUser(user.email);
   };
   const handleMute = () => {
     const audio = document.getElementById("audioplayer");
@@ -47,11 +47,19 @@ function PlayControl({ data, onPlay, onClick }) {
       setSound(sound);
     }
   };
+ const handleHide = () => {
+    if (display === "none") {
+      setDisplay("block");
+    } else {
+      setDisplay("none");
+    }
+  };
   return (
     <React.Fragment>
       {(location.pathname === "/" ||
         location.pathname === "/shop" ||
         location.pathname === "/shop/") && <RadioModel sound={value} />}
+      <Playlist currentPlay={data} onPlay={onPlay}  display={display}/>
       <div className="bar">
         <Link to="/"><div className="radio-logo">
           <img src={imgUrl + data.l} alt="" />
@@ -72,9 +80,8 @@ function PlayControl({ data, onPlay, onClick }) {
           <img src={next} className="next" alt="" />
           <img src={soundStyle} className="sound" onClick={handleMute} alt="" />
         </div>
-        <SoundControl mute={mute} value={value} onChange={handleChange} />
-        <img src={list} className="list" alt="" />
-        
+        <SoundControl mute={mute} value={value} onChange={handleChange}/>
+        <img src={list} className="list clickable" alt="" onClick={handleHide}/>
       </div>
     </React.Fragment>
   );

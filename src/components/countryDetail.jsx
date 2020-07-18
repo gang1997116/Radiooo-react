@@ -92,6 +92,7 @@ class CountryDetail extends Component {
     radios[index].liked = !radios[index].liked;
     this.setState({ radios });
     const user = auth.getCurrentUser();
+    radio.liked=!radio.liked;
     updateLike(user, radio);
   };
 

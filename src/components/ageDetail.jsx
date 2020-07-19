@@ -13,7 +13,7 @@ import InputBase from "@material-ui/core/InputBase";
 import AgeWheel from "./sortByAge/ageWheel";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
-import { updateLike } from "../services/firebase";
+import { updateLike,removeLike } from "../services/firebase";
 import Loader from 'react-loader-spinner'
 import { Tween } from 'react-gsap';
 
@@ -37,10 +37,7 @@ class AgeDetail extends Component {
     isLoaded:false,
     showLoader:false,
   };
-  constructor(props) {
-    super(props);
-    this.audio = React.createRef();
-  }
+
   async componentDidMount() {
     setTimeout(() => this.setState({ showLoader: true }), 200);
     setTimeout(() => this.setState({ isLoaded: true }), 2000);
@@ -60,7 +57,6 @@ class AgeDetail extends Component {
     }
     const { data: country } = await getCountry();
     this.setState({ country: country.results });
-    this.replaceCountry();
   }
   componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.i !== this.props.currentPlay.i) {
@@ -76,27 +72,16 @@ class AgeDetail extends Component {
       this.setState({ radios });
     }
   }
-  replaceCountry = () => {
-    const radios = [...this.state.radios];
-    radios.map((radio) => {
-      for (let item of this.state.country) {
-        if (item.code === radio.c) {
-          radio.cl = item.name;
-        }
-      }
-      return null;
-    });
-    this.setState({ radios });
-  };
+
   handleLike = (radio) => {
-    const radios = [...this.state.radios];
-    const index = radios.indexOf(radio);
-    radios[index] = { ...radios[index] };
-    radios[index].liked = !radios[index].liked;
-    this.setState({ radios });
     const user = auth.getCurrentUser();
     radio.liked=!radio.liked;
-    updateLike(user, radio);
+    const favorites = [...this.props.favorites];
+    if (radio.liked === true) {
+      updateLike(user, radio);
+    } else {
+      removeLike(user,favorites,radio);
+    }
   };
 
   handlePagechange = (page) => {
@@ -111,12 +96,25 @@ class AgeDetail extends Component {
   handleSearch = (query) => {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
-  handleHide = () => {
-    if (this.state.position.left === 0) {
-      this.setState({ position: { left: "-35vw" } });
-    } else {
-      this.setState({ position: { left: 0 } });
-    }
+
+  replaceCountry = (radios) => {
+    radios.map((radio) => {
+      for (let item of this.state.country) {
+        if (item.code === radio.c) {
+          radio.cl = item.name;
+        }
+      }
+      return null;
+    });
+  };
+  replaceFavorite = (radios) => {
+    radios.map((radio) => {
+      radio.liked = false;
+      if (this.props.favorites.some((item) => item.i === radio.i)) {
+        radio.liked = true;
+      }
+      return null;
+    });
   };
   getPagedData = () => {
     const {
@@ -139,6 +137,10 @@ class AgeDetail extends Component {
 
     const radios = paginate(sorted, currentPage, pageSize);
 
+    this.replaceCountry(radios);
+
+    this.replaceFavorite(radios);
+    
     return { totalCount: filtered.length, radios: radios };
   };
 
@@ -180,7 +182,7 @@ class AgeDetail extends Component {
           <div className="radio-header">
             <Link to="/shop/genre">
               <div className="history-control clickable">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                <i className="fa fa-chevron-circle-left" aria-hidden="true"></i>
                 <span> Back</span>
               </div>
             </Link>

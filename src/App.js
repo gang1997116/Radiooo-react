@@ -22,6 +22,8 @@ import AgeDetail from "./components/ageDetail";
 import SortByCountry from "./components/sortByCountry";
 import "./App.css";
 import CountryDetail from "./components/countryDetail";
+import { db,updateHistory } from "./services/firebase";
+import About from './components/about';
 
 class App extends Component {
   state = {
@@ -31,17 +33,23 @@ class App extends Component {
       l: "1-world-radio.jpg",
       u: "http://64.37.50.226:8030/stream/",
     },
+    favorites:[],
   };
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
-    
+    db.collection("users")
+    .doc("gang@163.com")
+    .onSnapshot((doc) => {
+      this.setState({ favorites: doc.data().favorites||[] });
+    });
   }
   
   handlePlay = (radio) => {
     radio.isPlaying = true;
     this.setState({ currentPlay: radio });
     this.playAudio();
+    updateHistory(this.state.user,radio);
   };
   handleSimplePlay = () => {
     let currentPlay = { ...this.state.currentPlay };
@@ -68,7 +76,7 @@ class App extends Component {
     }
   };
   render() {
-    const { user, currentPlay } = this.state;
+    const { user, currentPlay,favorites } = this.state;
 
     return (
       <Router>
@@ -105,6 +113,7 @@ class App extends Component {
                           onPlay={this.handlePlay}
                           user={user}
                           currentPlay={currentPlay}
+                          favorites={favorites}
                         />
                       )}
                     />
@@ -121,10 +130,12 @@ class App extends Component {
                           onPlay={this.handlePlay}
                           user={user}
                           currentPlay={currentPlay}
+                          favorites={favorites}
                         />
                       )}
                     />
                     <Route path="/shop/age" exact component={SortByAge} />
+                    <Route path="/shop/about" exact component={About} />
                     <Route path="/login" component={LoginForm} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/register" component={RegisterForm} />

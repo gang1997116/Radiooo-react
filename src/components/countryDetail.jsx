@@ -2,20 +2,17 @@ import React, { Component } from "react";
 import { getRadios } from "../services/radioService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
-//import ListGroup from "./listGroup";
 import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
-//import { Link } from "react-router-dom";
-//import { toast } from "react-toastify";
 import { getCountry } from "../services/countryService";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import CountryCloud from "./tagCloud";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
-import { updateLike } from "../services/firebase";
 import Loader from "react-loader-spinner";
-import {Tween } from "react-gsap";
+import { Tween } from "react-gsap";
+import { updateLike, removeLike } from "../services/firebase";
 
 class CountryDetail extends Component {
   state = {
@@ -56,7 +53,6 @@ class CountryDetail extends Component {
 
     const { data: country } = await getCountry();
     this.setState({ country: country.results });
-    this.replaceCountry();
   }
   componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.i !== this.props.currentPlay.i) {
@@ -72,28 +68,17 @@ class CountryDetail extends Component {
       this.setState({ radios });
     }
   }
-  replaceCountry = () => {
-    const radios = [...this.state.radios];
-    const currentCountry = this.state.country.filter(
-      (item) => item.code === radios[0].c
-    )[0];
-    radios.map((radio) => {
-      if (currentCountry.code === radio.c) {
-        radio.cl = currentCountry.name;
-      }
-      return null;
-    });
-    this.setState({ radios, currentCountry: currentCountry.name });
-  };
+
   handleLike = (radio) => {
-    const radios = [...this.state.radios];
-    const index = radios.indexOf(radio);
-    radios[index] = { ...radios[index] };
-    radios[index].liked = !radios[index].liked;
-    this.setState({ radios });
     const user = auth.getCurrentUser();
-    radio.liked=!radio.liked;
-    updateLike(user, radio);
+    if(user===null){alert("You need to log in first!"); return null;}
+    radio.liked = !radio.liked;
+    const favorites = [...this.props.favorites];
+    if (radio.liked === true) {
+      updateLike(user, radio);
+    } else {
+      removeLike(user,favorites,radio);
+    }
   };
 
   handlePagechange = (page) => {
@@ -108,12 +93,25 @@ class CountryDetail extends Component {
   handleSearch = (query) => {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
-  handleHide = () => {
-    if (this.state.position.left === 0) {
-      this.setState({ position: { left: "-35vw" } });
-    } else {
-      this.setState({ position: { left: 0 } });
-    }
+
+  replaceCountry = (radios) => {
+    radios.map((radio) => {
+      for (let item of this.state.country) {
+        if (item.code === radio.c) {
+          radio.cl = item.name;
+        }
+      }
+      return null;
+    });
+  };
+  replaceFavorite = (radios) => {
+    radios.map((radio) => {
+      radio.liked = false;
+      if (this.props.favorites.some((item) => item.i === radio.i)) {
+        radio.liked = true;
+      }
+      return null;
+    });
   };
   getPagedData = () => {
     const {
@@ -135,6 +133,10 @@ class CountryDetail extends Component {
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const radios = paginate(sorted, currentPage, pageSize);
+
+    this.replaceCountry(radios);
+
+    this.replaceFavorite(radios);
 
     return { totalCount: filtered.length, radios: radios };
   };

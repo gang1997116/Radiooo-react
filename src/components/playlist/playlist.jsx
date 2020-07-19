@@ -1,38 +1,36 @@
 import React, { Component } from "react";
-import Pagination from "./pagination";
-import { paginate } from "../utils/paginate";
-import RadiosTable from "./radiotable/radiosTable";
+import Pagination from "../pagination";
+import { paginate } from "../../utils/paginate";
+import RadiosTable from "../radiotable/radiosTable";
 import _ from "lodash";
-import auth from "../services/authService";
-import { updateLike, removeLike } from "../services/firebase";
-import styled from "styled-components";
-import { db } from "../services/firebase";
+import auth from "../../services/authService";
+import { updateLike, removeLike } from "../../services/firebase";
+import { db } from "../../services/firebase";
+import SwitchButton from "./switchButton";
 
 
 class Playlist extends Component {
   state = {
     radios: [],
-    country: [],
-    currentCountry: "",
-    currentPlay: {
-      i: "12222",
-      n: "welcome to Radiooo",
-      l: "1-world-radio.jpg",
-      u: "http://64.37.50.226:8030/stream/",
-    },
-    match: "",
-    pageSize: 8,
+    pageSize: 6,
     searchQuery: "",
     selectedGenre: null,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
+    buttonState:true,
+    history:[],
   };
 
   componentDidMount() {
-    db.collection("users")
+      db.collection("users")
       .doc("gang@163.com")
       .onSnapshot((doc) => {
-        this.setState({ radios: doc.data().favorites });
+        this.setState({ radios: doc.data().favorites ||[]});
+      });
+      db.collection("users")
+      .doc("gang@163.com")
+      .onSnapshot((doc) => {
+        this.setState({ history: doc.data().history ||[]});
       });
   }
   componentDidUpdate(prevProps) {
@@ -52,20 +50,20 @@ class Playlist extends Component {
 
   handleLike = (radio) => {
     const radios = [...this.state.radios];
-    const index = radios.indexOf(radio);
-    radios[index] = { ...radios[index] };
-    radios.splice(index,1);
-    this.setState({ radios });
     const user = auth.getCurrentUser();
     radio.liked=!radio.liked;
     if(radio.liked===true){
         updateLike(user, radio);
     }
     else{
-        removeLike(user,radios);
+        removeLike(user,radios,radio);
     }
   };
-
+handleSwitch=()=>{
+  const {buttonState}=this.state;
+  this.setState({buttonState:!buttonState});
+  this.forceUpdate();
+}
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -75,7 +73,15 @@ class Playlist extends Component {
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
-  
+  replaceFavorite = (radios) => {
+    radios.map((radio) => {
+      radio.liked = false;
+      if (this.state.radios.some((item) => item.i === radio.i)) {
+        radio.liked = true;
+      }
+      return null;
+    });
+  };
   getPagedData = () => {
     const {
       radios: allradios,
@@ -84,8 +90,10 @@ class Playlist extends Component {
       currentPage,
       sortColumn,
       searchQuery,
+      history,
+      buttonState,
     } = this.state;
-    let filtered = allradios;
+    let filtered = buttonState?allradios:history;
     if (searchQuery)
       filtered = allradios.filter(
         (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
@@ -96,34 +104,25 @@ class Playlist extends Component {
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const radios = paginate(sorted, currentPage, pageSize);
-
+    if(!buttonState){
+      this.replaceFavorite(radios);
+    }
     return { totalCount: filtered.length, radios: radios };
   };
 
   render() {
     //const { length: count } = this.state.radios;
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn,buttonState} = this.state;
 
-    const { currentPlay } = this.props;
+    const { currentPlay,display } = this.props;
 
     const { totalCount, radios } = this.getPagedData();
-    const Playlist = styled.div`
-      width: 32vw;
-      height: 90vh;
-      position: absolute;
-      background-color: #fffdf6;
-      z-index: 100;
-      right: 0;
-      bottom: 10vh;
-      padding: 0 10px;
-      padding-top: 10vh;
-      box-shadow: -1px -1px 10px grey;
-      display: ${(props) => props.display};
-    `;
+
 
     return (
       <React.Fragment>
-        <Playlist display={this.props.display}>
+        <div className="playlist" style={{display:`${display}`}}>
+        <SwitchButton state={buttonState} onClick={this.handleSwitch}/>
           <RadiosTable
             radios={radios}
             sortColumn={sortColumn}
@@ -132,7 +131,6 @@ class Playlist extends Component {
             onSort={this.handleSort}
             onPlay={this.props.onPlay}
             isPlaying={currentPlay.isPlaying}
-            isPlaylist={true}
           />
           <Pagination
             itemsCount={totalCount}
@@ -140,7 +138,7 @@ class Playlist extends Component {
             currentPage={currentPage}
             onPageChange={this.handlePagechange}
           />
-        </Playlist>
+        </div>
         
       </React.Fragment>
     );

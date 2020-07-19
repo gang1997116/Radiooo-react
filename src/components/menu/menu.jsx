@@ -23,7 +23,7 @@ const route = [
   { label: "Search", link: "" },
 ];
 const smallRoute = [
-  { label: "About", link: "", style: { fontSize: "1.9vw" } },
+  { label: "About", link: "about", style: { fontSize: "1.9vw" } },
   { label: "Contact", link: "", style: { fontSize: "1.9vw" } },
 ];
 const Menu = ({ isOpen, onClick }) => {
@@ -34,8 +34,8 @@ const Menu = ({ isOpen, onClick }) => {
     } else {
       setState(PlayState.stop);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[isOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
   return (
     <React.Fragment>
       <div className="menu-panel" style={isOpen ? style.open : style.close}>

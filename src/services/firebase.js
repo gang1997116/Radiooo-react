@@ -34,9 +34,18 @@ export function updateLike(user,radio){
     favorites:firebase.firestore.FieldValue.arrayUnion(radio)
   })
 }
-export function removeLike(user,radios){
-
+export function removeLike(user,favorites,radio){
+  let temp=favorites.filter((item)=>item.i!==radio.i);
   getUser.doc(user.email).update({
-    favorites:radios
+    favorites:temp
   });
 }
+
+export function updateHistory(user,radio){
+  let temp={...radio};
+  temp.isPlaying=false;
+  getUser.doc(user.email).update({
+    history:firebase.firestore.FieldValue.arrayUnion(temp)
+  })
+}
+

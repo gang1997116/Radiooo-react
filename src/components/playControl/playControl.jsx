@@ -10,11 +10,9 @@ import Like from "../like";
 import SoundControl from "./soundcontrol";
 import RadioModel from "../radio-model";
 import { useLocation, Link } from "react-router-dom";
-import { addUser } from '../../services/firebase';
-import auth from '../../services/authService';
-import Playlist from "../playlist";
+import Playlist from "../playlist/playlist";
 
-function PlayControl({ data, onPlay, onClick }) {
+function PlayControl({ data, onPlay }) {
   const [like, setLike] = useState(false);
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);

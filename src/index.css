@@ -397,3 +397,27 @@ a:hover{
   font-size: 35vh;
   font-weight: 600;
 }
+.sidebutton{
+  width: 13vh;
+  height: 5vh;
+  border: 1px solid #ddc49f;
+  background-color: #ddc49f;
+  border-radius: 2.5vw;
+  position: absolute;
+  top:0;
+  margin: -1px;
+  left:0;
+  transition: left 0.2s linear;
+}
+.playlist{
+  width: 32vw;
+      height: 90vh;
+      position: absolute;
+      background-color: #fffdf6;
+      z-index: 100;
+      right: 0;
+      bottom: 10vh;
+      padding: 0 10px;
+      padding-top: 12vh;
+      box-shadow: -1px -1px 10px grey;
+}

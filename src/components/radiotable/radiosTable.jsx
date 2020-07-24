@@ -10,9 +10,9 @@ import { Link } from "react-router-dom";
 
 class MoviesTable extends Component {
   columns = [
-    { path: "n", label: "Title", content: radio=><span>{radio.n}</span> },
-    { path: "g", label: "Genre",content: radio=><Link to={`/shop/genre/${radio.d}`} >{radio.g}</Link> },
-    { path: "c", label: "Country",content: radio=><Link to={`/shop/country/${radio.c}`}>{radio.cl}</Link> },
+    { path: "name", label: "Title", content: radio=><span>{radio.name}</span> },
+    { path: "genre", label: "Genre",content: radio=><Link to={`/shop/genre/${radio.genre}`} >{radio.genre}</Link> },
+    { path: "lc", label: "Listeners",content: radio=><span>{radio.lc}</span> },
     {
       key: "like",
       content: (radio) => (

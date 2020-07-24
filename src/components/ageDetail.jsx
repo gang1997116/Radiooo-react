@@ -14,8 +14,9 @@ import AgeWheel from "./sortByAge/ageWheel";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import { updateLike,removeLike } from "../services/firebase";
-import Loader from 'react-loader-spinner'
 import { Tween } from 'react-gsap';
+import LogoLoader from "./logoLoader";
+import { getStations } from "../services/genreService";
 
 class AgeDetail extends Component {
   state = {
@@ -35,26 +36,16 @@ class AgeDetail extends Component {
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
     isLoaded:false,
-    showLoader:false,
   };
 
   async componentDidMount() {
-    setTimeout(() => this.setState({ showLoader: true }), 200);
-    setTimeout(() => this.setState({ isLoaded: true }), 2000);
-    const { data: radios } = await getRadios("ALL", "0", "ALL");
-    this.setState({ radios: radios.results });
-
-    if (this.props.match.params.hasOwnProperty("genre")) {
-      const { data: radios } = await getRadios(
-        "ALL",
-        "0",
-        this.props.match.params.genre
-      );
+    setTimeout(() => this.setState({ isLoaded: true }), 2300);
+      const radios = await getStations(this.props.match.params.genre);
+      console.log(radios);
       this.setState({
-        radios: radios.results,
+        radios: radios,
         match: this.props.match.params.genre,
       });
-    }
     const { data: country } = await getCountry();
     this.setState({ country: country.results });
   }
@@ -152,7 +143,6 @@ class AgeDetail extends Component {
       sortColumn,
       searchQuery,
       isLoaded,
-      showLoader
     } = this.state;
     const { currentPlay } = this.props;
 
@@ -162,20 +152,8 @@ class AgeDetail extends Component {
     const { genre } = this.props.match.params;
     return (
       <React.Fragment>
-       <Loader
-            type="Puff"
-            color="#ddc49f"
-            height={100}
-            width={100}
-            timeout={2000} //1 secs
-            style={{
-              position: "absolute",
-              top: "calc(45vh - 50px)",
-              bottom: "0",
-              left: "calc(50vw - 55px)",
-            }}
-            visible={showLoader}
-          />
+
+          <LogoLoader/>
         {isLoaded&&
          <Tween from={{opacity:"0"}} to={{ opacity:"1" }} duration={1} ease="back.out(1.7)">
         <div className="discover">
@@ -201,7 +179,7 @@ class AgeDetail extends Component {
           </div>
           <AgeWheel id={genre} />
           <div className="radio-body">
-            <h1>{genre === "1" ? "00s" : (2 + Number(genre)) * 10 + "s"}</h1>
+            <h1>{genre === "303" ? "00s" : (Number(genre)-210) * 10 + "s"}</h1>
             <p>We got {totalCount} radios for you.</p>
             <RadiosTable
               radios={radios}

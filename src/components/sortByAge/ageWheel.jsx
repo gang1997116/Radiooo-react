@@ -8,32 +8,32 @@ class AgeWheel extends Component {
         this.age=React.createRef();
     }
     componentDidMount() {
-        let scrollHeight=window.innerHeight/100*30;
-        if(this.props.id==="1")
+        let scrollHeight=window.innerHeight/90*30;
+        console.log(window.innerHeight)
+        if(this.props.id==="303")
         {
            scrollHeight=-100;      
         }
-        else if(this.props.id==="4"){
-            scrollHeight*=(8-this.props.id);
-            scrollHeight+=50;
-        }
         else{
-            scrollHeight*=(8-this.props.id);
+            scrollHeight*=(10-Number(this.props.id)+210);
+            
         }
-        this.age.current.scrollTop=scrollHeight+100;
+        this.age.current.scrollTop=scrollHeight+50;
+        console.log(this.props.id);
     }
     
     render() { 
         const {id}=this.props;
         return (
         <div className="age-wheel" ref={this.age}>
-            <Age label="00" id="1" match={id}/>
-            <Age label="90" id="7" match={id}/>
-            <Age label="80" id="6" match={id}/>
-            <Age label="70" id="5" match={id}/>
-            <Age label="60" id="4" match={id}/>
-            <Age label="50" id="3" match={id}/>
-            <Age label="40" id="2" match={id}/>
+            <Age label="00s" id="303" match={id}/>
+            <Age label="90s" id="219" match={id}/>
+            <Age label="80s" id="218" match={id}/>
+            <Age label="70s" id="217" match={id}/>
+            <Age label="60s" id="216" match={id}/>
+            <Age label="50s" id="215" match={id}/>
+            <Age label="40s" id="214" match={id}/>
+            <Age label="30s" id="213" match={id}/>
         </div>   );
     }
 }

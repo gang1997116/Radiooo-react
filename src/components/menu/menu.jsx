@@ -20,7 +20,7 @@ const route = [
   { label: "Home", link: "" },
   { label: "Ages", link: "age" },
   { label: "Countries", link: "country" },
-  { label: "Search", link: "" },
+  { label: "Search", link: "search" },
 ];
 const smallRoute = [
   { label: "About", link: "about", style: { fontSize: "1.9vw" } },

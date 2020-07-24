@@ -2,9 +2,9 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
 import * as userService from "../../services/userService";
-//import { addUser } from '../services/firebase';
 import auth from '../../services/authService';
 import {Link} from "react-router-dom";
+import {addUser} from '../../services/firebase';
 
 class RegisterForm extends Form {
   state = {
@@ -20,6 +20,7 @@ class RegisterForm extends Form {
 
   doSubmit = async () => {
     try{
+      addUser(this.state.data.username);
       const response= await userService.register(this.state.data);
       auth.loginWithJwt(response.headers['x-auth-token']);
       window.location='/shop';

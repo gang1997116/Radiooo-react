@@ -2,30 +2,35 @@ import React, { Component } from "react";
 import HorizontalScroll from "react-scroll-horizontal";
 import Age from "./age";
 import "./age.scss";
+import { getAgeGenres } from "../../services/genreService";
 
 class SortByAge extends Component {
-  state = {};
+  state = {
+    age:[],
+  };
+  async componentDidMount() {
+    const AgeGenres=await getAgeGenres();
+    this.setState({age:AgeGenres.slice(1)});
+  }
+  
   render() {
-    const parent = { width: `100%`, height: `35vh`, marginTop: "24vh" };
+    const parent = { width: `100%`, height: `35vh`, marginTop: "0vh" };
     return (
       <div className="content">
+        <div style={{width:"100%", position:"relative"}}>
         <div className="age-header">
-            <span className="number left">00s</span>
-          <div className="pre slash"></div>
+          <span className="number left">00s</span>
+          <div className="slash"></div>
           <h1>Ages</h1>
-          <div className="next slash"></div>
-          <span className="number right">40s</span>
+          <div className="slash"></div>
+          <span className="number right">30s</span>
         </div>
 
         <HorizontalScroll style={parent}>
-          <Age label="00" id="1" />
-          <Age label="90" id="7"/>
-          <Age label="80" id="6"/>
-          <Age label="70" id="5"/>
-          <Age label="60" id="4"/>
-          <Age label="50" id="3"/>
-          <Age label="40" id="2"/>
+          <Age label="00s" id="303" />
+          {this.state.age.reverse().map((age)=><Age key={age.id} label={age.name} id={age.id}/>)}
         </HorizontalScroll>
+      </div>
       </div>
     );
   }

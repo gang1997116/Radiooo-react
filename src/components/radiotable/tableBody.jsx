@@ -8,7 +8,7 @@ class TableBody extends Component {
   };
 
   createKey = (item, column) => {
-    return item.i + (column.path || column.key);
+    return item.id + (column.path || column.key);
   };
   render() {
     const { data, columns } = this.props;
@@ -16,7 +16,7 @@ class TableBody extends Component {
       <tbody>
         {data.map((item) => (
           <tr
-            key={item.i}
+            key={item.id}
             onDoubleClick={() => this.props.onPlay(item)}
             
           >

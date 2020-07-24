@@ -18,6 +18,7 @@ const GPagination = (props) => {
               count={pagesCount}
               onChange={handleChange}
               size="large"
+              style={{outline:"none"}}
             />
   );
 };

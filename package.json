@@ -24,6 +24,7 @@
     "lottie-web": "^5.7.0",
     "material-design-icons": "^3.0.1",
     "node-sass": "^4.14.1",
+    "playlist-parser": "0.0.12",
     "prop-types": "^15.7.2",
     "randomcolor": "^0.5.4",
     "react": "^16.13.1",
@@ -39,7 +40,8 @@
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
     "rn-vertical-slider": "^1.1.0",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "xml-js": "^1.6.11"
   },
   "scripts": {
     "start": "react-scripts start",

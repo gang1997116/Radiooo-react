@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Tween, SplitWords } from "react-gsap";
+import { Tween} from "react-gsap";
+import LogoLoader from "./logoLoader";
+
 
 
 
@@ -43,6 +45,7 @@ class About extends Component {
               </div>
             </Tween>
             </div>
+
           <div style={{ padding: "0 13vw",paddingTop:"calc(16vw + 5vh)", fontSize: "3vh" }}>
             <Tween
               from={{ y: "150px", opacity: "0" }}

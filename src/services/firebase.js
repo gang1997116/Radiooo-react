@@ -22,6 +22,7 @@ firebase.initializeApp(firebaseConfig);
 
 export var db = firebase.firestore();
 var getUser=db.collection("users");
+
 export function addUser(email){
   getUser.doc(email).set({
   email: email,
@@ -30,12 +31,17 @@ export function addUser(email){
 }
 
 export function updateLike(user,radio){
-  getUser.doc(user.email).update({
-    favorites:firebase.firestore.FieldValue.arrayUnion(radio)
+  let temp={...radio};
+  delete temp.u;
+  temp.isPlaying=false;
+  if(user){
+    getUser.doc(user.email).update({
+    favorites:firebase.firestore.FieldValue.arrayUnion(temp)
   })
+  }
 }
 export function removeLike(user,favorites,radio){
-  let temp=favorites.filter((item)=>item.i!==radio.i);
+  let temp=favorites.filter((item)=>item.id!==radio.id);
   getUser.doc(user.email).update({
     favorites:temp
   });
@@ -43,9 +49,13 @@ export function removeLike(user,favorites,radio){
 
 export function updateHistory(user,radio){
   let temp={...radio};
+  delete temp.liked;
+  delete temp.u;
   temp.isPlaying=false;
+  if(user){
   getUser.doc(user.email).update({
     history:firebase.firestore.FieldValue.arrayUnion(temp)
   })
+  }
 }
 

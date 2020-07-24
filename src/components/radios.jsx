@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PlayControl from "./playControl/playControl";
 import Audio from "./playControl/audio";
+import {removeLike,updateLike} from "../services/firebase";
 
 class Radios extends Component {
   state = {
@@ -15,22 +16,23 @@ class Radios extends Component {
     super(props);
     this.audio = React.createRef();
   }
-  
+ 
 
   render() {
-    const currentPlay = this.props.currentPlay;
-
+    const {currentPlay,onPlay,user,favorites} = this.props;
+    let location = window.location;
     return (
       <React.Fragment>
-        <PlayControl data={currentPlay} onPlay={this.props.onPlay}/>
+        <PlayControl data={currentPlay} onPlay={onPlay} onLike={this.props.onLike} user={user} favorites={favorites}/>
         <Audio
           src={currentPlay.u}
           isPlaying={currentPlay.isPlaying}
           ref={this.audio}
         />
-        <div className="scoll-title">
-          <span>{currentPlay.n}</span>
-        </div>
+      <div className="scoll-title">
+        <span>{currentPlay.name?currentPlay.name:this.state.currentPlay.n}</span>
+      </div>
+       
       </React.Fragment>
     );
   }

@@ -22,31 +22,35 @@ class Playlist extends Component {
   };
 
   componentDidMount() {
+    const user=auth.getCurrentUser();
+    if(user){
       db.collection("users")
-      .doc("gang@163.com")
+      .doc(user.email)
       .onSnapshot((doc) => {
         this.setState({ radios: doc.data().favorites ||[]});
       });
       db.collection("users")
-      .doc("gang@163.com")
+      .doc(user.email)
       .onSnapshot((doc) => {
         this.setState({ history: doc.data().history ||[]});
       });
-  }
-  componentDidUpdate(prevProps) {
-    if (prevProps.currentPlay.i !== this.props.currentPlay.i) {
-      const radios = [...this.state.radios];
-      const radio = this.props.currentPlay;
-      for (let item of radios) {
-        if (item.i === radio.i) {
-          item.isPlaying = radio.isPlaying;
-        } else {
-          item.isPlaying = false;
-        }
-      }
-      this.setState({ radios });
     }
   }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.currentPlay.id !== this.props.currentPlay.id) {
+  //     const radios = [...this.state.radios];
+  //     const radio = this.props.currentPlay;
+  //     for (let item of radios) {
+  //       if (item.id === radio.id) {
+  //         item.isPlaying = radio.isPlaying;
+  //       } else {
+  //         item.isPlaying = false;
+  //       }
+  //     }
+  //     this.setState({ radios });
+  //   }
+
+  // }
 
   handleLike = (radio) => {
     const radios = [...this.state.radios];
@@ -76,7 +80,7 @@ handleSwitch=()=>{
   replaceFavorite = (radios) => {
     radios.map((radio) => {
       radio.liked = false;
-      if (this.state.radios.some((item) => item.i === radio.i)) {
+      if (this.state.radios.some((item) => item.id === radio.id)) {
         radio.liked = true;
       }
       return null;

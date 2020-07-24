@@ -16,14 +16,15 @@ import Logout from "./components/logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "./services/authService";
-
 import SortByAge from "./components/sortByAge/sortByAge";
 import AgeDetail from "./components/ageDetail";
 import SortByCountry from "./components/sortByCountry";
 import "./App.css";
 import CountryDetail from "./components/countryDetail";
-import { db,updateHistory } from "./services/firebase";
+import { db,updateHistory,removeLike,updateLike } from "./services/firebase";
 import About from './components/about';
+import Search from "./components/search/search";
+
 
 class App extends Component {
   state = {
@@ -39,18 +40,42 @@ class App extends Component {
     const user = auth.getCurrentUser();
     this.setState({ user });
     db.collection("users")
-    .doc("gang@163.com")
+    .doc(user.email)
     .onSnapshot((doc) => {
       this.setState({ favorites: doc.data().favorites||[] });
     });
   }
-  
+  handleLike = () => {
+    const {user,favorites,currentPlay}=this.state;
+    const data={...this.state.currentPlay};
+    data.liked=!data.liked;
+    if(currentPlay.liked){
+      removeLike(user,favorites,data);
+    }
+    else{
+      updateLike(user,data);
+    }
+
+    this.setState({currentPlay:data})
+  };
   handlePlay = (radio) => {
     radio.isPlaying = true;
-    this.setState({ currentPlay: radio });
-    this.playAudio();
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", `https://secure-earth-03984.herokuapp.com/http://yp.shoutcast.com/sbin/tunein-station.m3u?id=${radio.id}`);
+      xhr.overrideMimeType("audio/x-mpegurl"); // Needed, see below.
+      xhr.onload = ()=>{
+  var parsers = require("playlist-parser");
+  var M3U = parsers.M3U;
+  var playlist = M3U.parse(xhr.response);
+  radio.u=playlist[0].file;
+  this.setState({currentPlay:radio});
+  this.playAudio();
+};
+    xhr.send();
+
     updateHistory(this.state.user,radio);
   };
+  
   handleSimplePlay = () => {
     let currentPlay = { ...this.state.currentPlay };
     currentPlay.isPlaying = !currentPlay.isPlaying;
@@ -86,6 +111,8 @@ class App extends Component {
           user={user}
           currentPlay={currentPlay}
           onPlay={this.handleSimplePlay}
+          favorites={favorites}
+          onLike={this.handleLike}
         />
         <main>
           <Route
@@ -136,6 +163,7 @@ class App extends Component {
                     />
                     <Route path="/shop/age" exact component={SortByAge} />
                     <Route path="/shop/about" exact component={About} />
+                    <Route path="/shop/search" exact component={Search} />
                     <Route path="/login" component={LoginForm} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/register" component={RegisterForm} />

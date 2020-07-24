@@ -12,11 +12,9 @@ class CountryCloud extends Component {
     setInterval(() => {
       this.forceUpdate();
     }, 10000);
-    const { data: country } = await getCountry();
-    this.setState({ country: country.results.slice(0,25) });
   }
   render() {
-    const { country } = this.state;
+    const { country } = this.props;
     return (
       <div className="app-outer">
         <div className="app-inner">
@@ -36,7 +34,7 @@ class CountryCloud extends Component {
             }}
           >
             {country.map((c) => (
-              <div key={c.code}>{c.name}</div>
+              <div key={c.id}>{c.name}</div>
             ))}
           </TagCloud>
         </div>

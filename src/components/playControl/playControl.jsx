@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./playControl.css";
 import PlayButton from "./playButton";
 import next from "../../img/next.svg";
@@ -11,18 +11,20 @@ import SoundControl from "./soundcontrol";
 import RadioModel from "../radio-model";
 import { useLocation, Link } from "react-router-dom";
 import Playlist from "../playlist/playlist";
+import {parse} from '../../services/parsem3u';
+import { db } from "../../services/firebase";
+import auth from "../../services/authService";
+import {removeLike,updateLike} from "../../services/firebase";
 
-function PlayControl({ data, onPlay }) {
-  const [like, setLike] = useState(false);
+function PlayControl({ data, onPlay,user,favorites,onLike}) {
+  //const [like, setLike] = useState(false);
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);
   const [soundStyle, setSound] = useState(sound);
   const [display,setDisplay]=useState('none');
   let location = useLocation();
-  const imgUrl = "https://www.radioair.info/images_radios/";
-  const handleLike = () => {
-    setLike(!like);
-  };
+
+  
   const handleMute = () => {
     const audio = document.getElementById("audioplayer");
     if (soundStyle === sound) {
@@ -60,12 +62,12 @@ function PlayControl({ data, onPlay }) {
       <Playlist currentPlay={data} onPlay={onPlay}  display={display}/>
       <div className="bar">
         <Link to="/"><div className="radio-logo">
-          <img src={imgUrl + data.l} alt="" />
+          <img src={data.logo} alt="" />
         </div></Link>
-        <div className="radio-title">{data.n}</div>
+        <div className="radio-title">{data.name}</div>
         <div className="controls">
           <div className="like">
-            <Like onClick={handleLike} likes={like} />
+            <Like onClick={onLike} likes={data.liked} />
           </div>
           <img src={last} className="last" alt="" />
           <div className="play-button-circle">

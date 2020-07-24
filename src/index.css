@@ -16,6 +16,7 @@ body {
 html,
 #root,
 main {
+  scroll-behavior: smooth;
   height: 90vh;
   width: 100%;
   background-color: #f9eed7;
@@ -165,6 +166,7 @@ code {
   top:15vh;
 }
 .age-wheel{
+  scroll-behavior: smooth;
   width: 30vw;
   height: 79vh;
   overflow: scroll;
@@ -178,7 +180,7 @@ code {
 .central-content{
   margin-top:15vh;
   overflow:scroll;
-  height:90vh;
+  height:75vh;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
@@ -420,4 +422,30 @@ a:hover{
       padding: 0 10px;
       padding-top: 12vh;
       box-shadow: -1px -1px 10px grey;
+}
+.genre-group{
+  position: absolute;
+  top:5vh;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto auto;
+  width: 50vw;
+  height: 30vh;
+}
+.genre-label{
+  display: inline-block;
+  border: 1px solid #83580b;
+  height: fit-content;
+  padding: 8px 20px;
+  border-radius: 8px;
+  color: #3d2904;
+  font-weight: 700;
+  margin-right: 5px;
+  transition: background .2s ease-in;
+  margin-bottom: 10px;
+}
+.genre-label:hover{
+  background: #83580b;
+  color: white;
 }

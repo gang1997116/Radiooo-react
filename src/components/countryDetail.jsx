@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { getRadios } from "../services/radioService";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
-import { getCountry } from "../services/countryService";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import CountryCloud from "./tagCloud";
@@ -13,6 +11,7 @@ import auth from "../services/authService";
 import Loader from "react-loader-spinner";
 import { Tween } from "react-gsap";
 import { updateLike, removeLike } from "../services/firebase";
+import { getStations,getGenres } from "../services/genreService";
 
 class CountryDetail extends Component {
   state = {
@@ -40,26 +39,22 @@ class CountryDetail extends Component {
   }
   async componentDidMount() {
     setTimeout(() => this.setState({ isLoaded: true }), 2000);
-
-    const { data: radios } = await getRadios(
-      this.props.match.params.country,
-      "0",
-      "ALL"
-    );
     this.setState({
-      radios: radios.results,
       match: this.props.match.params.country,
     });
+    const radios=await getStations(this.props.match.params.country);
+    this.setState({radios});
 
-    const { data: country } = await getCountry();
-    this.setState({ country: country.results });
+    const country  = await getGenres();
+    this.setState({ country });
+
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.currentPlay.i !== this.props.currentPlay.i) {
+    if (prevProps.currentPlay.id !== this.props.currentPlay.id) {
       const radios = [...this.state.radios];
       const radio = this.props.currentPlay;
       for (let item of radios) {
-        if (item.i === radio.i) {
+        if (item.id === radio.id) {
           item.isPlaying = radio.isPlaying;
         } else {
           item.isPlaying = false;
@@ -94,20 +89,10 @@ class CountryDetail extends Component {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
-  replaceCountry = (radios) => {
-    radios.map((radio) => {
-      for (let item of this.state.country) {
-        if (item.code === radio.c) {
-          radio.cl = item.name;
-        }
-      }
-      return null;
-    });
-  };
   replaceFavorite = (radios) => {
     radios.map((radio) => {
       radio.liked = false;
-      if (this.props.favorites.some((item) => item.i === radio.i)) {
+      if (this.props.favorites.some((item) => item.id === radio.id)) {
         radio.liked = true;
       }
       return null;
@@ -133,8 +118,6 @@ class CountryDetail extends Component {
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const radios = paginate(sorted, currentPage, pageSize);
-
-    this.replaceCountry(radios);
 
     this.replaceFavorite(radios);
 

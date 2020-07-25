@@ -1,33 +1,22 @@
 import React, { Component } from "react";
 import GenreLabel from "./genreLabel";
-import { getGenres, getStations } from '../../services/genreService';
-import {parsePlay} from '../../services/parsem3u';
+import { getGenres } from '../../services/genreService';
 
 class Search extends Component {
   state = {
     genre: [
       
     ],
-    radio:{}
+
   };
  async componentDidMount() {
    const genre=await getGenres();
-   console.log(genre);
   this.setState({genre});
-  var xhr = new XMLHttpRequest();
-xhr.open("GET", "https://secure-earth-03984.herokuapp.com/http://yp.shoutcast.com/sbin/tunein-station.m3u?id=99473570");
-xhr.overrideMimeType("audio/x-mpegurl"); // Needed, see below.
-xhr.onload = ()=>{
-  var parsers = require("playlist-parser");
-  var M3U = parsers.M3U;
-  var playlist = M3U.parse(xhr.response);
-  this.setState({radio:playlist[0]});
-};
-xhr.send();
-  //const radio=parsePlay();
-  //this.setState({radio:radio[0]});
   }
-  
+  handleSubmit=()=>{
+    this.props.history.push(`/shop/search/${this.searchText.value}`);
+    console.log(this.searchText.value);
+  }
   render() {
     return (
       <div className="content">
@@ -49,15 +38,11 @@ xhr.send();
             fontSize: "3vh",
             paddingBottom:"5px"
           }}
-          placeholder="Searching for name, genre and country.."
+          placeholder="Searching a station or genre.."
+          ref={el => {this.searchText = el}} 
         />
          </form>
         <GenreLabel genre={this.state.genre} />
-        <audio
-        style={{marginLeft:"100px"}}
-        controls
-        src={this.state.radio.file}
-      ></audio>
       </div>
      
     );

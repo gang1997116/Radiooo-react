@@ -24,6 +24,7 @@ import CountryDetail from "./components/countryDetail";
 import { db,updateHistory,removeLike,updateLike } from "./services/firebase";
 import About from './components/about';
 import Search from "./components/search/search";
+import SearchDetail from './components/searchDetail';
 
 
 class App extends Component {
@@ -164,6 +165,15 @@ class App extends Component {
                     <Route path="/shop/age" exact component={SortByAge} />
                     <Route path="/shop/about" exact component={About} />
                     <Route path="/shop/search" exact component={Search} />
+                    <Route path="/shop/search/:keyword" render={(props) => (
+                        <SearchDetail
+                          {...props}
+                          onPlay={this.handlePlay}
+                          user={user}
+                          currentPlay={currentPlay}
+                          favorites={favorites}
+                        />
+                      )} />
                     <Route path="/login" component={LoginForm} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/register" component={RegisterForm} />

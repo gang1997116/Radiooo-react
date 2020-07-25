@@ -11,7 +11,8 @@ import auth from "../services/authService";
 import Loader from "react-loader-spinner";
 import { Tween } from "react-gsap";
 import { updateLike, removeLike } from "../services/firebase";
-import { getStations,getGenres } from "../services/genreService";
+import { getStations,getGenres, getGenreById } from "../services/genreService";
+import GenreLabel from "./search/genreLabel";
 
 class CountryDetail extends Component {
   state = {
@@ -39,10 +40,12 @@ class CountryDetail extends Component {
   }
   async componentDidMount() {
     setTimeout(() => this.setState({ isLoaded: true }), 2000);
-    this.setState({
-      match: this.props.match.params.country,
-    });
+    
+    const genre=await getGenreById(this.props.match.params.country);
+    this.setState({currentCountry:genre});
+
     const radios=await getStations(this.props.match.params.country);
+    radios.forEach((radio)=>radio.genre=genre);
     this.setState({radios});
 
     const country  = await getGenres();
@@ -101,7 +104,6 @@ class CountryDetail extends Component {
   getPagedData = () => {
     const {
       radios: allradios,
-      selectedGenre,
       pageSize,
       currentPage,
       sortColumn,
@@ -110,10 +112,8 @@ class CountryDetail extends Component {
     let filtered = allradios;
     if (searchQuery)
       filtered = allradios.filter(
-        (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
+        (m) => m.name.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
       );
-    else if (selectedGenre && selectedGenre.i)
-      filtered = allradios.filter((m) => m.d === selectedGenre.i);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 

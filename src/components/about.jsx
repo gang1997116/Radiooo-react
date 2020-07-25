@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import { Tween} from "react-gsap";
-import LogoLoader from "./logoLoader";
-
-
-
-
 
 
 

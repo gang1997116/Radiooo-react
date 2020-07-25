@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PlayControl from "./playControl/playControl";
 import Audio from "./playControl/audio";
-import {removeLike,updateLike} from "../services/firebase";
 
 class Radios extends Component {
   state = {

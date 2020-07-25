@@ -32,7 +32,7 @@ class Playlist extends Component {
       db.collection("users")
       .doc(user.email)
       .onSnapshot((doc) => {
-        this.setState({ history: doc.data().history ||[]});
+        this.setState({ history: doc.data().history? doc.data().history.reverse():[]});
       });
     }
   }

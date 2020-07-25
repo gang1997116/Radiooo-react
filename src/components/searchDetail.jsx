@@ -1,23 +1,18 @@
 import React, { Component } from "react";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
-//import ListGroup from "./listGroup";
 import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
-//import { Link } from "react-router-dom";
-//import { toast } from "react-toastify";
 import { getCountry } from "../services/countryService";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
-import AgeWheel from "./sortByAge/ageWheel";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import { updateLike, removeLike } from "../services/firebase";
 import { Tween } from "react-gsap";
 import LogoLoader from "./logoLoader";
-import { getStations } from "../services/genreService";
 
-class AgeDetail extends Component {
+class SearchDetail extends Component {
   state = {
     radios: [],
     country: [],
@@ -27,7 +22,6 @@ class AgeDetail extends Component {
       l: "1-world-radio.jpg",
       u: "http://64.37.50.226:8030/stream/",
     },
-    match: "",
     isPlaying: false,
     pageSize: 6,
     searchQuery: "",
@@ -39,15 +33,14 @@ class AgeDetail extends Component {
 
   async componentDidMount() {
     setTimeout(() => this.setState({ isLoaded: true }), 2300);
-    const radios = await getStations(this.props.match.params.genre);
-    console.log(radios);
+    this.getData(this.props.match.params.keyword);
     this.setState({
-      radios: radios,
-      match: this.props.match.params.genre,
+      match: this.props.match.params.keyword,
     });
     const { data: country } = await getCountry();
     this.setState({ country: country.results });
   }
+  
   componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.id !== this.props.currentPlay.id) {
       const radios = [...this.state.radios];
@@ -61,6 +54,24 @@ class AgeDetail extends Component {
       }
       this.setState({ radios });
     }
+  }
+  getData=(keyword)=>{
+    // create a new XMLHttpRequest
+    var xhr = new XMLHttpRequest()
+    const proxyUrl = "https://secure-earth-03984.herokuapp.com/";
+    // get a callback when the server responds
+    xhr.addEventListener('load', () => {
+      var convert = require('xml-js');
+      var result = convert.xml2json(xhr.responseText, {compact: true, spaces: 4});
+      var stations=JSON.parse(result).stationlist.station;
+      var radios=[];
+      stations.forEach((station)=>radios.push(station._attributes));
+      this.setState({radios});
+    })
+    // open the request with the verb and the url
+    xhr.open('GET', proxyUrl+'http://api.shoutcast.com/legacy/stationsearch?k=eaCawoEg1P6qI2eb&search='+keyword)
+    // send the request
+    xhr.send()
   }
 
   handleLike = (radio) => {
@@ -107,7 +118,7 @@ class AgeDetail extends Component {
     let filtered = allradios;
     if (searchQuery)
       filtered = allradios.filter(
-        (m) => m.name.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
+        (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
       );
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -133,7 +144,7 @@ class AgeDetail extends Component {
     //if (count === 0) return <p>There are no radios in the database</p>;
 
     const { totalCount, radios } = this.getPagedData();
-    const { genre } = this.props.match.params;
+    const { keyword } = this.props.match.params;
     return (
       <React.Fragment>
         <LogoLoader />
@@ -146,7 +157,7 @@ class AgeDetail extends Component {
           >
             <div className="discover">
               <div className="radio-header">
-                <Link to="/shop/genre">
+                <Link to="/shop/search">
                   <div className="history-control clickable">
                     <i
                       className="fa fa-chevron-circle-left"
@@ -168,10 +179,9 @@ class AgeDetail extends Component {
                   }
                 />
               </div>
-              <AgeWheel id={genre} />
               <div className="radio-body">
                 <h1>
-                  {genre === "303" ? "00s" : (Number(genre) - 210) * 10 + "s"}
+                {keyword}
                 </h1>
                 <p>We got {totalCount} radios for you.</p>
                 <RadiosTable
@@ -199,4 +209,4 @@ class AgeDetail extends Component {
   }
 }
 
-export default AgeDetail;
+export default SearchDetail;

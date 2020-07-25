@@ -15,7 +15,7 @@ const GenreLabel = ({ genre }) => {
       >
         {genre.map((genre) => (
           <div style={{ display: "inline-block" }} key={genre.id}>
-            <Link to={`/shop/genre/${genre.id}`} className="genre-label">
+            <Link to={`/shop/country/${genre.id}`} className="genre-label">
               <span>{genre.name}</span>
             </Link>
           </div>

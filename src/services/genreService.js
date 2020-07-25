@@ -12,6 +12,13 @@ export async function getGenres() {
   const genre = data.response.data.genrelist.genre;
   return genre;
 }
+export async function getGenreById(genreId) {
+  var targetUrl = `http://api.shoutcast.com/genre/secondary?id=${genreId}&f=json&` + key;
+  const data = await getData(targetUrl);
+  const genre = data.response.data.genrelist.genre.name;
+  return genre;
+}
+
 export async function getSecondGenres(parentId){
   let targetUrl=`http://api.shoutcast.com/genre/secondary?parentid=${parentId}&f=json&`+key;
   const data = await getData(targetUrl);

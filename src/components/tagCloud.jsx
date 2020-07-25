@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import randomColor from "randomcolor";
 import TagCloud from "react-tag-cloud";
-import { getCountry } from "../services/countryService";
 
 
 class CountryCloud extends Component {

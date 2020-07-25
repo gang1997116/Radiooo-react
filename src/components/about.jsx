@@ -9,11 +9,13 @@ class About extends Component {
   render() {
     return (
       <div className="content">
-        <div
+        <div className="hidescrollbar"
           style={{
             display: "block",
             height: "80vh",
             overflowY: "scroll",
+            msOverflowStyle: "none",  /* IE and Edge */
+            scrollbarWidth: "none",  /* Firefox */
             marginTop: "10vh",
             position: "relative",
           }}

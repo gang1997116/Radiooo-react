@@ -27,19 +27,21 @@ export function addUser(email){
   getUser.doc(email).set({
   email: email,
   favorites: [],
+  history:[],
 })
 }
 
 export function updateLike(user,radio){
   let temp={...radio};
   delete temp.u;
-  temp.isPlaying=false;
+  delete temp.isPlaying;
   if(user){
     getUser.doc(user.email).update({
     favorites:firebase.firestore.FieldValue.arrayUnion(temp)
   })
   }
 }
+
 export function removeLike(user,favorites,radio){
   let temp=favorites.filter((item)=>item.id!==radio.id);
   getUser.doc(user.email).update({
@@ -51,11 +53,13 @@ export function updateHistory(user,radio){
   let temp={...radio};
   delete temp.liked;
   delete temp.u;
-  temp.isPlaying=false;
+  delete temp.isPlaying;
   if(user){
   getUser.doc(user.email).update({
     history:firebase.firestore.FieldValue.arrayUnion(temp)
   })
   }
 }
+
+
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GenreLabel from "./genreLabel";
 import { getGenres } from '../../services/genreService';
+import { Redirect } from "react-router-dom";
 
 class Search extends Component {
   state = {
@@ -14,10 +15,13 @@ class Search extends Component {
   this.setState({genre});
   }
   handleSubmit=()=>{
-    this.props.history.push(`/shop/search/${this.searchText.value}`);
-    console.log(this.searchText.value);
+    this.setState({value:this.searchText.value})
+    this.setState({redirect:true});
   }
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to={`/shop/search/${this.state.value}`} />;
+    }
     return (
       <div className="content">
         <form onSubmit={this.handleSubmit}>

@@ -1,5 +1,4 @@
 import React from "react";
-//import _ from "lodash";
 import PropTypes from 'prop-types';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -18,7 +17,7 @@ const GPagination = (props) => {
               count={pagesCount}
               onChange={handleChange}
               size="large"
-              style={{outline:"none"}}
+              
             />
   );
 };

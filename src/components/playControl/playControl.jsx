@@ -11,9 +11,9 @@ import SoundControl from "./soundcontrol";
 import RadioModel from "../radio-model";
 import { useLocation, Link } from "react-router-dom";
 import Playlist from "../playlist/playlist";
-import logo from '../../img/logo.svg';
+import logo from '../../img/firstlogo.png';
 
-function PlayControl({ data, onPlay,onLike}) {
+function PlayControl({ data,onPlay, onListPlay,onLike,playNext,playLast}) {
 
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);
@@ -51,12 +51,13 @@ function PlayControl({ data, onPlay,onLike}) {
       setDisplay("none");
     }
   };
+  
   return (
     <React.Fragment>
       {(location.pathname === "/" ||
         location.pathname === "/shop" ||
         location.pathname === "/shop/") && <RadioModel sound={value} />}
-      <Playlist currentPlay={data} onPlay={onPlay}  display={display}/>
+      <Playlist currentPlay={data} onPlay={onListPlay}  display={display}/>
       <div className="bar">
         <Link to="/"><div className="radio-logo">
           <img src={data.logo?data.logo:logo} alt="" />
@@ -66,7 +67,7 @@ function PlayControl({ data, onPlay,onLike}) {
           <div className="like">
             <Like onClick={onLike} likes={data.liked} />
           </div>
-          <img src={last} className="last" alt="" />
+          <img src={last} className="last" alt="" onClick={playLast}/>
           <div className="play-button-circle">
             <PlayButton
               src={data.u}
@@ -74,7 +75,7 @@ function PlayControl({ data, onPlay,onLike}) {
               onClick={onPlay}
             />
           </div>
-          <img src={next} className="next" alt="" />
+          <img src={next} className="next" alt="" onClick={playNext}/>
           <img src={soundStyle} className="sound" onClick={handleMute} alt="" />
         </div>
         <SoundControl mute={mute} value={value} onChange={handleChange}/>

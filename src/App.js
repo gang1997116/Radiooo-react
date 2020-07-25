@@ -25,7 +25,7 @@ import { db,updateHistory,removeLike,updateLike } from "./services/firebase";
 import About from './components/about';
 import Search from "./components/search/search";
 import SearchDetail from './components/searchDetail';
-import logo from './img/logo.svg';
+import logo from './img/firstlogo.png';
 
 class App extends Component {
   state = {
@@ -39,12 +39,14 @@ class App extends Component {
   };
   componentDidMount() {
     const user = auth.getCurrentUser();
-    this.setState({ user });
+    if(user){
+      this.setState({ user });
     db.collection("users")
     .doc(user.email)
     .onSnapshot((doc) => {
       this.setState({ favorites: doc.data().favorites||[] });
     });
+    }
   }
   handleLike = () => {
     const {user,favorites,currentPlay}=this.state;
@@ -60,7 +62,9 @@ class App extends Component {
     this.setState({currentPlay:data})
   };
   handlePlay = (radio) => {
-    radio.isPlaying = true;
+    if("isPlaying" in radio){
+      radio.isPlaying = true;
+    }
       var xhr = new XMLHttpRequest();
       xhr.open("GET", `https://secure-earth-03984.herokuapp.com/http://yp.shoutcast.com/sbin/tunein-station.m3u?id=${radio.id}`);
       xhr.overrideMimeType("audio/x-mpegurl"); // Needed, see below.
@@ -69,7 +73,11 @@ class App extends Component {
       var M3U = parsers.M3U;
       var playlist = M3U.parse(xhr.response);
       radio.u=playlist[0].file;
-      this.setState({currentPlay:radio});
+      // try{radio.u=playlist[0].file;}
+      // catch{radio.u="http://64.37.50.226:8030/stream/";}
+      let currentPlay={...radio};
+      currentPlay.isPlaying=true;
+      this.setState({currentPlay});
       this.playAudio();
 };
     xhr.send();
@@ -88,6 +96,29 @@ class App extends Component {
       audio.pause();
     }
   };
+
+  playNext=()=>{
+    const radiolist = localStorage.getItem('radiolist');
+    const list=JSON.parse(radiolist);
+    for(var i=0;i<list.length-1;i++){
+      if(list[i].id===this.state.currentPlay.id){
+        this.handlePlay(list[i+1]);
+        break;
+      }
+    }
+    if(i===list.length-1){
+      this.handlePlay(list[0]);
+    }
+  }
+  playLast=()=>{
+    const radiolist = localStorage.getItem('radiolist');
+    const list=JSON.parse(radiolist);
+    for(let i=1;i<list.length;i++){
+      if(list[i].id===this.state.currentPlay.id){
+        this.handlePlay(list[i-1]);
+      }
+    }
+  }
   playAudio = () => {
     const audio = document.getElementById("audioplayer");
     var playPromise = audio.play();
@@ -96,7 +127,7 @@ class App extends Component {
         .then((_) => {
           audio.play();
         })
-        .catch((error) => {
+        .catch(() => {
           audio.play();
         });
     }
@@ -112,8 +143,11 @@ class App extends Component {
           user={user}
           currentPlay={data}
           onPlay={this.handleSimplePlay}
+          onListPlay={this.handlePlay}
           favorites={favorites}
           onLike={this.handleLike}
+          playNext={this.playNext}
+          playLast={this.playLast}
         />
         <main>
           <Route
@@ -166,6 +200,15 @@ class App extends Component {
                     <Route path="/shop/about" exact component={About} />
                     <Route path="/shop/search" exact component={Search} />
                     <Route path="/shop/search/:keyword" render={(props) => (
+                        <SearchDetail
+                          {...props}
+                          onPlay={this.handlePlay}
+                          user={user}
+                          currentPlay={data}
+                          favorites={favorites}
+                        />
+                      )} />
+                      <Route path="/shop/genresearch/:keyword" render={(props) => (
                         <SearchDetail
                           {...props}
                           onPlay={this.handlePlay}

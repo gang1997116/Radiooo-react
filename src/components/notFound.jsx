@@ -1,7 +1,23 @@
-import React from 'react';
-
+import React from "react";
+import notFound from "../img/404.svg"
 const NotFound = () => {
-    return (<h1 style={{fontSize:"30vh",fontFamily:"Monoton",width:"fit-content",marginTop:"45vh",marginLeft:"50vw",transform:"translate(-50%,-50%)"}}>404</h1> );
-}
- 
+  return (
+    <img
+      style={{
+        width: "35vw",
+        height:"100%",
+        top: "0",
+        left: "0",
+        bottom:"0vh",
+        right:0,
+        position: "absolute",
+        margin:"auto auto"
+      }}
+      src={notFound}
+      alt="not found"
+   />
+
+  );
+};
+
 export default NotFound;

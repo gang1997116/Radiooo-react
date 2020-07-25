@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 class MoviesTable extends Component {
   columns = [
     { path: "name", label: "Title", content: radio=><span>{radio.name&&radio.name.length>30?radio.name.slice(0,40)+"...":radio.name}</span> },
-    { path: "genre", label: "Genre",content: radio=><Link to={`/shop/genre/${radio.genre}`} >{radio.genre}</Link> },
+    { path: "genre", label: "Genre",content: radio=><Link to={`/shop/genresearch/${radio.genre}`} >{radio.genre}</Link> },
     { path: "lc", label: "Listeners",content: radio=><span>{radio.lc}</span> },
     {
       key: "like",
@@ -27,27 +27,7 @@ class MoviesTable extends Component {
     },
   ];
 
-  // deleteColunmn={
-    
-  //     key: "delete",
-  //     content: (radio) => (
-  //       <button
-  //         onClick={() => this.props.onDelete(radio)}
-  //         className="btn btn-danger btn-sm"
-  //       >
-  //         Delete
-  //       </button>
-  //     )
-    
-  // }
 
-  // constructor(){
-  //   super();
-  //   const user=auth.getCurrentUser();
-  //   if(user&&user.isAdmin){
-  //     this.columns.push(this.deleteColunmn);
-  //   }
-  // }
   render() {
     const { radios, onSort, sortColumn,onPlay} = this.props;
     return (

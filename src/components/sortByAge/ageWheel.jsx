@@ -9,7 +9,6 @@ class AgeWheel extends Component {
     }
     componentDidMount() {
         let scrollHeight=window.innerHeight/90*30;
-        console.log(window.innerHeight)
         if(this.props.id==="303")
         {
            scrollHeight=-100;      
@@ -19,7 +18,6 @@ class AgeWheel extends Component {
             
         }
         this.age.current.scrollTop=scrollHeight+50;
-        console.log(this.props.id);
     }
     
     render() { 

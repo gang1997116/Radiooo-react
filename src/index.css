@@ -7,9 +7,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-body img{
-  draggable:"false";
+img{
   -webkit-user-drag:none;
+}
+li button{
+  outline:none;
 }
 @font-face{
   font-family:'technology';
@@ -167,7 +169,13 @@ code {
   position: absolute;
   right: 5vw;
   top:15vh;
+  height: 80vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
+.radio-body::-webkit-scrollbar { width: 0 !important }
+.hidescrollbar::-webkit-scrollbar { width: 0 !important }
 .age-wheel{
   scroll-behavior: smooth;
   width: 30vw;

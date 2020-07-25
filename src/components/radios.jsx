@@ -15,23 +15,40 @@ class Radios extends Component {
     super(props);
     this.audio = React.createRef();
   }
- 
 
   render() {
-    const {currentPlay,onPlay,user,favorites} = this.props;
-    let location = window.location;
+    const {
+      currentPlay,
+      onPlay,
+      onListPlay,
+      user,
+      favorites,
+      playNext,
+      playLast,
+    } = this.props;
+    //let location = window.location;
     return (
       <React.Fragment>
-        <PlayControl data={currentPlay} onPlay={onPlay} onLike={this.props.onLike} user={user} favorites={favorites}/>
+        <PlayControl
+          data={currentPlay}
+          onPlay={onPlay}
+          onListPlay={onListPlay}
+          onLike={this.props.onLike}
+          user={user}
+          favorites={favorites}
+          playNext={playNext}
+          playLast={playLast}
+        />
         <Audio
           src={currentPlay.u}
           isPlaying={currentPlay.isPlaying}
           ref={this.audio}
         />
-      <div className="scoll-title">
-        <span>{currentPlay.name?currentPlay.name:this.state.currentPlay.name}</span>
-      </div>
-       
+        <div className="scoll-title">
+          <span>
+            {currentPlay.name ? currentPlay.name : this.state.currentPlay.name}
+          </span>
+        </div>
       </React.Fragment>
     );
   }

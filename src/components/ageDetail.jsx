@@ -6,7 +6,6 @@ import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
 //import { Link } from "react-router-dom";
 //import { toast } from "react-toastify";
-import { getCountry } from "../services/countryService";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import AgeWheel from "./sortByAge/ageWheel";
@@ -20,14 +19,6 @@ import { getStations } from "../services/genreService";
 class AgeDetail extends Component {
   state = {
     radios: [],
-    country: [],
-    currentPlay: {
-      i: "12222",
-      n: "welcome to Radiooo",
-      l: "1-world-radio.jpg",
-      u: "http://64.37.50.226:8030/stream/",
-    },
-    match: "",
     isPlaying: false,
     pageSize: 6,
     searchQuery: "",
@@ -38,15 +29,10 @@ class AgeDetail extends Component {
   };
 
   async componentDidMount() {
-    setTimeout(() => this.setState({ isLoaded: true }), 2300);
+    setTimeout(() => this.setState({ isLoaded: true }), 2000);
     const radios = await getStations(this.props.match.params.genre);
-    console.log(radios);
-    this.setState({
-      radios: radios,
-      match: this.props.match.params.genre,
-    });
-    const { data: country } = await getCountry();
-    this.setState({ country: country.results });
+    this.setState({ radios });
+    localStorage.setItem("radiolist", JSON.stringify(radios));
   }
   componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.id !== this.props.currentPlay.id) {

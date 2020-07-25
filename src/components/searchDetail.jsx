@@ -3,7 +3,6 @@ import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import RadiosTable from "./radiotable/radiosTable";
 import _ from "lodash";
-import { getCountry } from "../services/countryService";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import { Link } from "react-router-dom";
@@ -34,13 +33,8 @@ class SearchDetail extends Component {
   async componentDidMount() {
     setTimeout(() => this.setState({ isLoaded: true }), 2300);
     this.getData(this.props.match.params.keyword);
-    this.setState({
-      match: this.props.match.params.keyword,
-    });
-    const { data: country } = await getCountry();
-    this.setState({ country: country.results });
   }
-  
+
   componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.id !== this.props.currentPlay.id) {
       const radios = [...this.state.radios];
@@ -55,24 +49,40 @@ class SearchDetail extends Component {
       this.setState({ radios });
     }
   }
-  getData=(keyword)=>{
+  getData = (keyword) => {
     // create a new XMLHttpRequest
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
+    const baseUrl = "http://api.shoutcast.com/legacy/";
     const proxyUrl = "https://secure-earth-03984.herokuapp.com/";
+    const genreSearchtUrl = "genresearch?k=eaCawoEg1P6qI2eb&genre=";
+    const normalSearchUrl = "stationsearch?k=eaCawoEg1P6qI2eb&search=";
+    const targetUrl =
+      window.location.pathname.indexOf("genre") > -1
+        ? genreSearchtUrl
+        : normalSearchUrl;
     // get a callback when the server responds
-    xhr.addEventListener('load', () => {
-      var convert = require('xml-js');
-      var result = convert.xml2json(xhr.responseText, {compact: true, spaces: 4});
-      var stations=JSON.parse(result).stationlist.station;
-      var radios=[];
-      stations.forEach((station)=>radios.push(station._attributes));
-      this.setState({radios});
-    })
+    xhr.addEventListener("load", () => {
+      var convert = require("xml-js");
+      var result = convert.xml2json(xhr.responseText, {
+        compact: true,
+        spaces: 4,
+      });
+      try{var stations = JSON.parse(result).stationlist.station;
+      var radios = [];
+      stations.forEach((station) => radios.push(station._attributes));
+      this.setState({ radios });
+      localStorage.setItem('radiolist', JSON.stringify(radios));
+    }
+      catch{
+        alert('Do not found');
+        console.log(result);
+      } 
+    });
     // open the request with the verb and the url
-    xhr.open('GET', proxyUrl+'http://api.shoutcast.com/legacy/stationsearch?k=eaCawoEg1P6qI2eb&search='+keyword)
+    xhr.open("GET", proxyUrl + baseUrl + targetUrl + keyword);
     // send the request
-    xhr.send()
-  }
+    xhr.send();
+  };
 
   handleLike = (radio) => {
     const user = auth.getCurrentUser();
@@ -168,7 +178,7 @@ class SearchDetail extends Component {
                 </Link>
                 <InputBase
                   className="form-search"
-                  style={{right:"13vw"}}
+                  style={{ right: "13vw" }}
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -180,10 +190,11 @@ class SearchDetail extends Component {
                   }
                 />
               </div>
-              <div className="radio-body" style={{right:"15vw",width:"70vw"}}>
-                <h1>
-                {keyword[0].toUpperCase()+keyword.slice(1)}
-                </h1>
+              <div
+                className="radio-body"
+                style={{ right: "15vw", width: "70vw" }}
+              >
+                <h1>{keyword[0].toUpperCase() + keyword.slice(1)}</h1>
                 <p>We got {totalCount} radios for you.</p>
                 <RadiosTable
                   radios={radios}

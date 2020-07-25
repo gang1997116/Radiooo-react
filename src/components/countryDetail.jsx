@@ -8,11 +8,11 @@ import InputBase from "@material-ui/core/InputBase";
 import CountryCloud from "./tagCloud";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
-import Loader from "react-loader-spinner";
 import { Tween } from "react-gsap";
 import { updateLike, removeLike } from "../services/firebase";
 import { getStations,getGenres, getGenreById } from "../services/genreService";
-import GenreLabel from "./search/genreLabel";
+import LogoLoader from './logoLoader';
+
 
 class CountryDetail extends Component {
   state = {
@@ -47,12 +47,11 @@ class CountryDetail extends Component {
     const radios=await getStations(this.props.match.params.country);
     radios.forEach((radio)=>radio.genre=genre);
     this.setState({radios});
-
+    localStorage.setItem('radiolist', JSON.stringify(radios));
     const country  = await getGenres();
     this.setState({ country });
-
   }
-  componentDidUpdate(prevProps) {
+ componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.id !== this.props.currentPlay.id) {
       const radios = [...this.state.radios];
       const radio = this.props.currentPlay;
@@ -142,19 +141,7 @@ class CountryDetail extends Component {
     return (
       <React.Fragment>
         <div>
-          <Loader
-            type="Puff"
-            color="#ddc49f"
-            height={100}
-            width={100}
-            timeout={2000} //1 secs
-            style={{
-              position: "absolute",
-              top: "calc(45vh - 50px)",
-              bottom: "0",
-              left: "calc(50vw - 55px)",
-            }}
-          />
+        <LogoLoader />
           {isLoaded && (
             <Tween
               from={{ opacity: "0" }}

@@ -5,9 +5,9 @@ import Audio from "./playControl/audio";
 class Radios extends Component {
   state = {
     currentPlay: {
-      i: "12222",
-      n: "welcome to Radiooo",
-      l: "1-world-radio.jpg",
+      id: "12222",
+      name: "Welcome to Radiooo",
+      logo: "1-world-radio.jpg",
       u: "http://64.37.50.226:8030/stream/",
     },
   };
@@ -29,7 +29,7 @@ class Radios extends Component {
           ref={this.audio}
         />
       <div className="scoll-title">
-        <span>{currentPlay.name?currentPlay.name:this.state.currentPlay.n}</span>
+        <span>{currentPlay.name?currentPlay.name:this.state.currentPlay.name}</span>
       </div>
        
       </React.Fragment>

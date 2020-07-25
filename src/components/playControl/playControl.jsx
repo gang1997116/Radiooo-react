@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState} from "react";
 import "./playControl.css";
 import PlayButton from "./playButton";
 import next from "../../img/next.svg";
@@ -11,13 +11,10 @@ import SoundControl from "./soundcontrol";
 import RadioModel from "../radio-model";
 import { useLocation, Link } from "react-router-dom";
 import Playlist from "../playlist/playlist";
-import {parse} from '../../services/parsem3u';
-import { db } from "../../services/firebase";
-import auth from "../../services/authService";
-import {removeLike,updateLike} from "../../services/firebase";
+import logo from '../../img/logo.svg';
 
-function PlayControl({ data, onPlay,user,favorites,onLike}) {
-  //const [like, setLike] = useState(false);
+function PlayControl({ data, onPlay,onLike}) {
+
   const [mute, setMute] = useState(false);
   const [value, setValue] = useState(30);
   const [soundStyle, setSound] = useState(sound);
@@ -62,7 +59,7 @@ function PlayControl({ data, onPlay,user,favorites,onLike}) {
       <Playlist currentPlay={data} onPlay={onPlay}  display={display}/>
       <div className="bar">
         <Link to="/"><div className="radio-logo">
-          <img src={data.logo} alt="" />
+          <img src={data.logo?data.logo:logo} alt="" />
         </div></Link>
         <div className="radio-title">{data.name}</div>
         <div className="controls">

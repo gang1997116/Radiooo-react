@@ -168,6 +168,7 @@ class SearchDetail extends Component {
                 </Link>
                 <InputBase
                   className="form-search"
+                  style={{right:"13vw"}}
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -179,9 +180,9 @@ class SearchDetail extends Component {
                   }
                 />
               </div>
-              <div className="radio-body">
+              <div className="radio-body" style={{right:"15vw",width:"70vw"}}>
                 <h1>
-                {keyword}
+                {keyword[0].toUpperCase()+keyword.slice(1)}
                 </h1>
                 <p>We got {totalCount} radios for you.</p>
                 <RadiosTable

@@ -7,7 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-
+body img{
+  draggable:"false";
+  -webkit-user-drag:none;
+}
 @font-face{
   font-family:'technology';
   src: url("../src/fonts/Technology.ttf");

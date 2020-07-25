@@ -25,14 +25,14 @@ import { db,updateHistory,removeLike,updateLike } from "./services/firebase";
 import About from './components/about';
 import Search from "./components/search/search";
 import SearchDetail from './components/searchDetail';
-
+import logo from './img/logo.svg';
 
 class App extends Component {
   state = {
     currentPlay: {
-      i: "12222",
-      n: "welcome to Radiooo",
-      l: "1-world-radio.jpg",
+      id: "12222",
+      name: "Welcome to Radiooo",
+      logo: logo,
       u: "http://64.37.50.226:8030/stream/",
     },
     favorites:[],
@@ -65,12 +65,12 @@ class App extends Component {
       xhr.open("GET", `https://secure-earth-03984.herokuapp.com/http://yp.shoutcast.com/sbin/tunein-station.m3u?id=${radio.id}`);
       xhr.overrideMimeType("audio/x-mpegurl"); // Needed, see below.
       xhr.onload = ()=>{
-  var parsers = require("playlist-parser");
-  var M3U = parsers.M3U;
-  var playlist = M3U.parse(xhr.response);
-  radio.u=playlist[0].file;
-  this.setState({currentPlay:radio});
-  this.playAudio();
+      var parsers = require("playlist-parser");
+      var M3U = parsers.M3U;
+      var playlist = M3U.parse(xhr.response);
+      radio.u=playlist[0].file;
+      this.setState({currentPlay:radio});
+      this.playAudio();
 };
     xhr.send();
 
@@ -103,14 +103,14 @@ class App extends Component {
   };
   render() {
     const { user, currentPlay,favorites } = this.state;
-
+    const data=currentPlay?currentPlay:this.state.currentPlay;
     return (
       <Router>
         <ToastContainer />
 
         <Radios
           user={user}
-          currentPlay={currentPlay}
+          currentPlay={data}
           onPlay={this.handleSimplePlay}
           favorites={favorites}
           onLike={this.handleLike}
@@ -140,7 +140,7 @@ class App extends Component {
                           {...props}
                           onPlay={this.handlePlay}
                           user={user}
-                          currentPlay={currentPlay}
+                          currentPlay={data}
                           favorites={favorites}
                         />
                       )}
@@ -157,7 +157,7 @@ class App extends Component {
                           {...props}
                           onPlay={this.handlePlay}
                           user={user}
-                          currentPlay={currentPlay}
+                          currentPlay={data}
                           favorites={favorites}
                         />
                       )}
@@ -170,7 +170,7 @@ class App extends Component {
                           {...props}
                           onPlay={this.handlePlay}
                           user={user}
-                          currentPlay={currentPlay}
+                          currentPlay={data}
                           favorites={favorites}
                         />
                       )} />

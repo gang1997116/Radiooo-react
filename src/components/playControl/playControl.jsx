@@ -62,7 +62,7 @@ function PlayControl({ data,onPlay, onListPlay,onLike,playNext,playLast}) {
         <Link to="/"><div className="radio-logo">
           <img src={data.logo?data.logo:logo} alt="" />
         </div></Link>
-        <div className="radio-title">{data.name}</div>
+        <div className="radio-title">{data.name.length>30?data.name.slice(0,30)+"...":data.name}</div>
         <div className="controls">
           <div className="like">
             <Like onClick={onLike} likes={data.liked} />

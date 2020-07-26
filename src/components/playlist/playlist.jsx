@@ -7,6 +7,7 @@ import auth from "../../services/authService";
 import { updateLike, removeLike } from "../../services/firebase";
 import { db } from "../../services/firebase";
 import SwitchButton from "./switchButton";
+import { PlayState, Tween } from "react-gsap";
 
 class Playlist extends Component {
   state = {
@@ -16,26 +17,42 @@ class Playlist extends Component {
     selectedGenre: null,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
-    buttonState:true,
-    history:[],
+    buttonState: true,
+    history: [],
+    right: 0,
+    playState: PlayState.stop,
+    user:{},
   };
 
   componentDidMount() {
     const user = auth.getCurrentUser();
+    this.setState({user});
     if (user) {
-      db.collection("users")
+     
+        db.collection("users")
         .doc(user.email)
         .onSnapshot((doc) => {
           this.setState({ radios: doc.data().favorites || [] });
         });
-      db.collection("users")
+     
+        db.collection("users")
         .doc(user.email)
         .onSnapshot((doc) => {
-          this.setState({ history: doc.data().history || [] });
+          this.setState({history: doc.data().history || [] });
         });
+      
     }
   }
-
+  componentDidUpdate(prevProps,prevState) {
+    if (prevProps.display !== this.props.display) {
+      if (this.state.playState === PlayState.stop) {
+        this.setState({ playState: PlayState.play });
+      } else {
+        this.setState({ playState: PlayState.stop });
+      }
+    }
+    
+  }
   handleLike = (radio) => {
     const radios = [...this.state.radios];
     const user = auth.getCurrentUser();
@@ -50,7 +67,6 @@ class Playlist extends Component {
     const { buttonState } = this.state;
     this.setState({ buttonState: !buttonState });
     this.forceUpdate();
-    console.log(this.state.radios);
   };
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
@@ -73,23 +89,14 @@ class Playlist extends Component {
   getPagedData = () => {
     const {
       radios: allradios,
-      selectedGenre,
       pageSize,
       currentPage,
       sortColumn,
-      searchQuery,
-      history,
       buttonState,
+      history,
     } = this.state;
 
-    let filtered = buttonState ? allradios : history;
-
-    if (searchQuery)
-      filtered = allradios.filter(
-        (m) => m.n.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
-      );
-    else if (selectedGenre && selectedGenre.i)
-      filtered = allradios.filter((m) => m.d === selectedGenre.i);
+    let filtered = buttonState?allradios:history;
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -97,37 +104,58 @@ class Playlist extends Component {
     if (!buttonState) {
       this.replaceFavorite(radios);
     }
-    console.log(this.state.radios)
     return { totalCount: filtered.length, radios: radios };
   };
 
   render() {
     //const { length: count } = this.state.radios;
-    const { pageSize, currentPage, sortColumn, buttonState } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      buttonState,
+      playState,
+    } = this.state;
 
     const { currentPlay, display } = this.props;
 
     const { totalCount, radios } = this.getPagedData();
 
+    let right = 0;
+    if (display === "block") {
+      right = "0";
+    } else {
+      right = "-33vw";
+    }
     return (
       <React.Fragment>
-        <div className="playlist" style={{ display: `${display}` }}>
+        <div className="playlist" style={{ right: `${right}` }}>
           <SwitchButton state={buttonState} onClick={this.handleSwitch} />
-          <RadiosTable
-            radios={radios}
-            sortColumn={sortColumn}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-            onPlay={this.props.onPlay}
-            isPlaying={currentPlay.isPlaying}
-          />
-          <Pagination
-            itemsCount={totalCount}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={this.handlePagechange}
-          />
+          <Tween
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}
+            duration={0.5}
+            playState={playState}
+          >
+            <div className="playlist-table hidescrollbar">
+              <RadiosTable
+                radios={radios}
+                sortColumn={sortColumn}
+                onLike={this.handleLike}
+                onDelete={this.handleDelete}
+                onSort={this.handleSort}
+                onPlay={this.props.onPlay}
+                isPlaying={currentPlay.isPlaying}
+                isList={true}
+              />
+              <Pagination
+                itemsCount={totalCount}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={this.handlePagechange}
+              />
+            </div>
+          </Tween>
         </div>
       </React.Fragment>
     );

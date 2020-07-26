@@ -29,7 +29,7 @@ class MoviesTable extends Component {
 
 
   render() {
-    const { radios, onSort, sortColumn,onPlay} = this.props;
+    const { radios, onSort, sortColumn,onPlay,isList} = this.props;
     return (
       <Table
         columns={this.columns}
@@ -37,6 +37,7 @@ class MoviesTable extends Component {
         sortColumn={sortColumn}
         onSort={onSort}
         onPlay={onPlay}
+        isList={isList}
       />
     );
   }

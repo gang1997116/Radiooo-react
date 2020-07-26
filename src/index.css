@@ -169,7 +169,7 @@ code {
   position: absolute;
   right: 5vw;
   top:15vh;
-  height: 80vh;
+  height: 75vh;
   overflow-y: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -274,7 +274,7 @@ code {
   width: 16vh;
   height: 7vh;
   margin: 0 auto;
-
+  z-index: 0;
 }
 .scoll-title span {
   position: absolute;
@@ -424,15 +424,22 @@ a:hover{
 }
 .playlist{
   width: 32vw;
-      height: 90vh;
-      position: absolute;
-      background-color: #fffdf6;
-      z-index: 100;
-      right: 0;
-      bottom: 10vh;
-      padding: 0 10px;
-      padding-top: 12vh;
-      box-shadow: -1px -1px 10px grey;
+  height: 90vh;
+  position: absolute;
+  background-color: #fffdf6;
+  z-index: 100;
+  right: 0;
+  bottom: 10vh;
+  padding: 0 10px;
+  padding-top: 12vh;
+  box-shadow: -1px -1px 10px grey;
+  transition: right 0.2s cubic-bezier(0.6, 0.05, 0.55, 0.95);
+}
+.playlist-table{
+  height: 80vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 .genre-group{
   position: absolute;

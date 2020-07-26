@@ -26,7 +26,7 @@ class Radios extends Component {
       playNext,
       playLast,
     } = this.props;
-    //let location = window.location;
+    let location = window.location;
     return (
       <React.Fragment>
         <PlayControl
@@ -44,11 +44,17 @@ class Radios extends Component {
           isPlaying={currentPlay.isPlaying}
           ref={this.audio}
         />
-        <div className="scoll-title">
-          <span>
-            {currentPlay.name ? currentPlay.name : this.state.currentPlay.name}
-          </span>
-        </div>
+        {(location.pathname === "/shop" ||
+          location.pathname === "/" ||
+          location.pathname === "/shop/") && (
+          <div className="scoll-title">
+            <span>
+              {currentPlay.name
+                ? currentPlay.name
+                : this.state.currentPlay.name}
+            </span>
+          </div>
+        )}
       </React.Fragment>
     );
   }

@@ -41,10 +41,10 @@ const Menu = ({ isOpen, onClick }) => {
       <div className="menu-panel" style={isOpen ? style.open : style.close}>
         <ul className="menu-content">
           <Tween
-            from={{ opacity: "0", y: "15" }}
+            from={{ opacity: "0", y: "12" }}
             to={{ opacity: "1", y: "0" }}
-            stagger={0.15}
-            duration={0.3}
+            stagger={0.12}
+            duration={0.2}
             ease="sine.out"
             playState={playState}
           >
@@ -71,7 +71,7 @@ const Menu = ({ isOpen, onClick }) => {
           </Tween>
         </ul>
       </div>
-      <div className="menu-bg" style={!isOpen ? style.unvisible : null}></div>
+      <div className="menu-bg" style={!isOpen ? style.unvisible : null} onClick={onClick}></div>
     </React.Fragment>
   );
 };

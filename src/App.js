@@ -72,9 +72,9 @@ class App extends Component {
       var parsers = require("playlist-parser");
       var M3U = parsers.M3U;
       var playlist = M3U.parse(xhr.response);
-      radio.u=playlist[0].file;
-      // try{radio.u=playlist[0].file;}
-      // catch{radio.u="http://64.37.50.226:8030/stream/";}
+      //radio.u=playlist[0].file;
+      try{radio.u=playlist[0].file;}
+      catch{radio.u="http://64.37.50.226:8030/stream/";}
       let currentPlay={...radio};
       currentPlay.isPlaying=true;
       this.setState({currentPlay});

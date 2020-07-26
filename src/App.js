@@ -25,7 +25,7 @@ import { db,updateHistory,removeLike,updateLike } from "./services/firebase";
 import About from './components/about';
 import Search from "./components/search/search";
 import SearchDetail from './components/searchDetail';
-import logo from './img/firstlogo.png';
+import logo from './img/firstlogo.svg';
 
 class App extends Component {
   state = {

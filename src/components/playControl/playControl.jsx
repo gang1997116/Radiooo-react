@@ -54,7 +54,9 @@ function PlayControl({ data, onPlay, onListPlay, onLike, playNext, playLast }) {
     <React.Fragment>
       {(location.pathname === "/" ||
         location.pathname === "/shop" ||
-        location.pathname === "/shop/") && <RadioModel sound={value} />}
+        location.pathname === "/shop/") && 
+        <RadioModel sound={value} currentPlay={data}/> 
+       }
       <Playlist currentPlay={data} onPlay={onListPlay} display={display} />
       <div className="bar">
         <Link to="/">

@@ -3,7 +3,7 @@ import RadioImg from "../img/radio-base.svg";
 import Antenna from "../img/antenna.svg";
 import Volume from "../img/volume.svg";
 
-const RadioModel = ({sound}) => {
+const RadioModel = ({sound,currentPlay}) => {
   let degree=sound/100*360;
   const[isOpen,setOpen]=useState(true);
   const[astyle,setAstyle]=useState({transform:"rotate(0deg)"});
@@ -22,6 +22,13 @@ const RadioModel = ({sound}) => {
       <img className="antenna clickable" src={Antenna} alt="Antenna" onClick={handleAntenna} style={astyle}/>
       <img className="home-img" src={RadioImg} alt="radio" />
       <img className="volume" src={Volume} alt="volume" style={{transform:`rotate(${degree}deg)`}}/>
+      <div className="scoll-title">
+        <span>
+          {currentPlay.name
+            ? currentPlay.name
+            : this.state.currentPlay.name}
+        </span>
+      </div>
     </div>
   );
 };

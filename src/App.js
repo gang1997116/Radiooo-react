@@ -12,7 +12,6 @@ import NotFound from "./components/notFound";
 import LoginForm from "./components/authpage/loginForm";
 import RegisterForm from "./components/authpage/registerForm";
 import Logout from "./components/logout";
-//import ProtectedRoute from './components/protectedRoute';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "./services/authService";
@@ -137,7 +136,7 @@ class App extends Component {
     const data=currentPlay?currentPlay:this.state.currentPlay;
     return (
       <Router>
-        <ToastContainer />
+        <ToastContainer/>
 
         <Radios
           user={user}

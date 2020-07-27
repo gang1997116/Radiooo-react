@@ -41,10 +41,10 @@ const Menu = ({ isOpen, onClick }) => {
       <div className="menu-panel" style={isOpen ? style.open : style.close}>
         <ul className="menu-content">
           <Tween
-            from={{ opacity: "0", y: "12" }}
+            from={{ opacity: "0", y: "30" }}
             to={{ opacity: "1", y: "0" }}
-            stagger={0.12}
-            duration={0.2}
+            stagger={0.1}
+            duration={0.35}
             ease="sine.out"
             playState={playState}
           >

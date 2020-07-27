@@ -8,7 +8,7 @@ class AgeWheel extends Component {
         this.age=React.createRef();
     }
     componentDidMount() {
-        let scrollHeight=window.innerHeight/90*30;
+        let scrollHeight=window.innerWidth/100*15;
         if(this.props.id==="303")
         {
            scrollHeight=-100;      
@@ -17,7 +17,7 @@ class AgeWheel extends Component {
             scrollHeight*=(10-Number(this.props.id)+210);
             
         }
-        this.age.current.scrollTop=scrollHeight+50;
+        this.age.current.scrollTop=scrollHeight+40;
     }
     
     render() { 

@@ -50,10 +50,12 @@ class SortByCountry extends Component {
         <div className="country-bg">Genres</div>
         <div className="central-content">
           <Tween
-            from={{ opacity: 0 }}
-            to={{ opacity: 1 }}
-            duration={1}
-            ease="back.out(1.7)"
+            from={{ opacity: 0,y:100}}
+            to={{ opacity: 1,y:0 }}
+            delay={0.5}
+            duration={0.8}
+            ease="power2.out"
+            stagger={0.1}
           >
             {countryGroup.map((group, index) => (
               <div

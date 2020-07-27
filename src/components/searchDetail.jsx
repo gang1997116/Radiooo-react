@@ -10,6 +10,7 @@ import auth from "../services/authService";
 import { updateLike, removeLike } from "../services/firebase";
 import { Tween } from "react-gsap";
 import LogoLoader from "./logoLoader";
+import { toast } from "react-toastify";
 
 class SearchDetail extends Component {
   state = {
@@ -74,8 +75,7 @@ class SearchDetail extends Component {
       localStorage.setItem('radiolist', JSON.stringify(radios));
     }
       catch{
-        alert('Do not found');
-        console.log(result);
+        toast("Sorry, we didn't found anything.");
       } 
     });
     // open the request with the verb and the url

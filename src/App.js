@@ -37,6 +37,11 @@ class App extends Component {
     },
     favorites:[],
   };
+  constructor(props) {
+    super(props);
+    this.audio = React.createRef();
+  }
+
   componentDidMount() {
     const user = auth.getCurrentUser();
     if(user){
@@ -89,7 +94,7 @@ class App extends Component {
     let currentPlay = { ...this.state.currentPlay };
     currentPlay.isPlaying = !currentPlay.isPlaying;
     this.setState({ currentPlay });
-    const audio = document.getElementById("audioplayer");
+    const audio=this.audio.current;
     if (currentPlay.isPlaying === true) {
       this.playAudio();
     } else {
@@ -120,14 +125,14 @@ class App extends Component {
     }
   }
   playAudio = () => {
-    const audio = document.getElementById("audioplayer");
+    const audio=this.audio.current;
     var playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise
         .then((_) => {
           audio.play();
         })
-        .catch(() => {
+        .catch((e) => {
           audio.play();
         });
     }
@@ -148,6 +153,7 @@ class App extends Component {
           onLike={this.handleLike}
           playNext={this.playNext}
           playLast={this.playLast}
+          ref={this.audio}
         />
         <main>
           <Route

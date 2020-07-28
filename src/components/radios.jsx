@@ -11,10 +11,10 @@ class Radios extends Component {
       u: "http://64.37.50.226:8030/stream/",
     },
   };
-  constructor(props) {
-    super(props);
-    this.audio = React.createRef();
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.audio = React.createRef();
+  // }
 
   render() {
     const {
@@ -41,7 +41,7 @@ class Radios extends Component {
         <Audio
           src={currentPlay.u}
           isPlaying={currentPlay.isPlaying}
-          ref={this.audio}
+          ref={this.props.innerRef}
         />
      
          
@@ -51,4 +51,6 @@ class Radios extends Component {
   }
 }
 
-export default Radios;
+export default React.forwardRef((props, ref) => <Radios 
+innerRef={ref} {...props}
+/>);;

@@ -8,7 +8,7 @@ const Audio = React.forwardRef((props,ref) => (
   id={"audioplayer"}
   src={props.src}
   type="audio/mpeg"
-  ref={(ref)}
+  ref={ref}
   style={{ visibility: "hidden" }}
 
 ></audio>

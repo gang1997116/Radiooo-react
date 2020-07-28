@@ -68,7 +68,7 @@ function PlayControl({ data, onPlay, onListPlay, onLike, playNext, playLast }) {
           {data.name.length > 30 ? data.name.slice(0, 30) + "..." : data.name}
         </div>
         <div className="controls">
-          <div className="like">
+          <div className="like" style={{fontSize:"3.35vh"}}>
             <Like onClick={onLike} likes={data.liked} />
           </div>
           <img src={last} className="last" alt="" onClick={playLast} />
@@ -80,8 +80,7 @@ function PlayControl({ data, onPlay, onListPlay, onLike, playNext, playLast }) {
             />
           </div>
           <img src={next} className="next" alt="" onClick={playNext} />
-          <img src={soundStyle} className="sound" onClick={handleMute} alt="" />
-        </div>
+          <img src={soundStyle} className="sound" onClick={handleMute} alt="" />        </div>
         <SoundControl mute={mute} value={value} onChange={handleChange} />
         <img
           src={list}

@@ -222,11 +222,11 @@ code {
 }
 .history-control{
   position: absolute;
-  top: 3vh;
+  top: 20px;
   height: 4vh;
   left: calc(50px + 0.5rem);
   margin-right: 2vw;
-  font-size: 2.8vh;
+  font-size: 1.3rem;
   color: rgb(172, 131, 77);
   transition: color 0.15s cubic-bezier(0.95, 0.05, 0.795, 0.035);
 }
@@ -307,8 +307,8 @@ code {
 }
 .logo {
   position: absolute;
-  width: 20vw;
-  height: 6vh;
+  width: fit-content;
+  height: 2.5rem;
   top: 2vh;
   left: 0;
   right: 1vh;

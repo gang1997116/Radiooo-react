@@ -4,10 +4,10 @@ import Slider from "@material-ui/core/Slider";
 
 const PrettoSlider = withStyles({
   root: {
-    width: 100,
+    width: "14vh",
     height: "fit-content",
     position: "absolute",
-    top: "0vh",
+    top: 0,
     bottom: 0,
     left: "57vh",
     right: 0,

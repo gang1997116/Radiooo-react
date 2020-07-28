@@ -12,6 +12,7 @@ const GenreLabel = ({ genre }) => {
         }}
         duration={0.13}
         stagger={0.07}
+        ease="sine.out"
       >
         {genre.map((genre) => (
           <div style={{ display: "inline-block" }} key={genre.id}>

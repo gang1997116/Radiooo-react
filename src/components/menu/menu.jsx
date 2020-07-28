@@ -44,7 +44,7 @@ const Menu = ({ isOpen, onClick }) => {
             from={{ opacity: "0", y: "30" }}
             to={{ opacity: "1", y: "0" }}
             stagger={0.1}
-            duration={0.4}
+            duration={0.35}
             delay={0.2}
             ease="sine.out"
             playState={playState}

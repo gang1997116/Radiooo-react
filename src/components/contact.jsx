@@ -35,10 +35,10 @@ const Contact = () => {
           <h1 className="c-headline__headline c-word-reveal">
             <span>
               <Tween
-                from={{ y: "100%", opacity: 0 }}
+                from={{ y: "100%" }}
                 delay={1}
-                to={{ y: 0, opacity: 1 }}
-                duration={0.5}
+                to={{ y: 0 }}
+                duration={0.8}
                 ease="cubic-bezier(0.215, 0.61, 0.355, 1)"
               >
                 <span>Contact</span>
@@ -50,10 +50,10 @@ const Contact = () => {
           <h1 className="c-headline__headline c-word-reveal">
             <span>
               <Tween
-                from={{ y: "100%", opacity: 0 }}
+                from={{ y: "100%" }}
                 delay={1}
-                to={{ y: 0, opacity: 1 }}
-                duration={0.5}
+                to={{ y: 0}}
+                duration={0.8}
                 ease="cubic-bezier(0.215, 0.61, 0.355, 1)"
               >
                 <span>Contact</span>
@@ -68,11 +68,11 @@ const Contact = () => {
           className="text-container"
         >
           <Tween
-            from={{ opacity: 0,y:"100%" }}
-            to={{ opacity: 1,y:0 }}
+            from={{ y:"100%" }}
+            to={{ y:0 }}
             duration={0.5}
             delay={1}
-            ease="cubic-bezier(0.215, 0.61, 0.355, 1)"
+            ease="power3.out"
           >
             <p>Kelly Zhong</p>
           </Tween>
@@ -81,11 +81,11 @@ const Contact = () => {
           className="text-container"
         >
           <Tween
-            from={{ opacity: 0,y:"100%" }}
-            to={{ opacity: 1,y:0 }}
+            from={{ y:"100%" }}
+            to={{ y:0 }}
             duration={0.5}
             delay={1}
-            ease="cubic-bezier(0.215, 0.61, 0.355, 1)"
+            ease="power3.out"
           >
              <p>+86 15542482022</p>
           </Tween>
@@ -94,11 +94,11 @@ const Contact = () => {
           className="text-container"
         >
           <Tween
-            from={{ opacity: 0,y:"100%" }}
-            to={{ opacity: 1,y:0 }}
+            from={{ y:"100%" }}
+            to={{ y:0 }}
             duration={0.5}
             delay={1}
-            ease="cubic-bezier(0.215, 0.61, 0.355, 1)"
+            ease="power3.out"
           >
             <p>gang1997116@163.com</p>
           </Tween>

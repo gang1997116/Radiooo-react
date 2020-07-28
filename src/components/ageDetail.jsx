@@ -141,7 +141,11 @@ class AgeDetail extends Component {
                     <span> Back</span>
                   </div>
                 </Link>
-                <InputBase
+                
+              </div>
+              <AgeWheel id={genre} />
+              <div className="radio-body">
+              <InputBase
                   className="form-search"
                   type="text"
                   placeholder="Search..."
@@ -153,9 +157,6 @@ class AgeDetail extends Component {
                     </InputAdornment>
                   }
                 />
-              </div>
-              <AgeWheel id={genre} />
-              <div className="radio-body">
                 <h1>
                   {genre === "303" ? "00s" : (Number(genre) - 210) * 10 + "s"}
                 </h1>

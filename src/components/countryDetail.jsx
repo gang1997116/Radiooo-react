@@ -161,7 +161,11 @@ class CountryDetail extends Component {
                       <span> Back</span>
                     </div>
                   </Link>
-                  <InputBase
+                  
+                </div>
+                <CountryCloud country={country} />
+                <div className="radio-body">
+                <InputBase
                     className="form-search"
                     type="text"
                     placeholder="Search..."
@@ -176,9 +180,6 @@ class CountryDetail extends Component {
                       </InputAdornment>
                     }
                   />
-                </div>
-                <CountryCloud country={country} />
-                <div className="radio-body">
                   <h1>{currentCountry ? currentCountry : "Country"}</h1>
                   <p>We got {totalCount} radios for you.</p>
                   <RadiosTable

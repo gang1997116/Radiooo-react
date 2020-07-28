@@ -12,7 +12,7 @@ class SortByAge extends Component {
   }
 
   render() {
-    const parent = { width: `100%`, height: `35vh`, marginTop: "0vh" };
+    const parent = { width: `100%`, height: `35vh`, marginTop: "0vh"};
     return (
       <div className="content">
         <div style={{ width: "100%", position: "relative" }}>
@@ -24,7 +24,7 @@ class SortByAge extends Component {
             <span className="number right">30s</span>
           </div>
 
-          <HorizontalScroll style={parent}>
+          <HorizontalScroll style={parent} >
             <Age label="00s" id="303" />
             <Age label="90s" id="219" />
             <Age label="80s" id="218" />

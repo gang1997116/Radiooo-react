@@ -414,7 +414,7 @@ a:hover{
   font-weight: 600;
 }
 .sidebutton{
-  width: 13vh;
+  width: 50%;
   height: 5vh;
   border: 1px solid #ddc49f;
   background-color: #ddc49f;

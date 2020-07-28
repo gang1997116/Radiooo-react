@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Roll = styled.div`
-  width: 26vh;
+  width: fit-content;
   height: 5vh;
   border: 1px solid #ddc49f;
   border-radius: 2.5vw;
@@ -22,7 +22,7 @@ const SwitchButton = ({ state,onClick }) => {
   if (state) {
     position = {left:0};
   } else {
-    position = {left:"13vh"};
+    position = {left:"calc(50% + 2px)"};
   }
 
   return (

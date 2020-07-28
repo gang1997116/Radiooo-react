@@ -37,7 +37,8 @@ class RegisterForm extends Form {
   render() {
     return (
       <div className="page">
-      <div className="form">
+      <div className="hidescrollbar" style={{overflowY:"scroll",height:"80vh",marginTop:"10vh",position:"relative"}}>
+      <div className="form" style={{marginBottom:"5vh",top:"5vh"}}>
         <h1 style={{textAlign:"center",marginBottom:"3vh"}}>Register</h1>
         {/* <button onClick={addUser}>send to firebase</button> */}
         <form onSubmit={this.handleSubmit}>
@@ -47,6 +48,7 @@ class RegisterForm extends Form {
           {this.renderButton("Register")}
           <Link to="/login" className="log-link">Log in</Link>
         </form>
+      </div>
       </div>
       </div>
     );

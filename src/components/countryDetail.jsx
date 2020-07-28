@@ -7,9 +7,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import CountryCloud from "./tagCloud";
 import { Link } from "react-router-dom";
-import auth from "../services/authService";
 import { Tween } from "react-gsap";
-import { updateLike, removeLike } from "../services/firebase";
 import { getStations,getGenres, getGenreById } from "../services/genreService";
 import LogoLoader from './logoLoader';
 
@@ -39,7 +37,7 @@ class CountryDetail extends Component {
     this.audio = React.createRef();
   }
   async componentDidMount() {
-    //setTimeout(() => this.setState({ isLoaded: true }), 2000);
+    setTimeout(() => this.setState({ isLoaded: true }), 2000);
     
     const genre=await getGenreById(this.props.match.params.country);
     this.setState({currentCountry:genre});
@@ -50,7 +48,7 @@ class CountryDetail extends Component {
     localStorage.setItem('radiolist', JSON.stringify(radios));
     const country  = await getGenres();
     this.setState({ country });
-    this.setState({ isLoaded: true });
+    //this.setState({ isLoaded: true });
   }
  componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.id !== this.props.currentPlay.id) {
@@ -67,17 +65,6 @@ class CountryDetail extends Component {
     }
   }
 
-  handleLike = (radio) => {
-    const user = auth.getCurrentUser();
-    if(user===null){alert("You need to log in first!"); return null;}
-    radio.liked = !radio.liked;
-    const favorites = [...this.props.favorites];
-    if (radio.liked === true) {
-      updateLike(user, radio);
-    } else {
-      removeLike(user,favorites,radio);
-    }
-  };
 
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
@@ -185,7 +172,7 @@ class CountryDetail extends Component {
                   <RadiosTable
                     radios={radios}
                     sortColumn={sortColumn}
-                    onLike={this.handleLike}
+                    onLike={this.props.onLike}
                     onDelete={this.handleDelete}
                     onSort={this.handleSort}
                     onPlay={this.props.onPlay}

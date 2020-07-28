@@ -6,8 +6,6 @@ import _ from "lodash";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import { Link } from "react-router-dom";
-import auth from "../services/authService";
-import { updateLike, removeLike } from "../services/firebase";
 import { Tween } from "react-gsap";
 import LogoLoader from "./logoLoader";
 import { toast } from "react-toastify";
@@ -84,16 +82,7 @@ class SearchDetail extends Component {
     xhr.send();
   };
 
-  handleLike = (radio) => {
-    const user = auth.getCurrentUser();
-    radio.liked = !radio.liked;
-    const favorites = [...this.props.favorites];
-    if (radio.liked === true) {
-      updateLike(user, radio);
-    } else {
-      removeLike(user, favorites, radio);
-    }
-  };
+ 
 
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
@@ -199,7 +188,7 @@ class SearchDetail extends Component {
                 <RadiosTable
                   radios={radios}
                   sortColumn={sortColumn}
-                  onLike={this.handleLike}
+                  onLike={this.props.onLike}
                   onDelete={this.handleDelete}
                   onSort={this.handleSort}
                   onPlay={this.props.onPlay}

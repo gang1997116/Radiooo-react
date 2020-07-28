@@ -12,7 +12,7 @@ import NotFound from "./components/notFound";
 import LoginForm from "./components/authpage/loginForm";
 import RegisterForm from "./components/authpage/registerForm";
 import Logout from "./components/logout";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "./services/authService";
 import SortByAge from "./components/sortByAge/sortByAge";
@@ -20,12 +20,12 @@ import AgeDetail from "./components/ageDetail";
 import SortByCountry from "./components/sortByCountry";
 import "./App.css";
 import CountryDetail from "./components/countryDetail";
-import { db,updateHistory,removeLike,updateLike } from "./services/firebase";
-import About from './components/about';
+import { db, updateHistory, removeLike, updateLike } from "./services/firebase";
+import About from "./components/about";
 import Search from "./components/search/search";
-import SearchDetail from './components/searchDetail';
-import logo from './img/firstlogo.svg';
-import Contact from './components/contact';
+import SearchDetail from "./components/searchDetail";
+import logo from "./img/firstlogo.svg";
+import Contact from "./components/contact";
 
 class App extends Component {
   state = {
@@ -35,7 +35,7 @@ class App extends Component {
       logo: logo,
       u: "http://64.37.50.226:8030/stream/",
     },
-    favorites:[],
+    favorites: [],
   };
   constructor(props) {
     super(props);
@@ -44,57 +44,84 @@ class App extends Component {
 
   componentDidMount() {
     const user = auth.getCurrentUser();
-    if(user){
+    if (user) {
       this.setState({ user });
-    db.collection("users")
-    .doc(user.email)
-    .onSnapshot((doc) => {
-      this.setState({ favorites: doc.data().favorites||[] });
-    });
+      db.collection("users")
+        .doc(user.email)
+        .onSnapshot((doc) => {
+          this.setState({ favorites: doc.data().favorites || [] });
+        });
     }
   }
-  handleLike = () => {
-    const {user,favorites,currentPlay}=this.state;
-    const data={...this.state.currentPlay};
-    data.liked=!data.liked;
-    if(currentPlay.liked){
-      removeLike(user,favorites,data);
+  handleListLike = (radio) => {
+    const { user, currentPlay } = this.state;
+    if (user === null) {
+      toast("🧡 You need to log in first!");
+      return null;
     }
-    else{
-      updateLike(user,data);
+    radio.liked = !radio.liked;
+    const favorites = [...this.state.favorites];
+    if (radio.liked === true) {
+      updateLike(user, radio);
+    } else {
+      removeLike(user, favorites, radio);
     }
+    if (currentPlay.id === radio.id) {
+      currentPlay.liked = !currentPlay.liked;
+    }
+  };
 
-    this.setState({currentPlay:data})
+  handleLike = () => {
+    const { user, favorites, currentPlay } = this.state;
+    if (user === undefined) {
+      toast("🧡 You need to log in first!");
+    } else {
+      const data = { ...this.state.currentPlay };
+      data.liked = !data.liked;
+      if (currentPlay.liked) {
+        removeLike(user, favorites, data);
+      } else {
+        updateLike(user, data);
+      }
+
+      this.setState({ currentPlay: data });
+    }
   };
   handlePlay = (radio) => {
-    if("isPlaying" in radio){
+    if ("isPlaying" in radio) {
       radio.isPlaying = true;
     }
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", `https://secure-earth-03984.herokuapp.com/http://yp.shoutcast.com/sbin/tunein-station.m3u?id=${radio.id}`);
-      xhr.overrideMimeType("audio/x-mpegurl"); // Needed, see below.
-      xhr.onload = ()=>{
+    var xhr = new XMLHttpRequest();
+    xhr.open(
+      "GET",
+      `https://secure-earth-03984.herokuapp.com/http://yp.shoutcast.com/sbin/tunein-station.m3u?id=${radio.id}`
+    );
+    xhr.overrideMimeType("audio/x-mpegurl"); // Needed, see below.
+    xhr.onload = () => {
       var parsers = require("playlist-parser");
       var M3U = parsers.M3U;
       var playlist = M3U.parse(xhr.response);
       //radio.u=playlist[0].file;
-      try{radio.u=playlist[0].file;}
-      catch{radio.u="http://64.37.50.226:8030/stream/";}
-      let currentPlay={...radio};
-      currentPlay.isPlaying=true;
-      this.setState({currentPlay});
+      try {
+        radio.u = playlist[0].file;
+      } catch {
+        radio.u = "http://64.37.50.226:8030/stream/";
+      }
+      let currentPlay = { ...radio };
+      currentPlay.isPlaying = true;
+      this.setState({ currentPlay });
       this.playAudio();
-};
+    };
     xhr.send();
 
-    updateHistory(this.state.user,radio);
+    updateHistory(this.state.user, radio);
   };
-  
+
   handleSimplePlay = () => {
     let currentPlay = { ...this.state.currentPlay };
     currentPlay.isPlaying = !currentPlay.isPlaying;
     this.setState({ currentPlay });
-    const audio=this.audio.current;
+    const audio = this.audio.current;
     if (currentPlay.isPlaying === true) {
       this.playAudio();
     } else {
@@ -102,30 +129,30 @@ class App extends Component {
     }
   };
 
-  playNext=()=>{
-    const radiolist = localStorage.getItem('radiolist');
-    const list=JSON.parse(radiolist);
-    for(var i=0;i<list.length-1;i++){
-      if(list[i].id===this.state.currentPlay.id){
-        this.handlePlay(list[i+1]);
+  playNext = () => {
+    const radiolist = localStorage.getItem("radiolist");
+    const list = JSON.parse(radiolist);
+    for (var i = 0; i < list.length - 1; i++) {
+      if (list[i].id === this.state.currentPlay.id) {
+        this.handlePlay(list[i + 1]);
         break;
       }
     }
-    if(i===list.length-1){
+    if (i === list.length - 1) {
       this.handlePlay(list[0]);
     }
-  }
-  playLast=()=>{
-    const radiolist = localStorage.getItem('radiolist');
-    const list=JSON.parse(radiolist);
-    for(let i=1;i<list.length;i++){
-      if(list[i].id===this.state.currentPlay.id){
-        this.handlePlay(list[i-1]);
+  };
+  playLast = () => {
+    const radiolist = localStorage.getItem("radiolist");
+    const list = JSON.parse(radiolist);
+    for (let i = 1; i < list.length; i++) {
+      if (list[i].id === this.state.currentPlay.id) {
+        this.handlePlay(list[i - 1]);
       }
     }
-  }
+  };
   playAudio = () => {
-    const audio=this.audio.current;
+    const audio = this.audio.current;
     var playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise
@@ -133,16 +160,16 @@ class App extends Component {
           audio.play();
         })
         .catch((e) => {
-          audio.play();
+          toast("📻 This station is unable to be played.");
         });
     }
   };
   render() {
-    const { user, currentPlay,favorites } = this.state;
-    const data=currentPlay?currentPlay:this.state.currentPlay;
+    const { user, currentPlay, favorites } = this.state;
+    const data = currentPlay ? currentPlay : this.state.currentPlay;
     return (
       <Router>
-        <ToastContainer/>
+        <ToastContainer />
 
         <Radios
           user={user}
@@ -182,6 +209,7 @@ class App extends Component {
                           user={user}
                           currentPlay={data}
                           favorites={favorites}
+                          onLike={this.handleListLike}
                         />
                       )}
                     />
@@ -199,6 +227,7 @@ class App extends Component {
                           user={user}
                           currentPlay={data}
                           favorites={favorites}
+                          onLike={this.handleListLike}
                         />
                       )}
                     />
@@ -206,24 +235,32 @@ class App extends Component {
                     <Route path="/shop/about" exact component={About} />
                     <Route path="/shop/contact" exact component={Contact} />
                     <Route path="/shop/search" exact component={Search} />
-                    <Route path="/shop/search/:keyword" render={(props) => (
+                    <Route
+                      path="/shop/search/:keyword"
+                      render={(props) => (
                         <SearchDetail
                           {...props}
                           onPlay={this.handlePlay}
                           user={user}
                           currentPlay={data}
                           favorites={favorites}
+                          onLike={this.handleListLike}
                         />
-                      )} />
-                      <Route path="/shop/genresearch/:keyword" render={(props) => (
+                      )}
+                    />
+                    <Route
+                      path="/shop/genresearch/:keyword"
+                      render={(props) => (
                         <SearchDetail
                           {...props}
                           onPlay={this.handlePlay}
                           user={user}
                           currentPlay={data}
                           favorites={favorites}
+                          onLike={this.handleListLike}
                         />
-                      )} />
+                      )}
+                    />
                     <Route path="/login" component={LoginForm} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/register" component={RegisterForm} />

@@ -10,8 +10,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import AgeWheel from "./sortByAge/ageWheel";
 import { Link } from "react-router-dom";
-import auth from "../services/authService";
-import { updateLike, removeLike } from "../services/firebase";
 import { Tween } from "react-gsap";
 import LogoLoader from "./logoLoader";
 import { getStations } from "../services/genreService";
@@ -48,17 +46,6 @@ class AgeDetail extends Component {
       this.setState({ radios });
     }
   }
-
-  handleLike = (radio) => {
-    const user = auth.getCurrentUser();
-    radio.liked = !radio.liked;
-    const favorites = [...this.props.favorites];
-    if (radio.liked === true) {
-      updateLike(user, radio);
-    } else {
-      removeLike(user, favorites, radio);
-    }
-  };
 
   handlePagechange = (page) => {
     this.setState({ currentPage: page });
@@ -164,7 +151,7 @@ class AgeDetail extends Component {
                 <RadiosTable
                   radios={radios}
                   sortColumn={sortColumn}
-                  onLike={this.handleLike}
+                  onLike={this.props.onLike}
                   onDelete={this.handleDelete}
                   onSort={this.handleSort}
                   onPlay={this.props.onPlay}

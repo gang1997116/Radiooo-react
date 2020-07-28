@@ -24,7 +24,7 @@ function Nav({ user }) {
     <React.Fragment>
       <div>
         <div
-          className="menu-button"
+          className="menu-button clickable"
           onClick={() => {
             setToggle(!isToggled);
           }}

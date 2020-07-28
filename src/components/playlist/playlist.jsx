@@ -97,13 +97,15 @@ class Playlist extends Component {
     } = this.state;
 
     let filtered = buttonState?allradios:history;
-
+    // let reverse=_.cloneDeep(filtered);
+    // reverse.reverse();
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const radios = paginate(sorted, currentPage, pageSize);
     if (!buttonState) {
       this.replaceFavorite(radios);
     }
+    
     return { totalCount: filtered.length, radios: radios };
   };
 
@@ -134,7 +136,7 @@ class Playlist extends Component {
           <Tween
             from={{ opacity: 0 }}
             to={{ opacity: 1 }}
-            duration={0.5}
+            duration={0.25}
             playState={playState}
           >
             <div className="playlist-table hidescrollbar">

@@ -39,7 +39,7 @@ class CountryDetail extends Component {
     this.audio = React.createRef();
   }
   async componentDidMount() {
-    setTimeout(() => this.setState({ isLoaded: true }), 2000);
+    //setTimeout(() => this.setState({ isLoaded: true }), 2000);
     
     const genre=await getGenreById(this.props.match.params.country);
     this.setState({currentCountry:genre});
@@ -50,6 +50,7 @@ class CountryDetail extends Component {
     localStorage.setItem('radiolist', JSON.stringify(radios));
     const country  = await getGenres();
     this.setState({ country });
+    this.setState({ isLoaded: true });
   }
  componentDidUpdate(prevProps) {
     if (prevProps.currentPlay.id !== this.props.currentPlay.id) {

@@ -25,13 +25,13 @@ export async function getSecondGenres(parentId){
   const genre = data.response.data.genrelist.genre;
   return genre;
 }
-export async function getAgeGenres() {
-  var targetUrl =
-    "http://api.shoutcast.com/genre/secondary?parentid=212&f=json&" + key;
-  const data = await getData(targetUrl);
-  const ageGenre = data.response.data.genrelist.genre;
-  return ageGenre;
-}
+// export async function getAgeGenres() {
+//   var targetUrl =
+//     "http://api.shoutcast.com/genre/secondary?parentid=212&f=json&" + key;
+//   const data = await getData(targetUrl);
+//   const ageGenre = data.response.data.genrelist.genre;
+//   return ageGenre;
+// }
 export async function getStations(genreId) {
   let targetUrl =
     `http://api.shoutcast.com/station/advancedsearch?genre_id=${genreId}&f=json&` +

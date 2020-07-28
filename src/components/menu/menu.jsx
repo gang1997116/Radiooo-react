@@ -24,7 +24,7 @@ const route = [
 ];
 const smallRoute = [
   { label: "About", link: "about", style: { fontSize: "1.9vw" } },
-  { label: "Contact", link: "", style: { fontSize: "1.9vw" } },
+  { label: "Contact", link: "contact", style: { fontSize: "1.9vw" } },
 ];
 const Menu = ({ isOpen, onClick }) => {
   const [playState, setState] = useState(PlayState.play);
@@ -44,7 +44,8 @@ const Menu = ({ isOpen, onClick }) => {
             from={{ opacity: "0", y: "30" }}
             to={{ opacity: "1", y: "0" }}
             stagger={0.1}
-            duration={0.35}
+            duration={0.4}
+            delay={0.2}
             ease="sine.out"
             playState={playState}
           >

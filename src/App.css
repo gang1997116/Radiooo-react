@@ -1,3 +1,5 @@
+
+
 .App {
   text-align: center;
 }
@@ -35,10 +37,10 @@
 }
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 1s cubic-bezier(1,0,0,1);
+  transition: opacity 1s cubic-bezier(1, 0, 0, 1);
 }
 
-.mouse{
+.mouse {
   width: 30px;
   height: 30px;
   background: none;
@@ -53,3 +55,76 @@
   z-index: 200;
 }
 
+.c-word-reveal .s-revealed span {
+  transform: translateY(0);
+  opacity: 1;
+}
+.c-word-reveal span span {
+  will-change: transform, opacity;
+  transition: transform 500ms cubic-bezier(0.215, 0.61, 0.355, 1), opacity 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.c-word-reveal span{
+  display: block;
+}
+.c-word-reveal > span {
+  overflow: hidden;
+  text-align: left;
+}
+.c-headline__headline {
+  width: 100%;
+  font-size: 20vh;
+  font-weight:500;
+  font-family: 'monoton';
+}
+.titleContainer{
+  margin: 20vh auto;
+  width: fit-content;
+  height: 100%;
+  position: relative;
+  height: fit-content;
+  --maskX:0;
+  --maskY:50;
+}
+.titleContainer h1{
+  margin: 0;
+}
+.titleWrapper{
+  cursor: pointer;
+  color:#83580B;
+}
+.cloneWrapper{
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  color: #FFC76C;
+  clip-path: polygon(0 0,calc(var(--maskX) * 1%) 0,calc(var(--maskY) * 1%) 100%,0 100%);
+  transition: clip-path 0.4s ease-out;
+}
+.contact-content p{
+  text-align: center;
+  display: block;
+  width: 100%;
+  line-height: 2.6vh;
+  font-weight: 500;
+  color: #3d2802;
+  font-size: 2.6vh;
+  margin: 0;
+}
+.contact-content{
+  width: fit-content;
+  height: 20vh;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 58vh;
+  text-align: center;
+  font-size:2.5vh;
+}
+.text-container{
+  height: 2.8vh; 
+  overflow: hidden; 
+  margin-bottom: 1rem;
+}

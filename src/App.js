@@ -25,6 +25,7 @@ import About from './components/about';
 import Search from "./components/search/search";
 import SearchDetail from './components/searchDetail';
 import logo from './img/firstlogo.svg';
+import Contact from './components/contact';
 
 class App extends Component {
   state = {
@@ -197,6 +198,7 @@ class App extends Component {
                     />
                     <Route path="/shop/age" exact component={SortByAge} />
                     <Route path="/shop/about" exact component={About} />
+                    <Route path="/shop/contact" exact component={Contact} />
                     <Route path="/shop/search" exact component={Search} />
                     <Route path="/shop/search/:keyword" render={(props) => (
                         <SearchDetail

@@ -41,7 +41,7 @@ const Menu = ({ isOpen, onClick }) => {
       <div className="menu-panel" style={isOpen ? style.open : style.close}>
         <ul className="menu-content">
           <Tween
-            from={{ opacity: "0", y: "30" }}
+            from={{ opacity: "0", y: "20" }}
             to={{ opacity: "1", y: "0" }}
             stagger={0.1}
             duration={0.35}
@@ -72,7 +72,11 @@ const Menu = ({ isOpen, onClick }) => {
           </Tween>
         </ul>
       </div>
-      <div className="menu-bg" style={!isOpen ? style.unvisible : null} onClick={onClick}></div>
+      <div
+        className="menu-bg"
+        style={!isOpen ? style.unvisible : null}
+        onClick={onClick}
+      ></div>
     </React.Fragment>
   );
 };

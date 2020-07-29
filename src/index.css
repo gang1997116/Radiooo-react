@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Monoton&display=swap");
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -8,17 +8,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-img{
-  -webkit-user-drag:none;
+img {
+  -webkit-user-drag: none;
 }
-li button{
-  outline:none;
+li button {
+  outline: none;
 }
-@font-face{
-  font-family:'technology';
-  src: url("../src/fonts/Technology.ttf") format('ttf'),
-        url('../src/fonts/technology-webfont.woff2') format('woff2'),
-         url('../src/fonts/technology-webfont.woff') format('woff');
+@font-face {
+  font-family: "technology";
+  src: url("../src/fonts/Technology.ttf") format("ttf"),
+    url("../src/fonts/technology-webfont.woff2") format("woff2"),
+    url("../src/fonts/technology-webfont.woff") format("woff");
 }
 
 html,
@@ -83,22 +83,22 @@ code {
   list-style: none;
   color: rgb(83, 55, 28);
 }
-.menu-button{
+.menu-button {
   position: absolute;
   left: 0.5rem;
   top: -5px;
   z-index: 21;
 }
-.menu-panel{
+.menu-panel {
   position: absolute;
   left: 0;
-  top:0;
+  top: 0;
   width: 40%;
   height: 100%;
   background-color: #fffdf6;
   z-index: 20;
 }
-.menu-bg{
+.menu-bg {
   position: absolute;
   left: 0;
   top: 0;
@@ -109,18 +109,18 @@ code {
   z-index: 11;
   transition: opacity 0.3s linear;
 }
-.menu-content{
+.menu-content {
   margin-top: 17vh;
   list-style-type: none;
 }
-.menu-content li{
+.menu-content li {
   font-size: 3.3vw;
   font-weight: 400;
 }
-.menu-content a{
+.menu-content a {
   color: rgb(53, 33, 8);
 }
-.menu-content .line{
+.menu-content .line {
   display: inline-block;
   margin: auto 0;
   opacity: 0;
@@ -133,16 +133,15 @@ code {
   background-color: #252120;
   transition: all 0.2s ease-in;
 }
-.menu-content li:hover{
+.menu-content li:hover {
   color: #573917e3;
 }
-.menu-content li:hover .line{
+.menu-content li:hover .line {
   opacity: 1;
   clip-path: inset(0 0 0 0%);
 }
 
-
-.h_div{
+.h_div {
   width: 3vw;
   height: 1px;
   background-color: rgba(37, 33, 32, 0.219);
@@ -167,41 +166,45 @@ code {
   margin-bottom: 3vh;
   height: 5vh;
 }
-.radio-body{
+.radio-body {
   width: 60vw;
   position: absolute;
   right: 5vw;
-  top:15vh;
+  top: 15vh;
   height: 75vh;
   overflow-y: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-.radio-body::-webkit-scrollbar { width: 0 !important }
-.hidescrollbar::-webkit-scrollbar { width: 0 !important }
-.age-wheel{
+.radio-body::-webkit-scrollbar {
+  width: 0 !important;
+}
+.hidescrollbar::-webkit-scrollbar {
+  width: 0 !important;
+}
+.age-wheel {
   scroll-behavior: smooth;
   width: 30vw;
   height: 79vh;
   overflow: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-.age-wheel::-webkit-scrollbar{
+.age-wheel::-webkit-scrollbar {
   display: none;
 }
 
-.central-content{
-  margin-top:15vh;
-  overflow:scroll;
-  height:75vh;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+.central-content {
+  margin-top: 15vh;
+  overflow: scroll;
+  height: 75vh;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-.central-content::-webkit-scrollbar{
+.central-content::-webkit-scrollbar {
   display: none;
 }
-.line{
+.line {
   height: 1px;
   width: 100%;
   background-color: black;
@@ -211,8 +214,8 @@ code {
   position: relative;
   float: right;
   right: 0;
-  top: 7vh;
-  height:  2.1rem;
+  top: 3rem;
+  height: 2.1rem;
   border-radius: 2.5vh;
   background-color: #f1ebe3;
   border: none;
@@ -220,7 +223,7 @@ code {
   width: 13vw;
   z-index: 3;
 }
-.history-control{
+.history-control {
   position: absolute;
   top: 20px;
   height: 4vh;
@@ -230,7 +233,7 @@ code {
   color: rgb(172, 131, 77);
   transition: color 0.15s cubic-bezier(0.95, 0.05, 0.795, 0.035);
 }
-.history-control:hover{
+.history-control:hover {
   color: rgb(104, 72, 14);
 }
 .home-img {
@@ -243,7 +246,7 @@ code {
   right: 0;
   margin: 0 auto;
 }
-.antenna{
+.antenna {
   position: absolute;
   width: 55vh;
   height: 30vh;
@@ -252,11 +255,11 @@ code {
   left: 1.5vh;
   right: 0;
   margin: 0 auto;
-  transform-origin:bottom left;
+  transform-origin: bottom left;
   transform: rotate(0deg);
   transition: transform linear 1.5s;
 }
-.volume{
+.volume {
   position: absolute;
   width: 8.5vh;
   height: 30vh;
@@ -289,7 +292,7 @@ code {
   height: fit-content;
   margin: 0 auto;
   font-size: 4vh;
-  font-family:'technology';
+  font-family: "technology";
   color: #f1ebe3;
   white-space: nowrap;
   animation-name: slide;
@@ -316,8 +319,8 @@ code {
   z-index: 10;
 }
 
-.btn-log{
-  background-color: #FACF87;
+.btn-log {
+  background-color: #facf87;
   color: black;
   font-family: "Balsamiq Sans";
   font-weight: 700;
@@ -327,52 +330,52 @@ code {
   border: none;
   margin-top: 5vh;
 }
-.danger{
+.danger {
   margin-top: 1.5vh;
   color: #bd0000;
   margin-left: 1vw;
   font-family: "Balsamiq Sans";
 }
-.log-link{
+.log-link {
   font-family: "Balsamiq Sans";
-  color:black;
+  color: black;
   margin-left: 1vw;
 }
-a{
+a {
   color: black;
 }
-a:hover{
+a:hover {
   color: rgb(185, 114, 28);
   text-decoration: none;
 }
 
 .app-outer {
   align-items: center;
-	bottom: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	left: 2vw;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  left: 2vw;
   padding: 0px 0;
   right: 0;
-	position: absolute;
+  position: absolute;
   top: 10vh;
   width: 30vw;
 }
 
 .app-inner {
-	display: flex;
-	flex-direction: column;
-	height: 90%;
-	max-width: 1000px;
-  width:100%;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  max-width: 1000px;
+  width: 100%;
   animation: 1s ease-in 0s 1 clip;
 }
-@keyframes clip{
-  from{
+@keyframes clip {
+  from {
     clip-path: circle(1% at 50% 50%);
   }
-  to{
+  to {
     clip-path: circle(50% at 50% 50%);
   }
 }
@@ -384,48 +387,48 @@ a:hover{
   transition: 3s;
 }
 
-.table th{
-  border-top:1px solid #83580b;
+.table th {
+  border-top: 1px solid #83580b;
 }
-.table td{
-  border-top:none;
+.table td {
+  border-top: none;
 }
-.table thead th{
-  border-bottom: 1px solid #83580b ;
+.table thead th {
+  border-bottom: 1px solid #83580b;
 }
-.table{
-  border-bottom: 1px solid #83580b ;
+.table {
+  border-bottom: 1px solid #83580b;
 }
 
-.dynamic-number{
+.dynamic-number {
   position: absolute;
-  top:10vh;
+  top: 10vh;
   right: 0;
   color: #a8926413;
   font-size: 35vh;
   font-weight: 600;
 }
-.country-bg{
+.country-bg {
   position: absolute;
-  top:40vh;
+  top: 40vh;
   right: 0;
   color: #a8926413;
   font-size: 35vh;
   font-weight: 600;
 }
-.sidebutton{
+.sidebutton {
   width: 50%;
   height: 5vh;
   border: 1px solid #ddc49f;
   background-color: #ddc49f;
   border-radius: 2.5vw;
   position: absolute;
-  top:0;
+  top: 0;
   margin: -1px;
-  left:0;
+  left: 0;
   transition: left 0.2s linear;
 }
-.playlist{
+.playlist {
   width: 32vw;
   height: 90vh;
   position: absolute;
@@ -438,15 +441,15 @@ a:hover{
   box-shadow: -1px -1px 10px grey;
   transition: right 0.2s cubic-bezier(0.6, 0.05, 0.55, 0.95);
 }
-.playlist-table{
+.playlist-table {
   height: 80vh;
   overflow-y: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-.genre-group{
+.genre-group {
   position: absolute;
-  top:5vh;
+  top: 5vh;
   bottom: 0;
   right: 0;
   left: 0;
@@ -454,7 +457,7 @@ a:hover{
   width: 50vw;
   height: 30vh;
 }
-.genre-label{
+.genre-label {
   display: inline-block;
   border: 1px solid #83580b;
   height: fit-content;
@@ -463,10 +466,10 @@ a:hover{
   color: #3d2904;
   font-weight: 700;
   margin-right: 5px;
-  transition: background .2s ease-in;
+  transition: background 0.2s ease-in;
   margin-bottom: 10px;
 }
-.genre-label:hover{
+.genre-label:hover {
   background: #83580b;
   color: white;
 }

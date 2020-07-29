@@ -134,8 +134,8 @@ class CountryDetail extends Component {
             <Tween
               from={{ opacity: "0" }}
               to={{ opacity: "1" }}
-              duration={1}
-              ease="back.out(1.7)"
+              duration={0.35}
+              ease="sine.out"
             >
               <div className="discover">
                 <div className="radio-header">

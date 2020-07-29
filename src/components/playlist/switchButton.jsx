@@ -12,23 +12,27 @@ const Roll = styled.div`
   right: 0;
 `;
 
-
 const Span = styled.span`
   line-height: 5vh;
   text-align: center;
 `;
-const SwitchButton = ({ state,onClick }) => {
-  let position = {left:0};
+const SwitchButton = ({ state, onClick }) => {
+  let position = { left: "1px" };
   if (state) {
-    position = {left:0};
+    position = { left: "1px" };
   } else {
-    position = {left:"calc(50% + 2px)"};
+    position = { left: "calc(50% + 2px)" };
   }
 
   return (
     <Roll className="row" onClick={onClick}>
-      <div className="sidebutton" style={ position } ></div>
-      <Span className="col-6 align-middle">favorites</Span>
+      <div className="sidebutton" style={position}></div>
+      <Span
+        className="col-6 align-middle"
+        style={{ paddingLeft: "14px", paddingRight: "16px" }}
+      >
+        favorites
+      </Span>
       <Span className="col-6 align-middle">history</Span>
     </Roll>
   );

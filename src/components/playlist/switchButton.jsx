@@ -28,8 +28,8 @@ const SwitchButton = ({ state,onClick }) => {
   return (
     <Roll className="row" onClick={onClick}>
       <div className="sidebutton" style={ position } ></div>
-      <Span className="col align-middle">favorites</Span>
-      <Span className="col align-middle">history</Span>
+      <Span className="col-6 align-middle">favorites</Span>
+      <Span className="col-6 align-middle">history</Span>
     </Roll>
   );
 };

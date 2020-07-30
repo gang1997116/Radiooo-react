@@ -19,7 +19,7 @@ const style = {
 const route = [
   { label: "Home", link: "" },
   { label: "Ages", link: "age" },
-  { label: "Countries", link: "country" },
+  { label: "Genres", link: "country" },
   { label: "Search", link: "search" },
 ];
 const smallRoute = [

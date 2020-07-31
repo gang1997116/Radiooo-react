@@ -5,11 +5,11 @@ import { PlayState, Tween } from "react-gsap";
 const style = {
   open: {
     left: "0",
-    transition: "left 0.3s ease-in",
+    transition: "left 0.25s ease-in",
   },
   close: {
     left: "-40%",
-    transition: "left 0.3s ease-out",
+    transition: "left 0.2s ease-out",
   },
   unvisible: {
     opacity: "0",

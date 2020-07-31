@@ -439,7 +439,7 @@ a:hover {
   padding: 0 10px;
   padding-top: 12vh;
   box-shadow: -1px -1px 10px grey;
-  transition: right 0.2s cubic-bezier(0.6, 0.05, 0.55, 0.95);
+  transition :right 0.2s ease-in;
 }
 .playlist-table {
   height: 80vh;

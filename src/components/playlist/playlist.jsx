@@ -21,29 +21,27 @@ class Playlist extends Component {
     history: [],
     right: 0,
     playState: PlayState.stop,
-    user:{},
+    user: {},
   };
 
   componentDidMount() {
     const user = auth.getCurrentUser();
-    this.setState({user});
+    this.setState({ user });
     if (user) {
-     
-        db.collection("users")
+      db.collection("users")
         .doc(user.email)
         .onSnapshot((doc) => {
           this.setState({ radios: doc.data().favorites || [] });
         });
-     
-        db.collection("users")
+
+      db.collection("users")
         .doc(user.email)
         .onSnapshot((doc) => {
-          this.setState({history: doc.data().history || [] });
+          this.setState({ history: doc.data().history || [] });
         });
-      
     }
   }
-  componentDidUpdate(prevProps,prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.display !== this.props.display) {
       if (this.state.playState === PlayState.stop) {
         this.setState({ playState: PlayState.play });
@@ -51,7 +49,6 @@ class Playlist extends Component {
         this.setState({ playState: PlayState.stop });
       }
     }
-    
   }
   handleLike = (radio) => {
     const radios = [...this.state.radios];
@@ -96,7 +93,7 @@ class Playlist extends Component {
       history,
     } = this.state;
 
-    let filtered = buttonState?allradios:history;
+    let filtered = buttonState ? allradios : history;
     // let reverse=_.cloneDeep(filtered);
     // reverse.reverse();
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -105,7 +102,7 @@ class Playlist extends Component {
     if (!buttonState) {
       this.replaceFavorite(radios);
     }
-    
+
     return { totalCount: filtered.length, radios: radios };
   };
 
@@ -122,16 +119,24 @@ class Playlist extends Component {
     const { currentPlay, display } = this.props;
 
     const { totalCount, radios } = this.getPagedData();
+    const style = {
+      open: {
+        right: "0",
+        transition: "all 0.15s cubic-bezier(0.07, 0.67, 0.54, 0.91)",
+      },
+      close: {
+        right: "-33vw",
+        transition: "right 0.1s ease-out",
+        boxShadow: "none",
+      },
+    };
 
-    let right = 0;
-    if (display === "block") {
-      right = "0";
-    } else {
-      right = "-33vw";
-    }
     return (
       <React.Fragment>
-        <div className="playlist" style={{ right: `${right}` }}>
+        <div
+          className="playlist"
+          style={display === "block" ? style.open : style.close}
+        >
           <SwitchButton state={buttonState} onClick={this.handleSwitch} />
           <Tween
             from={{ opacity: 0 }}

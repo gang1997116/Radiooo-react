@@ -126,7 +126,7 @@ class Playlist extends Component {
       },
       close: {
         right: "-33vw",
-        transition: "right 0.1s ease-out",
+        transition: "right 0.15s ease-out",
         boxShadow: "none",
       },
     };

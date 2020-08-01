@@ -9,7 +9,7 @@ const style = {
   },
   close: {
     left: "-40%",
-    transition: "left 0.2s ease-out",
+    transition: "left 0.25s ease-out",
   },
   unvisible: {
     opacity: "0",

@@ -2,7 +2,7 @@ To run the project. Open the folder and run a new terminal. Run npm install firs
 
 To install the project. You can also use npm:
 
- `npm i radiooo`
+### `npm i radiooo`
 
 
 ## Available Scripts

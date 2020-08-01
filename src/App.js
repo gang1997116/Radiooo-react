@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import Nav from "./nav";
+import Nav from "./components/nav";
 import Radios from "./components/radios";
 import NotFound from "./components/notFound";
 import LoginForm from "./components/authpage/loginForm";

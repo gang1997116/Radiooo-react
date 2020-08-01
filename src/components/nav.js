@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-import Logo from "./img/logo.svg";
+import Logo from "../img/logo.svg";
 import { Avatar } from "@material-ui/core";
 import Lottie from "lottie-react-web";
-import MenuAni from "./menu.json";
-import Menu from "./components/menu/menu";
+import MenuAni from "../menu.json";
+import Menu from "./menu/menu";
 
 const useStyles = makeStyles((theme) => ({
   orange: {

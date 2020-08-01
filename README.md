@@ -1,4 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To run the project. Open the folder and run a new terminal. Run npm install first. Then run npm start. We can view the project running on http://localhost:3000. 
+
+To install the project. You can also use npm:
+
+ `npm i radiooo`
+
 
 ## Available Scripts
 

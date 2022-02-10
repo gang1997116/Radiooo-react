@@ -23,7 +23,7 @@
     "lottie-react-web": "^2.2.2",
     "lottie-web": "^5.7.0",
     "material-design-icons": "^3.0.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "playlist-parser": "0.0.12",
     "prop-types": "^15.7.2",
     "randomcolor": "^0.5.4",
